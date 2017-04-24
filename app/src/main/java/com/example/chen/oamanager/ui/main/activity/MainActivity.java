@@ -137,7 +137,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.right_iv:
-                ToastUitl.showShort("个人中心");
+                startActivity(LoginActivity.class);
                 break;
             case R.id.delivery_tv:
                 ToastUitl.showShort("发货担保");
