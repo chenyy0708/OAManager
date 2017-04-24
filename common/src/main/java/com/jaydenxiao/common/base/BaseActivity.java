@@ -7,6 +7,7 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Window;
 
 import com.jaydenxiao.common.BuildConfig;
@@ -102,6 +103,16 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
     public abstract void initPresenter();
     //初始化view
     public abstract void initView();
+
+    /**
+     * 初始化toolbar
+     * @param toolbar
+     * @param title
+     */
+    protected void setToolBar(Toolbar toolbar, String title) {
+        toolbar.setTitle(title);
+        setSupportActionBar(toolbar);
+    }
 
 
     /**

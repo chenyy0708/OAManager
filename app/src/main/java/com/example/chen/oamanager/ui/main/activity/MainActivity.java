@@ -127,12 +127,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         navigationView.setNavigationItemSelectedListener(this);
     }
 
-    protected void setToolBar(Toolbar toolbar, String title) {
-        toolbar.setTitle(title);
-        setSupportActionBar(toolbar);
-    }
-
-
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         return false;
