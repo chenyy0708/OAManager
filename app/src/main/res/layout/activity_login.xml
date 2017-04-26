@@ -17,7 +17,7 @@
             android:layout_width="19dp"
             android:layout_height="19dp"
             android:layout_marginTop="26dp"
-            android:src="@mipmap/icon_close" />
+            android:src="@mipmap/icon_back" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -46,7 +46,7 @@
                     android:layout_centerVertical="true"
                     android:text="用户名"
                     android:textColor="@color/text_color_363"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/sp_12" />
 
                 <EditText
                     android:id="@+id/editText"
@@ -75,7 +75,7 @@
                     android:layout_centerVertical="true"
                     android:text="密    码"
                     android:textColor="@color/text_color_363"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/sp_12" />
 
                 <EditText
                     android:layout_width="match_parent"
