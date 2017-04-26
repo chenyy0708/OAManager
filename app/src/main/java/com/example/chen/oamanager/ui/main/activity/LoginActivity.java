@@ -1,6 +1,5 @@
 package com.example.chen.oamanager.ui.main.activity;
 
-import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
@@ -9,10 +8,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.chen.oamanager.R;
+import com.jaeger.library.StatusBarUtil;
 import com.jaydenxiao.common.base.BaseActivity;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class LoginActivity extends BaseActivity {
@@ -34,9 +33,12 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     public void initView() {
+        // 沉浸式状态栏
+        int color = getResources().getColor(R.color.mainColor);
+        StatusBarUtil.setColor(this, color, 1);
         SpannableStringBuilder builder = new SpannableStringBuilder(forgetPwTv.getText().toString());
         //ForegroundColorSpan 为文字前景色，BackgroundColorSpan为文字背景色
-        ForegroundColorSpan mainColor = new ForegroundColorSpan(getColor(R.color.mainColor));
+        ForegroundColorSpan mainColor = new ForegroundColorSpan(getResources().getColor(R.color.mainColor));
         builder.setSpan(mainColor, 4, 5, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         forgetPwTv.setText(builder);
     }

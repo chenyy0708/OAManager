@@ -15,6 +15,8 @@ import com.jaeger.library.StatusBarUtil;
 import com.jaydenxiao.common.base.BaseActivity;
 import com.jaydenxiao.common.commonutils.ToastUitl;
 
+import org.json.JSONObject;
+
 import java.util.Arrays;
 
 import butterknife.Bind;
@@ -83,18 +85,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         centerIv.setImageResource(R.mipmap.icon_logo);
         rightIv.setVisibility(View.VISIBLE);
         // 加载圆形图片
-        ImageUtils.loadCircle(this, "http://i0.hdslb.com/video/a7/a7bbe98b183d8529f5322346f8594a8d.jpg", rightIv);
-        rightIv.setImageResource(R.mipmap.ic_launcher_round);
+        ImageUtils.loadCircle(this, "https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1942495469,4050776630&fm=23&gp=0.jpg", rightIv);
         // 初始化轮播图
         initBanner();
-        // 设置图标大下
-        setTextViewImageSize();
-    }
-
-    private void setTextViewImageSize() {
-//        Drawable drawable1 = getResources().getDrawable(R.mipmap.icon_fahuo);
-//        drawable1.setBounds(0, DisplayUtil.dip2px(15), DisplayUtil.dip2px(24), DisplayUtil.dip2px(20));//第一0是距左边距离，第二0是距上边距离，40分别是长宽
-//        deliveryTv.setCompoundDrawables(null, drawable1, null, null);//只放左边
     }
 
     private void initBanner() {
@@ -170,5 +163,19 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 ToastUitl.showShort("业绩查询");
                 break;
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (mainBanner != null)
+            mainBanner.startAutoPlay();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (mainBanner != null)
+            mainBanner.stopAutoPlay();
     }
 }
