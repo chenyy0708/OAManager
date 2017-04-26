@@ -23,14 +23,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!-- 登陆-->
-        <activity android:name=".ui.main.activity.LoginActivity"
-            android:windowSoftInputMode="adjustPan|stateHidden"
-            ></activity>
-        <!-- 忘记密码-->
-        <activity android:name=".ui.usre.activity.ForgetPassWordActivity"
-            android:windowSoftInputMode="adjustPan|stateHidden"
-            />
+        <!-- 登陆 -->
+        <activity
+            android:name=".ui.usre.activity.LoginActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <!-- 忘记密码 -->
+        <activity
+            android:name=".ui.usre.activity.ForgetPassWordActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity android:name=".ui.usre.activity.ModifyPasswordActivity"></activity>
     </application>
 
 </manifest>

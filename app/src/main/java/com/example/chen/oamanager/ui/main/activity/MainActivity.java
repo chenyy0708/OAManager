@@ -10,12 +10,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.chen.oamanager.R;
+import com.example.chen.oamanager.ui.usre.activity.LoginActivity;
 import com.example.chen.oamanager.utils.ImageUtils;
 import com.jaeger.library.StatusBarUtil;
 import com.jaydenxiao.common.base.BaseActivity;
 import com.jaydenxiao.common.commonutils.ToastUitl;
-
-import org.json.JSONObject;
 
 import java.util.Arrays;
 
