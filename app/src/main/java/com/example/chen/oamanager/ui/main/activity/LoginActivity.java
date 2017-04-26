@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.example.chen.oamanager.R;
 import com.example.chen.oamanager.ui.usre.activity.ForgetPassWordActivity;
-import com.jaeger.library.StatusBarUtil;
 import com.jaydenxiao.common.base.BaseActivity;
 
 import butterknife.Bind;

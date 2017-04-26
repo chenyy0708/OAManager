@@ -48,14 +48,13 @@
                     android:textSize="14sp" />
 
                 <EditText
+                    style="@style/editText_phone"
                     android:id="@+id/editText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="30dp"
-                    android:background="#00000000"
                     android:hint="请输入用户名"
-                    android:textColorHint="#C7C4C4"
-                    android:textSize="12sp" />
+                   />
             </LinearLayout>
 
             <View
@@ -79,12 +78,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="30dp"
-                    android:background="#00000000"
                     android:hint="请输入密码"
+                    style="@style/editText_number"
                     android:inputType="textPassword"
-                    android:textColor="@color/black"
-                    android:textColorHint="#C7C4C4"
-                    android:textSize="12sp" />
+                   />
             </LinearLayout>
 
             <View

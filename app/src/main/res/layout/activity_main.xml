@@ -109,7 +109,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="126dp"
                     android:layout_marginTop="10dp"
-                    android:background="@drawable/shape_main"
+                    android:background="@color/white"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -171,7 +171,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:background="@drawable/shape_main"
+                    android:background="@color/white"
                     android:orientation="vertical"
                     android:paddingBottom="30dp">
 
