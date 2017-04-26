@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.chen.oamanager.R;
+import com.example.chen.oamanager.ui.usre.activity.ForgetPassWordActivity;
 import com.jaeger.library.StatusBarUtil;
 import com.jaydenxiao.common.base.BaseActivity;
 
@@ -51,6 +52,7 @@ public class LoginActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.forget_pw_tv:
+                startActivity(ForgetPassWordActivity.class);
                 break;
         }
     }

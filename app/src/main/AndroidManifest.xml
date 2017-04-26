@@ -23,7 +23,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.main.activity.LoginActivity"></activity>
+        <!-- 登陆-->
+        <activity android:name=".ui.main.activity.LoginActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            ></activity>
+        <!-- 忘记密码-->
+        <activity android:name=".ui.usre.activity.ForgetPassWordActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            />
     </application>
 
 </manifest>

@@ -15,5 +15,12 @@
     <color name="color_EE4">#EE4949</color>
     <color name="color_BEB">#BEBCBC</color>
     <color name="color_338">#3383DD</color>
+    <color name="text_color_363">#363636</color>
+    <color name="text_color_C7C">#C7C4C4</color>
+    <color name="text_color_338">#3383DD</color>
+    <color name="color_D3D">#D3D1D1</color>
+    <color name="color_f7f">#F7F4F4</color>
+    <color name="color_fd0">#FD0001</color>
+    <color name="color_479">#479AF7</color>
 
 </resources>
