@@ -34,9 +34,6 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        // 沉浸式状态栏
-        int color = getResources().getColor(R.color.mainColor);
-        StatusBarUtil.setColor(this, color, 1);
         SpannableStringBuilder builder = new SpannableStringBuilder(forgetPwTv.getText().toString());
         //ForegroundColorSpan 为文字前景色，BackgroundColorSpan为文字背景色
         ForegroundColorSpan mainColor = new ForegroundColorSpan(getResources().getColor(R.color.mainColor));
