@@ -31,7 +31,10 @@
         <activity
             android:name=".ui.usre.activity.ForgetPassWordActivity"
             android:windowSoftInputMode="adjustPan|stateHidden" />
-        <activity android:name=".ui.usre.activity.ModifyPasswordActivity"></activity>
+        <!-- 修改密码 -->
+        <activity
+            android:name=".ui.usre.activity.ModifyPasswordActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"></activity>
     </application>
 
 </manifest>

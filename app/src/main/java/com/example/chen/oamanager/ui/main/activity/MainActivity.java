@@ -1,5 +1,6 @@
 package com.example.chen.oamanager.ui.main.activity;
 
+import android.icu.util.Calendar;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -61,6 +62,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     TextView zhaiquanSearchTv;
     @Bind(R.id.working_search_tv)
     TextView workingSearchTv;
+    @Bind(R.id.current_day_tv)
+    TextView currentDayTv;
+    @Bind(R.id.current_week_tv)
+    TextView currentWeekTv;
     private ActionBarDrawerToggle mDrawerToggle;
 
     @Override
@@ -87,6 +92,37 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         ImageUtils.loadCircle(this, "https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1942495469,4050776630&fm=23&gp=0.jpg", rightIv);
         // 初始化轮播图
         initBanner();
+        // 初始化日期
+        initData();
+    }
+
+    private void initData() {
+        final Calendar c = Calendar.getInstance();
+
+
+        int mMonth = c.get(Calendar.MONTH) + 1;//获取当前月份
+
+        int mDay = c.get(Calendar.DAY_OF_MONTH);//获取当前月份的日期号码
+
+        String mWay = String.valueOf(c.get(Calendar.DAY_OF_WEEK));
+        if ("1".equals(mWay)) {
+            mWay = "Sunday";
+        } else if ("2".equals(mWay)) {
+            mWay = "Monday";
+        } else if ("3".equals(mWay)) {
+            mWay = "Tuesday";
+        } else if ("4".equals(mWay)) {
+            mWay = "Wednesday";
+        } else if ("5".equals(mWay)) {
+            mWay = "Thursday";
+        } else if ("6".equals(mWay)) {
+            mWay = "Friday";
+        } else if ("7".equals(mWay)) {
+            mWay = "Saturday";
+        }
+
+        currentDayTv.setText(String.valueOf(mDay));
+        currentWeekTv.setText(mWay);
     }
 
     private void initBanner() {
