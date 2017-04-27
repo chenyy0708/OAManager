@@ -17,7 +17,7 @@ public class HomeModel implements HomeContract.Model {
     @Override
     public Observable<MeizhiData> getPhotosListData(int size, int page) {
         return
-                Api.getDefault(HostType.GANK_GIRL_PHOTO).getPhotoList(Api.getCacheControl(), size, page)
+                Api.getDefault().getPhotoList(Api.getCacheControl(), size, page)
 //                .compose(RxResultHelper.<MeizhiData, BaseRespose<MeizhiData>>handleResult())
                         .compose(RxSchedulers.<MeizhiData>io_main());
 

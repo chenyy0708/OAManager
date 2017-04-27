@@ -75,7 +75,7 @@ public class Api {
 
 
     //构造方法私有
-    private Api(int hostType) {
+    private Api() {
         //开启Log
         HttpLoggingInterceptor logInterceptor = new HttpLoggingInterceptor();
         logInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -83,11 +83,15 @@ public class Api {
         File cacheFile = new File(BaseApplication.getAppContext().getCacheDir(), "cache");
         Cache cache = new Cache(cacheFile, 1024 * 1024 * 100); //100Mb
         //增加头部信息
-        Interceptor headerInterceptor =new Interceptor() {
+        Interceptor headerInterceptor = new Interceptor() {
             @Override
             public Response intercept(Chain chain) throws IOException {
                 Request build = chain.request().newBuilder()
                         .addHeader("Content-Type", "application/json")
+                        .addHeader("ver", "v8.0.1")
+                        .addHeader("appname", "android")
+                        .addHeader("n", "2573791")
+                        .addHeader("t", "123456")
                         .build();
                 return chain.proceed(build);
             }
@@ -108,21 +112,20 @@ public class Api {
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .baseUrl(ApiConstants.getHost(hostType))
+                .baseUrl(ApiConstants.getHost(HostType.HUITIAN_URL))
                 .build();
         movieService = retrofit.create(ApiService.class);
     }
 
 
     /**
-     * @param hostType NETEASE_NEWS_VIDEO：1 （新闻，视频），GANK_GIRL_PHOTO：2（图片新闻）;
-     *                 EWS_DETAIL_HTML_PHOTO:3新闻详情html图片)
+     *
      */
-    public static ApiService getDefault(int hostType) {
-        Api retrofitManager = sRetrofitManager.get(hostType);
+    public static ApiService getDefault() {
+        Api retrofitManager = sRetrofitManager.get(HostType.HUITIAN_URL);
         if (retrofitManager == null) {
-            retrofitManager = new Api(hostType);
-            sRetrofitManager.put(hostType, retrofitManager);
+            retrofitManager = new Api();
+            sRetrofitManager.put(HostType.HUITIAN_URL, retrofitManager);
         }
         return retrofitManager.movieService;
     }
@@ -147,7 +150,7 @@ public class Api {
             String cacheControl = request.cacheControl().toString();
             if (!NetWorkUtils.isNetConnected(BaseApplication.getAppContext())) {
                 request = request.newBuilder()
-                        .cacheControl(TextUtils.isEmpty(cacheControl)?CacheControl.FORCE_NETWORK:CacheControl.FORCE_CACHE)
+                        .cacheControl(TextUtils.isEmpty(cacheControl) ? CacheControl.FORCE_NETWORK : CacheControl.FORCE_CACHE)
                         .build();
             }
             Response originalResponse = chain.proceed(request);

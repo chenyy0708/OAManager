@@ -22,6 +22,6 @@ public class HostType {
      */
     public static final int TYPE_COUNT = 3;
 
-    public static final int GANK_GIRL_PHOTO = 2;
+    public static final int HUITIAN_URL = 2;
 
 }

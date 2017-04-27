@@ -1,10 +1,15 @@
 package com.example.chen.oamanager.api;
 
 
+import com.example.chen.oamanager.bean.HuiTianResponse;
+import com.example.chen.oamanager.bean.LoginBean;
 import com.example.chen.oamanager.bean.MeizhiData;
 
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 import rx.Observable;
 
@@ -19,4 +24,12 @@ public interface ApiService {
             @Header("Cache-Control") String cacheControl,
             @Path("size") int size,
             @Path("page") int page);
+
+    @FormUrlEncoded
+    @POST("user/login")
+    Observable<HuiTianResponse> getLoginUser(
+            @Header("Cache-Control") String cacheControl,
+            @Field("username") String username,
+            @Field("pass") String pass,
+            @Field("k") String k);
 }

@@ -17,7 +17,9 @@
 package com.example.chen.oamanager.api;
 
 public class ApiConstants {
-    public static final String SINA_PHOTO_HOST = "http://gank.io/api/";
+    public static final String HUITIAN_OA_URL = "http://192.168.1.44:84/index.php/";
+//    public static final String HUITIAN_OA_URL = "http://huitian.dev.com/index.php/";
+
     /**
      * 获取对应的host
      *
@@ -27,8 +29,8 @@ public class ApiConstants {
     public static String getHost(int hostType) {
         String host;
         switch (hostType) {
-            case HostType.GANK_GIRL_PHOTO:
-                host = SINA_PHOTO_HOST;
+            case HostType.HUITIAN_URL:
+                host = HUITIAN_OA_URL;
                 break;
             default:
                 host = "";
