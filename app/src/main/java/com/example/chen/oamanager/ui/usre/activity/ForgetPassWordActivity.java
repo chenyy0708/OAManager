@@ -5,7 +5,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.chen.oamanager.R;
-import com.example.chen.oamanager.widget.MyCountTimer;
+import com.example.chen.oamanager.widget.CountDownTimerUtils;
 import com.jaydenxiao.common.base.BaseActivity;
 
 import butterknife.Bind;
@@ -44,8 +44,8 @@ public class ForgetPassWordActivity extends BaseActivity {
                 break;
             case R.id.get_yzm_tv:
                 // 开始计时
-                MyCountTimer myCountTimer = new MyCountTimer(getYzmTv,getResources().getColor(R.color.color_fd0),getResources().getColor(R.color.text_color_C7C));
-                myCountTimer.start();
+                CountDownTimerUtils mCountDownTimer = new CountDownTimerUtils(getYzmTv, 60000, 1000);
+                mCountDownTimer.start();
                 break;
         }
     }
