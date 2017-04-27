@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.SparseArray;
 
+import com.example.chen.oamanager.app.Constans;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.jaydenxiao.common.baseapp.BaseApplication;
@@ -88,10 +89,8 @@ public class Api {
             public Response intercept(Chain chain) throws IOException {
                 Request build = chain.request().newBuilder()
                         .addHeader("Content-Type", "application/json")
-                        .addHeader("ver", "v8.0.1")
-                        .addHeader("appname", "android")
-                        .addHeader("n", "2573791")
-                        .addHeader("t", "123456")
+                        .addHeader("ver", Constans.ver)
+                        .addHeader("appname", Constans.appname)
                         .build();
                 return chain.proceed(build);
             }

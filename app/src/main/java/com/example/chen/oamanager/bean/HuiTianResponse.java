@@ -7,7 +7,7 @@ package com.example.chen.oamanager.bean;
 public class HuiTianResponse<T> {
     private int state;
     private String message;
-    private String data;
+    private T data;
 
     public int getState() {
         return state;
@@ -25,11 +25,11 @@ public class HuiTianResponse<T> {
         this.message = message;
     }
 
-    public String getData() {
+    public T getData() {
         return data;
     }
 
-    public void setData(String data) {
+    public void setData(T data) {
         this.data = data;
     }
 }

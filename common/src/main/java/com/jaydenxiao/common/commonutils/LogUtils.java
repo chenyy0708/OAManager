@@ -10,12 +10,12 @@ import com.orhanobut.logger.Logger;
  * 使用logger封装
  */
 public class LogUtils {
-    public static boolean DEBUG_ENABLE =false;// 是否调试模式
+    public static boolean DEBUG_ENABLE =true;// 是否调试模式
     /**
      * 在application调用初始化
      */
     public static void logInit(boolean debug) {
-        DEBUG_ENABLE=debug;
+//        DEBUG_ENABLE=debug;
         if (DEBUG_ENABLE) {
             Logger.init(AppConfig.DEBUG_TAG)                 // default PRETTYLOGGER or use just init()
                     .methodCount(2)                 // default 2

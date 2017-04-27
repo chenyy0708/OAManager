@@ -2,8 +2,8 @@ package com.example.chen.oamanager.api;
 
 
 import com.example.chen.oamanager.bean.HuiTianResponse;
-import com.example.chen.oamanager.bean.LoginBean;
 import com.example.chen.oamanager.bean.MeizhiData;
+import com.example.chen.oamanager.bean.SalttimeBean;
 
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -29,7 +29,26 @@ public interface ApiService {
     @POST("user/login")
     Observable<HuiTianResponse> getLoginUser(
             @Header("Cache-Control") String cacheControl,
+            @Header("m") String m,
+            @Header("n") String n,
+            @Header("t") String t,
             @Field("username") String username,
             @Field("pass") String pass,
             @Field("k") String k);
+
+    /**
+     * 进行一次握手认证
+     *
+     * @param cacheControl
+     * @param s            一次认证计算的认证加密串结果
+     * @param r            加密认证密串时采用的随机字符串
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("User/salttime")
+    Observable<HuiTianResponse<SalttimeBean>> getSalttime(
+            @Header("Cache-Control") String cacheControl,
+            @Field("s") String s,
+            @Field("r") String r
+    );
 }

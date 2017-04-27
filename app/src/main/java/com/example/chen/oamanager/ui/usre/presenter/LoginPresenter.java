@@ -1,7 +1,6 @@
 package com.example.chen.oamanager.ui.usre.presenter;
 
 import com.example.chen.oamanager.bean.HuiTianResponse;
-import com.example.chen.oamanager.bean.LoginBean;
 import com.example.chen.oamanager.ui.usre.contract.LoginContract;
 import com.jaydenxiao.common.baserx.RxSubscriber;
 
@@ -24,11 +23,10 @@ public class LoginPresenter extends LoginContract.Presenter {
                 if (loginBeanHuiTianResponse.getState() == 200) { // 登陆成功
                     // 调用View层登陆成功方法
                     mView.loginSuccess(loginBeanHuiTianResponse);
-                    mView.stopLoading();
-                } else {
+                } else { // 登陆失败,返回错误信息
                     mView.loginFail(loginBeanHuiTianResponse.getMessage());
-                    mView.stopLoading();
                 }
+                mView.stopLoading();
             }
 
             @Override
