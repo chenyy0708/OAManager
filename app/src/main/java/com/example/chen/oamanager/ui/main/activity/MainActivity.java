@@ -16,6 +16,7 @@ import com.example.chen.oamanager.utils.ImageUtils;
 import com.jaeger.library.StatusBarUtil;
 import com.jaydenxiao.common.base.BaseActivity;
 import com.jaydenxiao.common.commonutils.ToastUitl;
+import com.jaydenxiao.common.imagePager.BigImagePagerActivity;
 
 import java.util.Arrays;
 
@@ -138,7 +139,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         mainBanner.setDelegate(new BGABanner.Delegate<ImageView, String>() {
             @Override
             public void onBannerItemClick(BGABanner banner, ImageView itemView, String model, int position) {
-                ToastUitl.showShort(position + "");
+                BigImagePagerActivity.startImagePagerActivity(MainActivity.this,Arrays.asList(model),0);
             }
         });
     }
