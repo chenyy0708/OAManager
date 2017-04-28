@@ -101,7 +101,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
     }
 
     @Override
-    public void loginSuccess(HuiTianResponse loginBean) {
+    public void loginSuccess(LoginBean loginBean) {
         stopLoading();
     }
 

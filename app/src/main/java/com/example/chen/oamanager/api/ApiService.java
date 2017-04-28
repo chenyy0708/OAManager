@@ -2,6 +2,7 @@ package com.example.chen.oamanager.api;
 
 
 import com.example.chen.oamanager.bean.HuiTianResponse;
+import com.example.chen.oamanager.bean.LoginBean;
 import com.example.chen.oamanager.bean.MeizhiData;
 import com.example.chen.oamanager.bean.SalttimeBean;
 
@@ -27,7 +28,7 @@ public interface ApiService {
 
     @FormUrlEncoded
     @POST("user/login")
-    Observable<HuiTianResponse> getLoginUser(
+    Observable<HuiTianResponse<LoginBean>> getLoginUser(
             @Header("Cache-Control") String cacheControl,
             @Header("m") String m,
             @Header("n") String n,

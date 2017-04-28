@@ -115,8 +115,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
      */
     private void getSalttime() {
         // 获取到随机字符串
-//        String randomString = MD5Utils.getRandomString(10).toLowerCase();
-        String randomString = "sdhurerf!@";
+        String randomString = MD5Utils.getRandomString(10).toLowerCase();
+//        String randomString = "sdhurerf!@";
         String s = null; // 一次握手需要的参数
         try {
             s = MD5Utils.getMD5(Constans.api_key + "_" + MD5Utils.getMD5(Constans.appname + "_" + Constans.ver + "_" + randomString)).toLowerCase();
@@ -161,16 +161,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 }));
     }
 
-
     private void initData() {
         final Calendar c = Calendar.getInstance();
-
-
         int mMonth = c.get(Calendar.MONTH) + 1;//获取当前月份
-
         int mDay = c.get(Calendar.DAY_OF_MONTH);//获取当前月份的日期号码
-
-        String mWay = String.valueOf(c.get(Calendar.DAY_OF_WEEK));
+        String mWay = String.valueOf(c.get(Calendar.DAY_OF_WEEK)); // 星期几
         if ("1".equals(mWay)) {
             mWay = "Sunday";
         } else if ("2".equals(mWay)) {
@@ -186,7 +181,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         } else if ("7".equals(mWay)) {
             mWay = "Saturday";
         }
-
         currentDayTv.setText(String.valueOf(mDay));
         currentWeekTv.setText(mWay);
     }

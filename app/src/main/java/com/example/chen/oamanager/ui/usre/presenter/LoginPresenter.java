@@ -1,6 +1,7 @@
 package com.example.chen.oamanager.ui.usre.presenter;
 
 import com.example.chen.oamanager.bean.HuiTianResponse;
+import com.example.chen.oamanager.bean.LoginBean;
 import com.example.chen.oamanager.ui.usre.contract.LoginContract;
 import com.jaydenxiao.common.baserx.RxSubscriber;
 
@@ -11,7 +12,7 @@ import com.jaydenxiao.common.baserx.RxSubscriber;
 public class LoginPresenter extends LoginContract.Presenter {
     @Override
     public void loginUser(String userName, String passWord) {
-        mRxManage.add(mModel.getLogin(userName, passWord).subscribe(new RxSubscriber<HuiTianResponse>(mContext, false) {
+        mRxManage.add(mModel.getLogin(userName, passWord).subscribe(new RxSubscriber<HuiTianResponse<LoginBean>>(mContext, false) {
             @Override
             public void onStart() {
                 super.onStart();
@@ -19,12 +20,12 @@ public class LoginPresenter extends LoginContract.Presenter {
             }
 
             @Override
-            protected void _onNext(HuiTianResponse loginBeanHuiTianResponse) {
-                if (loginBeanHuiTianResponse.getState() == 200) { // 登陆成功
+            protected void _onNext(HuiTianResponse<LoginBean> response) {
+                if (response.getState() == 1) { // 登陆成功
                     // 调用View层登陆成功方法
-                    mView.loginSuccess(loginBeanHuiTianResponse);
+                    mView.loginSuccess(response.getData());
                 } else { // 登陆失败,返回错误信息
-                    mView.loginFail(loginBeanHuiTianResponse.getMessage());
+                    mView.loginFail(response.getMessage());
                 }
                 mView.stopLoading();
             }
