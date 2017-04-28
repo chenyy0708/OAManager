@@ -1,6 +1,6 @@
 package com.example.chen.oamanager.ui.main.activity;
 
-import android.icu.util.Calendar;
+
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -30,6 +30,7 @@ import org.apache.commons.codec.binary.Base64;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
+import java.util.Calendar;
 
 import butterknife.Bind;
 import butterknife.OnClick;
