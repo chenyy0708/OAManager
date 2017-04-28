@@ -229,6 +229,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 break;
             case R.id.delivery_tv:
                 ToastUitl.showShort("发货担保");
+                // 退出登陆
+                loginOut();
                 break;
             case R.id.shengpi_tv:
                 ToastUitl.showShort("审批担保");
@@ -258,6 +260,29 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 ToastUitl.showShort("业绩查询");
                 break;
         }
+    }
+
+    private void loginOut() {
+        // 进行一次握手
+        mRxManager.add(Api.getDefault().loginOut(Api.getCacheControl(), Constans.m, Constans.n,Constans.t,Constans.k)
+                .compose(RxSchedulers.<HuiTianResponse<String>>io_main()).subscribe(new RxSubscriber<HuiTianResponse<String>>(mContext, false) {
+                    @Override
+                    public void onStart() {
+                        super.onStart();
+                    }
+
+                    @Override
+                    protected void _onNext(HuiTianResponse<String> response) {
+                        String k = Constans.k;
+                        if (response.getState() == 1) {
+                            showShortToast(response.getMessage());
+                        }
+                    }
+
+                    @Override
+                    protected void _onError(String message) {
+                    }
+                }));
     }
 
     @Override

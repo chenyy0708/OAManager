@@ -26,6 +26,17 @@ public interface ApiService {
             @Path("size") int size,
             @Path("page") int page);
 
+    /**
+     * 用户登陆
+     * @param cacheControl
+     * @param m
+     * @param n
+     * @param t
+     * @param username
+     * @param pass
+     * @param k
+     * @return
+     */
     @FormUrlEncoded
     @POST("user/login")
     Observable<HuiTianResponse<LoginBean>> getLoginUser(
@@ -51,5 +62,22 @@ public interface ApiService {
             @Header("Cache-Control") String cacheControl,
             @Field("s") String s,
             @Field("r") String r
+    );
+
+    /**
+     * 退出登陆
+     *
+     * @param cacheControl
+     * @param k
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("user/loginout")
+    Observable<HuiTianResponse<String>> loginOut(
+            @Header("Cache-Control") String cacheControl,
+            @Header("m") String m,
+            @Header("n") String n,
+            @Header("t") String t,
+            @Field("k") String k
     );
 }
