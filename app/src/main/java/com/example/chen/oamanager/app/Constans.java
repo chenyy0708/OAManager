@@ -1,6 +1,7 @@
 package com.example.chen.oamanager.app;
 
 /**
+ * 字符串常量类
  * Created by Chen on 2017/4/27.
  */
 
@@ -25,4 +26,9 @@ public class Constans {
     public static String k = "";
     // 免密登陆字段
     public static String keyStr = "key_str";
+    // SharePreference名称
+    public static final String SP_NAME = "config";
+    // 保存在sp里面的字段名
+    public static final String USERNAME = "username";
+    public static final String PASSWORD = "password";
 }

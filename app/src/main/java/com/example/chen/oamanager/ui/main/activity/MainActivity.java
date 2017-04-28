@@ -17,13 +17,14 @@ import com.example.chen.oamanager.api.Api;
 import com.example.chen.oamanager.app.Constans;
 import com.example.chen.oamanager.bean.HuiTianResponse;
 import com.example.chen.oamanager.bean.SalttimeBean;
-import com.example.chen.oamanager.ui.usre.activity.LoginActivity;
+import com.example.chen.oamanager.ui.user.activity.LoginActivity;
 import com.example.chen.oamanager.utils.ImageUtils;
 import com.example.chen.oamanager.utils.MD5Utils;
 import com.jaeger.library.StatusBarUtil;
 import com.jaydenxiao.common.base.BaseActivity;
 import com.jaydenxiao.common.baserx.RxSchedulers;
 import com.jaydenxiao.common.baserx.RxSubscriber;
+import com.jaydenxiao.common.commonutils.LogUtils;
 import com.jaydenxiao.common.commonutils.ToastUitl;
 import com.jaydenxiao.common.imagePager.BigImagePagerActivity;
 
@@ -102,6 +103,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     @Override
     public void initView() {
+        LogUtils.logd("nihao","nalsjdfl;jas;dljf");
         setToolBar(toolBar, "");
         initDrawLayout();
         int color = getResources().getColor(R.color.colorPrimary);

@@ -1,4 +1,4 @@
-package com.example.chen.oamanager.ui.usre.activity;
+package com.example.chen.oamanager.ui.user.activity;
 
 
 import com.example.chen.oamanager.R;

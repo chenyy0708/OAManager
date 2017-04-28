@@ -89,5 +89,9 @@
         <item name="android:textColorHint">@color/text_color_C7C</item>
         <item name="android:textSize">@dimen/text_12</item>
     </style>
-
+    <!--CheckBox样式-->
+    <style name="MyCheckBox" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@color/color_CAC</item>
+        <item name="colorControlActivated">@color/mainColor</item>
+    </style>
 </resources>

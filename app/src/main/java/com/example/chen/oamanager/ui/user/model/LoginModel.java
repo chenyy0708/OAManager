@@ -1,10 +1,10 @@
-package com.example.chen.oamanager.ui.usre.model;
+package com.example.chen.oamanager.ui.user.model;
 
 import com.example.chen.oamanager.api.Api;
 import com.example.chen.oamanager.app.Constans;
 import com.example.chen.oamanager.bean.HuiTianResponse;
 import com.example.chen.oamanager.bean.LoginBean;
-import com.example.chen.oamanager.ui.usre.contract.LoginContract;
+import com.example.chen.oamanager.ui.user.contract.LoginContract;
 import com.jaydenxiao.common.baserx.RxSchedulers;
 
 import rx.Observable;

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
-    tools:context="com.example.chen.oamanager.ui.usre.activity.LoginActivity">
+    tools:context="com.example.chen.oamanager.ui.user.activity.LoginActivity">
 
     <LinearLayout
         style="@style/maginLeftAndRight_28"
@@ -57,6 +57,7 @@
                     android:layout_marginLeft="80dp"
                     android:background="#00000000"
                     android:hint="请输入用户名"
+                    android:lines="1"
                     android:textColorHint="#C7C4C4"
                     android:textSize="12sp" />
             </RelativeLayout>
@@ -87,6 +88,7 @@
                     android:background="#00000000"
                     android:hint="请输入密码"
                     android:inputType="textPassword"
+                    android:lines="1"
                     android:textColor="@color/black"
                     android:textColorHint="#C7C4C4"
                     android:textSize="12sp" />
@@ -108,10 +110,11 @@
                     android:layout_height="match_parent"
                     android:gravity="center_vertical">
 
-                    <ImageView
-                        android:layout_width="13dp"
-                        android:layout_height="13dp"
-                        android:src="@mipmap/icon_pw_select" />
+                    <android.support.v7.widget.AppCompatCheckBox
+                        android:id="@+id/cb_pw_select"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:theme="@style/MyCheckBox" />
 
                     <TextView
                         android:layout_width="wrap_content"

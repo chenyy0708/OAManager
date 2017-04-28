@@ -1,5 +1,6 @@
-package com.example.chen.oamanager.ui.usre.activity;
+package com.example.chen.oamanager.ui.user.activity;
 
+import android.support.v7.widget.AppCompatCheckBox;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
@@ -13,9 +14,9 @@ import android.widget.TextView;
 import com.example.chen.oamanager.R;
 import com.example.chen.oamanager.app.Constans;
 import com.example.chen.oamanager.bean.LoginBean;
-import com.example.chen.oamanager.ui.usre.contract.LoginContract;
-import com.example.chen.oamanager.ui.usre.model.LoginModel;
-import com.example.chen.oamanager.ui.usre.presenter.LoginPresenter;
+import com.example.chen.oamanager.ui.user.contract.LoginContract;
+import com.example.chen.oamanager.ui.user.model.LoginModel;
+import com.example.chen.oamanager.ui.user.presenter.LoginPresenter;
 import com.jaydenxiao.common.base.BaseActivity;
 import com.jaydenxiao.common.commonutils.LogUtils;
 import com.jaydenxiao.common.commonutils.SPUtils;
@@ -25,7 +26,6 @@ import butterknife.Bind;
 import butterknife.OnClick;
 
 public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> implements LoginContract.View {
-
     @Bind(R.id.forget_pw_tv)
     TextView forgetPwTv;
     @Bind(R.id.close_iv)
@@ -38,6 +38,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
     EditText editTextPw;
     @Bind(R.id.login_bt)
     Button loginBt;
+    @Bind(R.id.cb_pw_select)
+    AppCompatCheckBox cbPwSelect;
 
     @Override
     public int getLayoutId() {
@@ -56,10 +58,14 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
         ForegroundColorSpan mainColor = new ForegroundColorSpan(getResources().getColor(R.color.mainColor));
         builder.setSpan(mainColor, 4, 5, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         forgetPwTv.setText(builder);
+        editTextUsername.setText(SPUtils.getSharedStringData(this, Constans.USERNAME));
+        editTextPw.setText(SPUtils.getSharedStringData(this, Constans.PASSWORD));
+//        editTextUsername.setText("13871750550");
+//        editTextPw.setText("750619");
     }
 
 
-    @OnClick({R.id.close_iv, R.id.forget_pw_tv, R.id.tv_modify_password, R.id.login_bt})
+    @OnClick({R.id.close_iv, R.id.forget_pw_tv, R.id.tv_modify_password, R.id.login_bt, R.id.cb_pw_select})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.close_iv:
@@ -101,6 +107,11 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
 
     @Override
     public void loginSuccess(LoginBean loginBean) {
+        // 记住密码
+        if (cbPwSelect.isChecked()) {
+            SPUtils.setSharedStringData(this, Constans.USERNAME, editTextUsername.getText().toString().trim());
+            SPUtils.setSharedStringData(this, Constans.PASSWORD, editTextPw.getText().toString().trim());
+        }
         showShortToast("登陆成功");
         // 保存keystr信息，用于登陆失效免密登陆
         SPUtils.setSharedStringData(mContext, Constans.keyStr, loginBean.getKey_str());

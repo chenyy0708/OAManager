@@ -1,4 +1,4 @@
-package com.example.chen.oamanager.ui.usre.activity;
+package com.example.chen.oamanager.ui.user.activity;
 
 import android.view.View;
 import android.widget.ImageView;

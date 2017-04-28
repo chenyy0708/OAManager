@@ -1,12 +1,9 @@
-package com.example.chen.oamanager.ui.usre.presenter;
+package com.example.chen.oamanager.ui.user.presenter;
 
-import com.example.chen.oamanager.app.Constans;
 import com.example.chen.oamanager.bean.HuiTianResponse;
 import com.example.chen.oamanager.bean.LoginBean;
-import com.example.chen.oamanager.ui.usre.contract.LoginContract;
+import com.example.chen.oamanager.ui.user.contract.LoginContract;
 import com.jaydenxiao.common.baserx.RxSubscriber;
-import com.jaydenxiao.common.commonutils.LogUtils;
-import com.jaydenxiao.common.commonutils.SPUtils;
 
 /**
  * Created by Chen on 2017/4/27.

@@ -1,14 +1,10 @@
-package com.example.chen.oamanager.ui.usre.contract;
+package com.example.chen.oamanager.ui.user.contract;
 
 import com.example.chen.oamanager.bean.HuiTianResponse;
 import com.example.chen.oamanager.bean.LoginBean;
-import com.example.chen.oamanager.bean.Meizhi;
-import com.example.chen.oamanager.bean.MeizhiData;
 import com.jaydenxiao.common.base.BaseModel;
 import com.jaydenxiao.common.base.BasePresenter;
 import com.jaydenxiao.common.base.BaseView;
-
-import java.util.List;
 
 import rx.Observable;
 
