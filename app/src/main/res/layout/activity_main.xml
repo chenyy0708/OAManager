@@ -100,24 +100,27 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/tv_today_sale"
                             style="@style/mainTextStyle"
                             android:gravity="center_vertical"
                             android:paddingLeft="20dp"
-                            android:text="30,000"
+                            android:text=""
                             android:textColor="@color/text_color_72A" />
 
                         <TextView
+                            android:id="@+id/tv_month_sale"
                             style="@style/mainTextStyle"
                             android:gravity="center_vertical"
                             android:paddingLeft="20dp"
-                            android:text="500,000"
+                            android:text=""
                             android:textColor="@color/text_color_F66" />
 
                         <TextView
+                            android:id="@+id/tv_year_sale"
                             style="@style/mainTextStyle"
                             android:gravity="center_vertical"
                             android:paddingLeft="20dp"
-                            android:text="2,000,000,000"
+                            android:text=""
                             android:textColor="@color/text_color_E6A" />
 
                     </LinearLayout>

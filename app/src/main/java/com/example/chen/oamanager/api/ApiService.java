@@ -46,7 +46,8 @@ public interface ApiService {
             @Header("t") String t,
             @Field("username") String username,
             @Field("pass") String pass,
-            @Field("k") String k);
+            @Field("k") String k,
+            @Field("key_str") String key_str);
 
     /**
      * 进行一次握手认证

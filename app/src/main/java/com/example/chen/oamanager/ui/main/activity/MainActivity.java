@@ -24,7 +24,6 @@ import com.jaeger.library.StatusBarUtil;
 import com.jaydenxiao.common.base.BaseActivity;
 import com.jaydenxiao.common.baserx.RxSchedulers;
 import com.jaydenxiao.common.baserx.RxSubscriber;
-import com.jaydenxiao.common.commonutils.LogUtils;
 import com.jaydenxiao.common.commonutils.ToastUitl;
 import com.jaydenxiao.common.imagePager.BigImagePagerActivity;
 
@@ -81,10 +80,16 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     TextView currentDayTv;
     @Bind(R.id.current_week_tv)
     TextView currentWeekTv;
+    @Bind(R.id.tv_today_sale)
+    TextView tvTodaySale;
+    @Bind(R.id.tv_month_sale)
+    TextView tvMonthSale;
+    @Bind(R.id.tv_year_sale)
+    TextView tvYearSale;
     private ActionBarDrawerToggle mDrawerToggle;
     private long taskTime;
 
-    private  Handler mHandler = new Handler(){
+    private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             // 握手
@@ -103,7 +108,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     @Override
     public void initView() {
-        LogUtils.logd("nihao","nalsjdfl;jas;dljf");
         setToolBar(toolBar, "");
         initDrawLayout();
         int color = getResources().getColor(R.color.colorPrimary);
@@ -121,6 +125,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         initDate();
         // 一次握手
         getSalttime();
+        tvTodaySale.setText(MD5Utils.formatTosepara(25768L));
+        tvMonthSale.setText(MD5Utils.formatTosepara(34543545L));
+        tvYearSale.setText(MD5Utils.formatTosepara(5743434323L));
     }
 
     /**
@@ -129,7 +136,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private void getSalttime() {
         // 获取到随机字符串
         String randomString = MD5Utils.getRandomString(10).toLowerCase();
-//        String randomString = "sdhurerf!@";
         String s = null; // 一次握手需要的参数
         try {
             s = MD5Utils.getMD5(Constans.api_key + "_" + MD5Utils.getMD5(Constans.appname + "_" + Constans.ver + "_" + randomString)).toLowerCase();
@@ -155,14 +161,14 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                             // 失效时间到期前无需再次调用一次认证接口直至失效时间邻近
                             // 或者失效时间超过再次调用一次认证接口重新进行计算接口密串
                             // 客户端注意处理好提前进行一次认证接口自动调用和异常自动补偿认证逻辑以防接口认证失败
-                            long expire = (long)response.getData().getExpire() * 1000L;
+                            long expire = (long) response.getData().getExpire() * 1000L;
                             long l = System.currentTimeMillis();
                             // 服务器返回的时间戳 - 当前时间戳 = 时间戳有效期（在有效期失效之前需要提前进行一次握手） 提前一分钟去握手
                             taskTime = (expire - l) - (1000 * 60);
                             // 移除handler里面的消息
                             mHandler.removeCallbacksAndMessages(null);
                             // 开启定时任务
-                            mHandler.sendMessageDelayed(Message.obtain(),taskTime);
+                            mHandler.sendMessageDelayed(Message.obtain(), taskTime);
                             Constans.m = response.getData().getZ();
                             Constans.n = new String(Base64.decodeBase64(response.getData().getY().getBytes()));
                             Constans.t = new String(Base64.decodeBase64(response.getData().getX().getBytes()));
@@ -172,7 +178,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                                 e.printStackTrace();
                             }
                             showShortToast("一次握手成功");
-                        }else { // 当服务器返回的不是成功 1 ，重新进行一次握手
+                        } else { // 当服务器返回的不是成功 1 ，重新进行一次握手
                             getSalttime();
                         }
                     }
@@ -315,7 +321,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     private void loginOut() {
         // 进行一次握手
-        mRxManager.add(Api.getDefault().loginOut(Api.getCacheControl(), Constans.m, Constans.n,Constans.t,Constans.k)
+        mRxManager.add(Api.getDefault().loginOut(Api.getCacheControl(), Constans.m, Constans.n, Constans.t, Constans.k)
                 .compose(RxSchedulers.<HuiTianResponse<String>>io_main()).subscribe(new RxSubscriber<HuiTianResponse<String>>(mContext, false) {
                     @Override
                     public void onStart() {
@@ -356,4 +362,5 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         // 移除所有的消息
         mHandler.removeCallbacksAndMessages(null);
     }
+
 }

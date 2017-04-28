@@ -88,7 +88,7 @@ public class MD5Utils {
     }
 
     public static String formatTosepara(float data) {
-        DecimalFormat df = new DecimalFormat("#,###");
+        DecimalFormat df = new DecimalFormat("##,###");
         return df.format(data);
     }
 }

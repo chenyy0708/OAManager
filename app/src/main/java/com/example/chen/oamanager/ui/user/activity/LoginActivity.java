@@ -18,7 +18,6 @@ import com.example.chen.oamanager.ui.user.contract.LoginContract;
 import com.example.chen.oamanager.ui.user.model.LoginModel;
 import com.example.chen.oamanager.ui.user.presenter.LoginPresenter;
 import com.jaydenxiao.common.base.BaseActivity;
-import com.jaydenxiao.common.commonutils.LogUtils;
 import com.jaydenxiao.common.commonutils.SPUtils;
 import com.jaydenxiao.common.commonutils.ToastUitl;
 
@@ -84,8 +83,14 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
                     ToastUitl.showShort("账号或密码不能为空");
                     return;
                 }
-                // 调用Presenter的登陆方法
-                mPresenter.loginUser(userName, passWord);
+                if(TextUtils.isEmpty(SPUtils.getSharedStringData(mContext, Constans.keyStr))) { // 如果Key_str为空第一次登录，需要调用账号密码登录接口
+                    // 调用Presenter的登陆方法
+                    mPresenter.loginUser(userName, passWord,"");
+                }else{ // key_str不为空，直接调用key_str登录
+                    String sharedStringData = SPUtils.getSharedStringData(mContext, Constans.keyStr);
+                    // 调用Presenter的登陆方法
+                    mPresenter.loginUser("", "",sharedStringData);
+                }
                 break;
         }
     }
@@ -115,8 +120,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
         showShortToast("登陆成功");
         // 保存keystr信息，用于登陆失效免密登陆
         SPUtils.setSharedStringData(mContext, Constans.keyStr, loginBean.getKey_str());
-        String sharedStringData = SPUtils.getSharedStringData(mContext, Constans.keyStr);
-        LogUtils.logd(sharedStringData);
         finish();
     }
 

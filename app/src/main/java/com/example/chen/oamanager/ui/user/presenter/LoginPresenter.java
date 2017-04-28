@@ -11,8 +11,8 @@ import com.jaydenxiao.common.baserx.RxSubscriber;
 
 public class LoginPresenter extends LoginContract.Presenter {
     @Override
-    public void loginUser(String userName, String passWord) {
-        mRxManage.add(mModel.getLogin(userName, passWord).subscribe(new RxSubscriber<HuiTianResponse<LoginBean>>(mContext, false) {
+    public void loginUser(String userName, String passWord,String keyStr) {
+        mRxManage.add(mModel.getLogin(userName, passWord,keyStr).subscribe(new RxSubscriber<HuiTianResponse<LoginBean>>(mContext, false) {
             @Override
             public void onStart() {
                 super.onStart();

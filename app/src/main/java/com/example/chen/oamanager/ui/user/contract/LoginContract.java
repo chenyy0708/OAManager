@@ -16,7 +16,7 @@ public interface LoginContract {
 
     interface Model extends BaseModel {
         //请求获取图片
-        Observable<HuiTianResponse<LoginBean>> getLogin(String userName, String passWord);
+        Observable<HuiTianResponse<LoginBean>> getLogin(String userName, String passWord,String keyStr);
     }
 
     interface View extends BaseView {
@@ -28,6 +28,6 @@ public interface LoginContract {
 
     abstract static class Presenter extends BasePresenter<View, Model> {
         //发起登陆请求
-        public abstract void loginUser(String userName, String passWord);
+        public abstract void loginUser(String userName, String passWord,String keyStr);
     }
 }
