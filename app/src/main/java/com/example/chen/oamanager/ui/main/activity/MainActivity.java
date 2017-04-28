@@ -5,7 +5,6 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -152,7 +151,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                             } catch (NoSuchAlgorithmException e) {
                                 e.printStackTrace();
                             }
-                            Log.d("sfwef", "_onNext: " + Constans.m + "--" + Constans.t + "--" + Constans.k + "--" + Constans.n);
+                            showShortToast("一次握手成功");
                         }
                     }
 

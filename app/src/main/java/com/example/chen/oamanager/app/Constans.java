@@ -23,4 +23,6 @@ public class Constans {
     public static String t = "";
     // 二次认证密匙k
     public static String k = "";
+    // 免密登陆字段
+    public static String keyStr = "key_str";
 }

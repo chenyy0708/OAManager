@@ -11,16 +11,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.chen.oamanager.R;
-import com.example.chen.oamanager.bean.HuiTianResponse;
+import com.example.chen.oamanager.app.Constans;
 import com.example.chen.oamanager.bean.LoginBean;
-import com.example.chen.oamanager.bean.Meizhi;
 import com.example.chen.oamanager.ui.usre.contract.LoginContract;
 import com.example.chen.oamanager.ui.usre.model.LoginModel;
 import com.example.chen.oamanager.ui.usre.presenter.LoginPresenter;
 import com.jaydenxiao.common.base.BaseActivity;
+import com.jaydenxiao.common.commonutils.LogUtils;
+import com.jaydenxiao.common.commonutils.SPUtils;
 import com.jaydenxiao.common.commonutils.ToastUitl;
-
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -102,7 +101,12 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
 
     @Override
     public void loginSuccess(LoginBean loginBean) {
-        stopLoading();
+        showShortToast("登陆成功");
+        // 保存keystr信息，用于登陆失效免密登陆
+        SPUtils.setSharedStringData(mContext, Constans.keyStr, loginBean.getKey_str());
+        String sharedStringData = SPUtils.getSharedStringData(mContext, Constans.keyStr);
+        LogUtils.logd(sharedStringData);
+        finish();
     }
 
     @Override

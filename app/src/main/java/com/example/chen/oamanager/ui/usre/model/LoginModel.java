@@ -16,7 +16,8 @@ import rx.Observable;
 public class LoginModel implements LoginContract.Model {
     @Override
     public Observable<HuiTianResponse<LoginBean>> getLogin(String userName, String passWord) {
-        return Api.getDefault().getLoginUser(Api.getCacheControl(), Constans.m, Constans.n, Constans.t, userName, passWord, Constans.t)
+        String k = Constans.k;
+        return Api.getDefault().getLoginUser(Api.getCacheControl(), Constans.m, Constans.n, Constans.t, userName, passWord, Constans.k)
 //                .compose(RxResultHelper.<MeizhiData, BaseRespose<MeizhiData>>handleResult())
                 .compose(RxSchedulers.<HuiTianResponse<LoginBean>>io_main());
     }
