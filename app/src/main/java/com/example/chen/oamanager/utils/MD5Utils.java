@@ -8,6 +8,7 @@ import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.DecimalFormat;
 import java.util.Random;
 
 /**
@@ -84,5 +85,10 @@ public class MD5Utils {
             sb.append(str.charAt(number));
         }
         return sb.toString();
+    }
+
+    public static String formatTosepara(float data) {
+        DecimalFormat df = new DecimalFormat("#,###");
+        return df.format(data);
     }
 }

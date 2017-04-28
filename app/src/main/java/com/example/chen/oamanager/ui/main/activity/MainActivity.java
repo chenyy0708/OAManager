@@ -1,6 +1,8 @@
 package com.example.chen.oamanager.ui.main.activity;
 
 
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -79,6 +81,15 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Bind(R.id.current_week_tv)
     TextView currentWeekTv;
     private ActionBarDrawerToggle mDrawerToggle;
+    private long taskTime;
+
+    private  Handler mHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            // 握手
+            getSalttime();
+        }
+    };
 
     @Override
     public int getLayoutId() {
@@ -105,7 +116,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         // 初始化轮播图
         initBanner();
         // 初始化日期
-        initData();
+        initDate();
         // 一次握手
         getSalttime();
     }
@@ -142,7 +153,14 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                             // 失效时间到期前无需再次调用一次认证接口直至失效时间邻近
                             // 或者失效时间超过再次调用一次认证接口重新进行计算接口密串
                             // 客户端注意处理好提前进行一次认证接口自动调用和异常自动补偿认证逻辑以防接口认证失败
-                            int expire = response.getData().getExpire();
+                            long expire = (long)response.getData().getExpire() * 1000L;
+                            long l = System.currentTimeMillis();
+                            // 服务器返回的时间戳 - 当前时间戳 = 时间戳有效期（在有效期失效之前需要提前进行一次握手） 提前一分钟去握手
+                            taskTime = (expire - l) - (1000 * 60);
+                            // 移除handler里面的消息
+                            mHandler.removeCallbacksAndMessages(null);
+                            // 开启定时任务
+                            mHandler.sendMessageDelayed(Message.obtain(),taskTime);
                             Constans.m = response.getData().getZ();
                             Constans.n = new String(Base64.decodeBase64(response.getData().getY().getBytes()));
                             Constans.t = new String(Base64.decodeBase64(response.getData().getX().getBytes()));
@@ -152,37 +170,68 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                                 e.printStackTrace();
                             }
                             showShortToast("一次握手成功");
+                        }else { // 当服务器返回的不是成功 1 ，重新进行一次握手
+                            getSalttime();
                         }
                     }
 
                     @Override
                     protected void _onError(String message) {
+                        // 一次握手失败，重新进行握手
+                        getSalttime();
                     }
                 }));
     }
 
-    private void initData() {
+    /**
+     * 获取当前日期
+     */
+    private void initDate() {
         final Calendar c = Calendar.getInstance();
         int mMonth = c.get(Calendar.MONTH) + 1;//获取当前月份
         int mDay = c.get(Calendar.DAY_OF_MONTH);//获取当前月份的日期号码
-        String mWay = String.valueOf(c.get(Calendar.DAY_OF_WEEK)); // 星期几
-        if ("1".equals(mWay)) {
-            mWay = "Sunday";
-        } else if ("2".equals(mWay)) {
-            mWay = "Monday";
-        } else if ("3".equals(mWay)) {
-            mWay = "Tuesday";
-        } else if ("4".equals(mWay)) {
-            mWay = "Wednesday";
-        } else if ("5".equals(mWay)) {
-            mWay = "Thursday";
-        } else if ("6".equals(mWay)) {
-            mWay = "Friday";
-        } else if ("7".equals(mWay)) {
-            mWay = "Saturday";
+//        String mWay = String.valueOf(c.get(Calendar.DAY_OF_WEEK)); // 星期几
+        String Month = "";
+        switch (mMonth) {
+            case 1:
+                Month = "1月";
+                break;
+            case 2:
+                Month = "2月";
+                break;
+            case 3:
+                Month = "3月";
+                break;
+            case 4:
+                Month = "4月";
+                break;
+            case 5:
+                Month = "5月";
+                break;
+            case 6:
+                Month = "6月";
+                break;
+            case 7:
+                Month = "7月";
+                break;
+            case 8:
+                Month = "8月";
+                break;
+            case 9:
+                Month = "9月";
+                break;
+            case 10:
+                Month = "10月";
+                break;
+            case 11:
+                Month = "11月";
+                break;
+            case 12:
+                Month = "12月";
+                break;
         }
         currentDayTv.setText(String.valueOf(mDay));
-        currentWeekTv.setText(mWay);
+        currentWeekTv.setText(Month);
     }
 
     private void initBanner() {
@@ -297,5 +346,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         super.onPause();
         if (mainBanner != null)
             mainBanner.stopAutoPlay();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // 移除所有的消息
+        mHandler.removeCallbacksAndMessages(null);
     }
 }

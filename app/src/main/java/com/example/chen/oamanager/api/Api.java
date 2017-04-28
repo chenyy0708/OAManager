@@ -101,6 +101,7 @@ public class Api {
             }
         };
 
+        // Cookie的持久化
         ClearableCookieJar cookieJar =
                 new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(App.getAppContext()));
 
