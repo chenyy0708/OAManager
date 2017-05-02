@@ -5,6 +5,8 @@ import com.jaydenxiao.common.baseapp.BaseApplication;
 import com.jaydenxiao.common.commonutils.LogUtils;
 import com.jaydenxiao.common.commonutils.SPUtils;
 
+import cn.jpush.android.api.JPushInterface;
+
 /**
  * Created by Chen on 2017/4/17.
  */
@@ -15,6 +17,10 @@ public class App extends BaseApplication {
         super.onCreate();
         // 初始化logger
         LogUtils.logInit(BuildConfig.LOG_DEBUG);
+        // 设置极光推送Debug模式
+        JPushInterface.setDebugMode(true);
+        // 初始化极光推送
+        JPushInterface.init(this);
         // 得到保存请求参数信息
         initSPData();
     }
