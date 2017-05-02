@@ -125,15 +125,15 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         // 初始化日期
         initDate();
         // 判断时间戳时间是否大于当前时间
-//        if (Constans.expire > System.currentTimeMillis()) { // 没有过期，不需要立即进行握手
-//            taskTime = (Constans.expire - System.currentTimeMillis()) - (1000 * 60);
-//            // 在过期前提前一分钟进行握手
-//            mHandler.removeCallbacksAndMessages(null);
-//            mHandler.sendMessageDelayed(Message.obtain(), taskTime);
-//        } else { // 已经过期，需要重新进行握手
+        taskTime = (Constans.expire - System.currentTimeMillis()) - (1000 * 60);
+        if (taskTime > 0) { // 没有过期，在taskTime时间之后自动握手
+            // 在过期前提前一分钟进行握手
+            mHandler.removeCallbacksAndMessages(null);
+            mHandler.sendMessageDelayed(Message.obtain(), taskTime);
+        } else { // 在一分钟之内就会过期，立即重新进行握手
 //            // 一次握手
-        getSalttime();
-//        }
+            getSalttime();
+        }
         tvTodaySale.setText(MD5Utils.formatTosepara(25768L));
         tvMonthSale.setText(MD5Utils.formatTosepara(34543545L));
         tvYearSale.setText(MD5Utils.formatTosepara(5743434323L));
