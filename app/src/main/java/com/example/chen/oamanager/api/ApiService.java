@@ -28,6 +28,7 @@ public interface ApiService {
 
     /**
      * 用户登陆
+     *
      * @param cacheControl
      * @param m
      * @param n
@@ -81,4 +82,30 @@ public interface ApiService {
             @Header("t") String t,
             @Field("k") String k
     );
+
+    /**
+     * 修改密码
+     *
+     * @param cacheControl
+     * @param m
+     * @param n
+     * @param t
+     * @param k
+     * @param username
+     * @param oldpass
+     * @param newpass
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("user/changepass")
+    Observable<HuiTianResponse<String>> changePassword(
+            @Header("Cache-Control") String cacheControl,
+            @Header("m") String m,
+            @Header("n") String n,
+            @Header("t") String t,
+            @Field("k") String k,
+            @Field("username") String username,
+            @Field("oldpass") String oldpass,
+            @Field("newpass") String newpass);
+
 }
