@@ -7,6 +7,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -33,6 +34,8 @@ import org.apache.commons.codec.binary.Base64;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -129,7 +132,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         if (taskTime > 0) { // 没有过期，在taskTime时间之后自动握手
             // 在过期前提前一分钟进行握手
             mHandler.removeCallbacksAndMessages(null);
-            mHandler.sendMessageDelayed(Message.obtain(), taskTime);
+            mHandler.sendMessageDelayed(Message.obtain(), 6 * 1000);
         } else { // 在一分钟之内就会过期，立即重新进行握手
 //            // 一次握手
             getSalttime();
@@ -266,8 +269,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             }
         });
         // 设置数据
-        mainBanner.setData(Arrays.asList("http://pic.58pic.com/58pic/13/70/90/29358PICQjG_1024.jpg", "http://img5.imgtn.bdimg.com/it/u=2573369149,354273250&fm=23&gp=0.jpg",
-                "http://img0.imgtn.bdimg.com/it/u=1671693453,3143654611&fm=23&gp=0.jpg", "http://img3.imgtn.bdimg.com/it/u=4092353190,3027758101&fm=23&gp=0.jpg"), null);
+        mainBanner.setData(Arrays.asList("http://img07.tooopen.com/images/20170412/tooopen_sy_205630266491.jpg", "http://img07.tooopen.com/images/20170412/tooopen_sy_205630266491.jpg",
+                "http://img07.tooopen.com/images/20170412/tooopen_sy_205630266491.jpg", "http://img07.tooopen.com/images/20170412/tooopen_sy_205630266491.jpg"), null);
         mainBanner.setDelegate(new BGABanner.Delegate<ImageView, String>() {
             @Override
             public void onBannerItemClick(BGABanner banner, ImageView itemView, String model, int position) {
@@ -356,6 +359,28 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     protected void _onError(String message) {
                     }
                 }));
+    }
+
+    private static Boolean isExit = false;
+
+    @Override
+    public void onBackPressed() {
+        Timer tExit = null;
+        if (isExit == false) {
+            isExit = true; // 准备退出
+            showShortToast("再按一次退出程序");
+            tExit = new Timer();
+            tExit.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    isExit = false; // 取消退出
+                }
+            }, 2000); // 如果2秒钟内没有按下返回键，则启动定时器取消掉刚才执行的任务
+
+        } else {
+            finish();
+            System.exit(0);
+        }
     }
 
     @Override
