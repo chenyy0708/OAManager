@@ -40,5 +40,6 @@ public class Constans {
     public static final String EXPIRE_TIME = "expire";
     // 进入APP，当时间戳没有过期，后面一分钟更新一次握手
     public static final long TASK_TIME = 1 * 1000;
-
+    // 保存cookie到本地
+    public static final String COOKIE_PREF = "cookies_prefs";
 }

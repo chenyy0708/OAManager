@@ -5,6 +5,7 @@ import com.huitian.oamanager.bean.HuiTianResponse;
 import com.huitian.oamanager.bean.LoginBean;
 import com.huitian.oamanager.bean.MeizhiData;
 import com.huitian.oamanager.bean.SalttimeBean;
+import com.huitian.oamanager.bean.YMDSales;
 
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -144,5 +145,26 @@ public interface ApiService {
             @Field("username") String username,
             @Field("oldpass") String oldpass,
             @Field("newpass") String newpass);
+
+
+    /**
+     * 销售额
+     *
+     * @param cacheControl
+     * @param m
+     * @param n
+     * @param t
+     * @param k
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("report/getYMDSales")
+    Observable<HuiTianResponse<YMDSales>> getYMDSales(
+            @Header("Cache-Control") String cacheControl,
+            @Header("m") String m,
+            @Header("n") String n,
+            @Header("t") String t,
+            @Field("k") String k
+         );
 
 }

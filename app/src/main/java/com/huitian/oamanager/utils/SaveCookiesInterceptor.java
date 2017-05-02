@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
 
+import com.huitian.oamanager.app.Constans;
+
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -20,7 +22,6 @@ import okhttp3.Response;
 
 public class SaveCookiesInterceptor implements Interceptor {
 
-    private static final String COOKIE_PREF = "cookies_prefs";
     private Context mContext;
 
     public SaveCookiesInterceptor(Context context) {
@@ -71,7 +72,7 @@ public class SaveCookiesInterceptor implements Interceptor {
     //保存cookie到本地，这里我们分别为该url和host设置相同的cookie，其中host可选
     //这样能使得该cookie的应用范围更广
     private void saveCookie(String url, String domain, String cookies) {
-        SharedPreferences sp = mContext.getSharedPreferences(COOKIE_PREF, Context.MODE_PRIVATE);
+        SharedPreferences sp = mContext.getSharedPreferences(Constans.COOKIE_PREF, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
 
         if (TextUtils.isEmpty(url)) {

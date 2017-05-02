@@ -5,14 +5,16 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.SparseArray;
 
-import com.huitian.oamanager.app.App;
-import com.huitian.oamanager.app.Constans;
 import com.franmontiel.persistentcookiejar.ClearableCookieJar;
 import com.franmontiel.persistentcookiejar.PersistentCookieJar;
 import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
 import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.huitian.oamanager.app.App;
+import com.huitian.oamanager.app.Constans;
+import com.huitian.oamanager.utils.AddCookiesInterceptor;
+import com.huitian.oamanager.utils.SaveCookiesInterceptor;
 import com.jaydenxiao.common.baseapp.BaseApplication;
 import com.jaydenxiao.common.commonutils.NetWorkUtils;
 
@@ -110,12 +112,12 @@ public class Api {
                 .connectTimeout(CONNECT_TIME_OUT, TimeUnit.MILLISECONDS)
                 .addInterceptor(mRewriteCacheControlInterceptor)
                 .addNetworkInterceptor(mRewriteCacheControlInterceptor)
-                .addInterceptor(headerInterceptor)
+//                .addInterceptor(headerInterceptor)
                 .addInterceptor(logInterceptor)
-//                .addInterceptor(new AddCookiesInterceptor(App.getAppContext()))
-//                .addInterceptor(new SaveCookiesInterceptor(App.getAppContext()))
+                .addInterceptor(new AddCookiesInterceptor(App.getAppContext()))
+                .addInterceptor(new SaveCookiesInterceptor(App.getAppContext()))
                 .cache(cache)
-                .cookieJar(cookieJar)
+//                .cookieJar(cookieJar)
                 .build();
         Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").serializeNulls().create();
         retrofit = new Retrofit.Builder()

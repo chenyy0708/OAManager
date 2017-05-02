@@ -1,12 +1,15 @@
 package com.huitian.oamanager.ui.main.activity;
 
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -17,6 +20,7 @@ import com.huitian.oamanager.api.Api;
 import com.huitian.oamanager.app.Constans;
 import com.huitian.oamanager.bean.HuiTianResponse;
 import com.huitian.oamanager.bean.SalttimeBean;
+import com.huitian.oamanager.bean.YMDSales;
 import com.huitian.oamanager.ui.user.activity.LoginActivity;
 import com.huitian.oamanager.utils.ImageUtils;
 import com.huitian.oamanager.utils.MD5Utils;
@@ -95,7 +99,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            // 握手
             getSalttime();
         }
     };
@@ -126,19 +129,48 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         initBanner();
         // 初始化日期
         initDate();
-//        // 判断时间戳时间是否大于当前时间
-//        taskTime = (Constans.expire - System.currentTimeMillis()) - (1000 * 60);
-//        if (taskTime > 0) { // 没有过期，在taskTime时间之后自动握手
-//            // 在过期前提前一分钟进行握手
-//            mHandler.removeCallbacksAndMessages(null);
-//            mHandler.sendMessageDelayed(Message.obtain(),taskTime);
-//        } else { // 在一分钟之内就会过期，立即重新进行握手
+        // 判断时间戳时间是否大于当前时间
+        taskTime = (Constans.expire - System.currentTimeMillis()) - (1000 * 60);
+        if (taskTime > 0) { // 没有过期，在taskTime时间之后自动握手
+            // 在过期前提前一分钟进行握手
+            mHandler.removeCallbacksAndMessages(null);
+            mHandler.sendMessageDelayed(Message.obtain(),taskTime);
+        } else { // 在一分钟之内就会过期，立即重新进行握手
             // 一次握手
             getSalttime();
-//        }
-        tvTodaySale.setText(MD5Utils.formatTosepara(25768L));
-        tvMonthSale.setText(MD5Utils.formatTosepara(34543545L));
-        tvYearSale.setText(MD5Utils.formatTosepara(5743434323L));
+        }
+
+        // 获取首页销售额
+        if(!TextUtils.isEmpty(SPUtils.getSharedStringData(mContext,Constans.keyStr))) {
+            getYMDSales();
+        }
+    }
+
+    private void getYMDSales() {
+        mRxManager.add(Api.getDefault().getYMDSales(Api.getCacheControl(), Constans.m, Constans.n, Constans.t, Constans.k)
+                .compose(RxSchedulers.<HuiTianResponse<YMDSales>>io_main()).subscribe(new RxSubscriber<HuiTianResponse<YMDSales>>(mContext, false) {
+                    @Override
+                    public void onStart() {
+                        super.onStart();
+                        startProgressDialog("正在查询销售额");
+                    }
+
+                    @Override
+                    protected void _onNext(HuiTianResponse<YMDSales> response) {
+                        if (response.getState() == 1) {
+                            tvTodaySale.setText(String.valueOf(response.getData().getDay()));
+                            tvMonthSale.setText(String.valueOf(response.getData().getMonth()));
+                            tvYearSale.setText(String.valueOf(MD5Utils.formatTosepara(Long.valueOf(response.getData().getYear()))));
+                        }
+                        stopProgressDialog();
+                    }
+
+                    @Override
+                    protected void _onError(String message) {
+                        stopProgressDialog();
+                        showShortToast(message);
+                    }
+                }));
     }
 
     /**
@@ -300,7 +332,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.right_iv:
-                startActivity(LoginActivity.class);
+                if(TextUtils.isEmpty(SPUtils.getSharedStringData(this,Constans.keyStr))) {
+                    startActivity(LoginActivity.class);
+                }else {
+                    showShortToast("您已登录");
+                }
                 break;
             case R.id.delivery_tv:
                 ToastUitl.showShort("发货担保");
@@ -338,7 +374,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     }
 
     private void loginOut() {
-        // 进行一次握手
         mRxManager.add(Api.getDefault().loginOut(Api.getCacheControl(), Constans.m, Constans.n, Constans.t, Constans.k)
                 .compose(RxSchedulers.<HuiTianResponse<String>>io_main()).subscribe(new RxSubscriber<HuiTianResponse<String>>(mContext, false) {
                     @Override
@@ -348,8 +383,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
                     @Override
                     protected void _onNext(HuiTianResponse<String> response) {
-                        String k = Constans.k;
                         if (response.getState() == 1) {
+                            // 退出登陆，清空keyStr，和cookie
+                            SPUtils.setSharedStringData(mContext,Constans.keyStr,"");
+                            SharedPreferences sp = mContext.getSharedPreferences(Constans.COOKIE_PREF, Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sp.edit();
+                            editor.clear().commit();
                             showShortToast(response.getMessage());
                         }
                     }
