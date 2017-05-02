@@ -7,7 +7,6 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -127,16 +126,16 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         initBanner();
         // 初始化日期
         initDate();
-        // 判断时间戳时间是否大于当前时间
-        taskTime = (Constans.expire - System.currentTimeMillis()) - (1000 * 60);
-        if (taskTime > 0) { // 没有过期，在taskTime时间之后自动握手
-            // 在过期前提前一分钟进行握手
-            mHandler.removeCallbacksAndMessages(null);
-            mHandler.sendMessageDelayed(Message.obtain(), 6 * 1000);
-        } else { // 在一分钟之内就会过期，立即重新进行握手
-//            // 一次握手
+//        // 判断时间戳时间是否大于当前时间
+//        taskTime = (Constans.expire - System.currentTimeMillis()) - (1000 * 60);
+//        if (taskTime > 0) { // 没有过期，在taskTime时间之后自动握手
+//            // 在过期前提前一分钟进行握手
+//            mHandler.removeCallbacksAndMessages(null);
+//            mHandler.sendMessageDelayed(Message.obtain(),taskTime);
+//        } else { // 在一分钟之内就会过期，立即重新进行握手
+            // 一次握手
             getSalttime();
-        }
+//        }
         tvTodaySale.setText(MD5Utils.formatTosepara(25768L));
         tvMonthSale.setText(MD5Utils.formatTosepara(34543545L));
         tvYearSale.setText(MD5Utils.formatTosepara(5743434323L));

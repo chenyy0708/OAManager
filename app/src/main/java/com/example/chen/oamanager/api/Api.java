@@ -7,8 +7,6 @@ import android.util.SparseArray;
 
 import com.example.chen.oamanager.app.App;
 import com.example.chen.oamanager.app.Constans;
-import com.example.chen.oamanager.utils.AddCookiesInterceptor;
-import com.example.chen.oamanager.utils.SaveCookiesInterceptor;
 import com.franmontiel.persistentcookiejar.ClearableCookieJar;
 import com.franmontiel.persistentcookiejar.PersistentCookieJar;
 import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
@@ -112,12 +110,12 @@ public class Api {
                 .connectTimeout(CONNECT_TIME_OUT, TimeUnit.MILLISECONDS)
                 .addInterceptor(mRewriteCacheControlInterceptor)
                 .addNetworkInterceptor(mRewriteCacheControlInterceptor)
-//                .addInterceptor(headerInterceptor)
+                .addInterceptor(headerInterceptor)
                 .addInterceptor(logInterceptor)
-                .addInterceptor(new AddCookiesInterceptor(App.getAppContext()))
-                .addInterceptor(new SaveCookiesInterceptor(App.getAppContext()))
+//                .addInterceptor(new AddCookiesInterceptor(App.getAppContext()))
+//                .addInterceptor(new SaveCookiesInterceptor(App.getAppContext()))
                 .cache(cache)
-//                .cookieJar(cookieJar)
+                .cookieJar(cookieJar)
                 .build();
         Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").serializeNulls().create();
         retrofit = new Retrofit.Builder()
