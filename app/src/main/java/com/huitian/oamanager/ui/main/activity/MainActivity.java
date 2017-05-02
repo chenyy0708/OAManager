@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.huitian.oamanager.R;
 import com.huitian.oamanager.api.Api;
+import com.huitian.oamanager.app.App;
 import com.huitian.oamanager.app.Constans;
 import com.huitian.oamanager.bean.HuiTianResponse;
 import com.huitian.oamanager.bean.SalttimeBean;
@@ -384,12 +385,15 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     @Override
                     protected void _onNext(HuiTianResponse<String> response) {
                         if (response.getState() == 1) {
-                            // 退出登陆，清空keyStr，和cookie
+                            // 退出登陆，清空keyStr，和cookie,时间戳
                             SPUtils.setSharedStringData(mContext,Constans.keyStr,"");
+                            SPUtils.setSharedLongData(App.getAppContext(), Constans.EXPIRE_TIME,0L);
                             SharedPreferences sp = mContext.getSharedPreferences(Constans.COOKIE_PREF, Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor = sp.edit();
                             editor.clear().commit();
                             showShortToast(response.getMessage());
+                            // 重新握手
+                            getSalttime();
                         }
                     }
 
