@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
-    tools:context="com.example.chen.oamanager.ui.user.activity.LoginActivity">
+    tools:context="com.huitian.oamanager.ui.user.activity.LoginActivity">
 
     <LinearLayout
         style="@style/maginLeftAndRight_28"

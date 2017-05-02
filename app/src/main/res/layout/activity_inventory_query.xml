@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#FFFFFF"
     android:orientation="vertical"
-    tools:context="com.example.chen.oamanager.ui.user.activity.LoginActivity">
+    tools:context="com.huitian.oamanager.ui.user.activity.LoginActivity">
 
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
