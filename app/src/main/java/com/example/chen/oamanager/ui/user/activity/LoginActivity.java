@@ -91,6 +91,15 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
                     // 调用Presenter的登陆方法
                     mPresenter.loginUser("", "", sharedStringData);
                 }
+                mPresenter.loginUser(userName, passWord,"");
+//                if(TextUtils.isEmpty(SPUtils.getSharedStringData(mContext, Constans.keyStr))) { // 如果Key_str为空第一次登录，需要调用账号密码登录接口
+//                    // 调用Presenter的登陆方法
+//                    mPresenter.loginUser(userName, passWord,"");
+//                }else{ // key_str不为空，直接调用key_str登录
+//                    String sharedStringData = SPUtils.getSharedStringData(mContext, Constans.keyStr);
+//                    // 调用Presenter的登陆方法
+//                    mPresenter.loginUser("", "",sharedStringData);
+//                }
                 break;
         }
     }

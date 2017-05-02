@@ -84,6 +84,43 @@ public interface ApiService {
     );
 
     /**
+     * 获取验证码
+     *
+     * @param cacheControl
+     * @param k
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("User/genCode")
+    Observable<HuiTianResponse<String>> genCode(
+            @Header("Cache-Control") String cacheControl,
+            @Header("m") String m,
+            @Header("n") String n,
+            @Header("t") String t,
+            @Header("phone") String phone,
+            @Field("k") String k
+    );
+
+    /**
+     * 忘记密码
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("User/genCode")
+    Observable<HuiTianResponse<String>> forgetPassword(
+            @Header("Cache-Control") String cacheControl,
+            @Header("m") String m,
+            @Header("n") String n,
+            @Header("t") String t,
+            @Field("k") String k,
+            @Field("phone") String phone,
+            @Field("code") String code,
+            @Field("password") String password,
+            @Field("confirmPassword") String confirmPassword
+    );
+
+    /**
      * 修改密码
      *
      * @param cacheControl
