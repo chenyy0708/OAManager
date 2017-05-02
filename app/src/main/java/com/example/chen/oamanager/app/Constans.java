@@ -28,7 +28,17 @@ public class Constans {
     public static String keyStr = "key_str";
     // SharePreference名称
     public static final String SP_NAME = "config";
+    // 过期时间戳
+    public static long expire = 0;
     // 保存在sp里面的字段名
     public static final String USERNAME = "username";
     public static final String PASSWORD = "password";
+    public static final String M = "m";
+    public static final String N = "n";
+    public static final String T = "t";
+    public static final String K = "k";
+    public static final String EXPIRE_TIME = "expire";
+    // 进入APP，当时间戳没有过期，后面一分钟更新一次握手
+    public static final long TASK_TIME = 1 * 1000;
+
 }

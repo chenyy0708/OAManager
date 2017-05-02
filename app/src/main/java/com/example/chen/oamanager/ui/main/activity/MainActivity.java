@@ -24,6 +24,7 @@ import com.jaeger.library.StatusBarUtil;
 import com.jaydenxiao.common.base.BaseActivity;
 import com.jaydenxiao.common.baserx.RxSchedulers;
 import com.jaydenxiao.common.baserx.RxSubscriber;
+import com.jaydenxiao.common.commonutils.SPUtils;
 import com.jaydenxiao.common.commonutils.ToastUitl;
 import com.jaydenxiao.common.imagePager.BigImagePagerActivity;
 
@@ -123,8 +124,16 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         initBanner();
         // 初始化日期
         initDate();
-        // 一次握手
+        // 判断时间戳时间是否大于当前时间
+//        if (Constans.expire > System.currentTimeMillis()) { // 没有过期，不需要立即进行握手
+//            taskTime = (Constans.expire - System.currentTimeMillis()) - (1000 * 60);
+//            // 在过期前提前一分钟进行握手
+//            mHandler.removeCallbacksAndMessages(null);
+//            mHandler.sendMessageDelayed(Message.obtain(), taskTime);
+//        } else { // 已经过期，需要重新进行握手
+//            // 一次握手
         getSalttime();
+//        }
         tvTodaySale.setText(MD5Utils.formatTosepara(25768L));
         tvMonthSale.setText(MD5Utils.formatTosepara(34543545L));
         tvYearSale.setText(MD5Utils.formatTosepara(5743434323L));
@@ -177,6 +186,13 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                             } catch (NoSuchAlgorithmException e) {
                                 e.printStackTrace();
                             }
+                            // 将请求参数信息存入到本地
+                            SPUtils.setSharedStringData(mContext, Constans.M, Constans.m);
+                            SPUtils.setSharedStringData(mContext, Constans.N, Constans.n);
+                            SPUtils.setSharedStringData(mContext, Constans.T, Constans.t);
+                            SPUtils.setSharedStringData(mContext, Constans.K, Constans.k);
+                            // 时间戳保存到本地
+                            SPUtils.setSharedLongData(mContext, Constans.EXPIRE_TIME, expire);
                             showShortToast("一次握手成功");
                         } else { // 当服务器返回的不是成功 1 ，重新进行一次握手
                             getSalttime();

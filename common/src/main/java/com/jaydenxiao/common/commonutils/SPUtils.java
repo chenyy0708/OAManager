@@ -9,7 +9,6 @@ import com.jaydenxiao.common.baseapp.BaseApplication;
 
 /**
  * 对SharedPreference文件中的各种类型的数据进行存取操作
- *
  */
 public class SPUtils {
 
@@ -26,6 +25,13 @@ public class SPUtils {
             init(context);
         }
         sp.edit().putInt(key, value).commit();
+    }
+
+    public static void setSharedLongData(Context context, String key, Long value) {
+        if (sp == null) {
+            init(context);
+        }
+        sp.edit().putLong(key, value).commit();
     }
 
     public static int getSharedIntData(Context context, String key) {
@@ -91,6 +97,13 @@ public class SPUtils {
             init(context);
         }
         return sp.getString(key, "");
+    }
+
+    public static Long getSharedLongData(Context context, String key) {
+        if (sp == null) {
+            init(context);
+        }
+        return sp.getLong(key, 0);
     }
 
 }
