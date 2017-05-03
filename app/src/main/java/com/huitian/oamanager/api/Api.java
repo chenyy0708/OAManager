@@ -13,8 +13,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.huitian.oamanager.app.App;
 import com.huitian.oamanager.app.Constans;
-import com.huitian.oamanager.utils.AddCookiesInterceptor;
-import com.huitian.oamanager.utils.SaveCookiesInterceptor;
+import com.huitian.oamanager.util.AddCookiesInterceptor;
+import com.huitian.oamanager.util.SaveCookiesInterceptor;
 import com.jaydenxiao.common.baseapp.BaseApplication;
 import com.jaydenxiao.common.commonutils.NetWorkUtils;
 

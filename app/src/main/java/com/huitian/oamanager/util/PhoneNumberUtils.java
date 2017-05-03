@@ -1,11 +1,11 @@
-package com.huitian.oamanager.utils;
+package com.huitian.oamanager.util;
 
 import android.text.TextUtils;
 
 /**
  * Created by Oliver on 2016/7/20.
  */
-public class PhoneNumberUtil {
+public class PhoneNumberUtils {
     public static boolean isMobileNO(String mobiles) {
     /*
     移动：134、135、136、137、138、139、150、151、157(TD)、158、159、187、188

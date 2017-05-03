@@ -11,7 +11,7 @@ import com.huitian.oamanager.R;
 import com.huitian.oamanager.ui.user.contract.ForgetPWContract;
 import com.huitian.oamanager.ui.user.model.ForgetPWModel;
 import com.huitian.oamanager.ui.user.presenter.ForgetPWPresenter;
-import com.huitian.oamanager.utils.PhoneNumberUtil;
+import com.huitian.oamanager.util.PhoneNumberUtils;
 import com.huitian.oamanager.widget.CountDownTimerUtils;
 import com.jaydenxiao.common.base.BaseActivity;
 
@@ -70,7 +70,7 @@ public class ForgetPassWordActivity extends BaseActivity<ForgetPWPresenter,Forge
                     showShortToast("手机号不能为空");
                     return;
                 }
-                boolean mobileNO = PhoneNumberUtil.isMobileNO(phoneNumber); // 正则验证是否是手机号
+                boolean mobileNO = PhoneNumberUtils.isMobileNO(phoneNumber); // 正则验证是否是手机号
                 if(mobileNO) { // 是手机号
                     // 调用获取验证码的接口
                 }else {

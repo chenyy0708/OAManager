@@ -1,4 +1,4 @@
-package com.huitian.oamanager.utils;
+package com.huitian.oamanager.util;
 
 /**
  * Created by Chen on 2017/4/21.

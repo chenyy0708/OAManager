@@ -1,4 +1,4 @@
-package com.huitian.oamanager.utils;
+package com.huitian.oamanager.util;
 
 import android.content.Context;
 import android.webkit.JavascriptInterface;

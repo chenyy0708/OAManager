@@ -17,6 +17,7 @@ import com.huitian.oamanager.bean.LoginBean;
 import com.huitian.oamanager.ui.user.contract.LoginContract;
 import com.huitian.oamanager.ui.user.model.LoginModel;
 import com.huitian.oamanager.ui.user.presenter.LoginPresenter;
+import com.huitian.oamanager.util.PhoneNumberUtils;
 import com.jaydenxiao.common.base.BaseActivity;
 import com.jaydenxiao.common.commonutils.SPUtils;
 import com.jaydenxiao.common.commonutils.ToastUitl;
@@ -79,11 +80,15 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
             case R.id.login_bt: // 登陆
                 String userName = editTextUsername.getText().toString().trim();
                 String passWord = editTextPw.getText().toString().trim();
+                if (PhoneNumberUtils.isMobileNO(userName)) {
+                    showShortToast("手机号码格式不正确");
+                    return;
+                }
                 if (TextUtils.isEmpty(userName) || TextUtils.isEmpty(passWord)) {
                     ToastUitl.showShort("账号或密码不能为空");
                     return;
                 }
-                mPresenter.loginUser(userName, passWord,"");
+                mPresenter.loginUser(userName, passWord, "");
 //                if(TextUtils.isEmpty(SPUtils.getSharedStringData(mContext, Constans.keyStr))) { // 如果Key_str为空第一次登录，需要调用账号密码登录接口
 //                    // 调用Presenter的登陆方法
 //                    mPresenter.loginUser(userName, passWord,"");
