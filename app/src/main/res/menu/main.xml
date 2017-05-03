@@ -3,19 +3,14 @@
     <group
         android:id="@+id/g1"
         android:checkableBehavior="single">
-
         <item
             android:id="@+id/home"
-            android:title="首页" />
+            android:icon="@mipmap/ic_menu_setting"
+            android:title="修改密码" />
         <item
             android:id="@+id/community"
-            android:title="社区" />
-        <item
-            android:id="@+id/tongcheng"
-            android:title="同城" />
-        <item
-            android:id="@+id/me"
-            android:title="我的" />
+            android:icon="@mipmap/ic_menu_quit"
+            android:title="退出账号" />
     </group>
 
 </menu>
