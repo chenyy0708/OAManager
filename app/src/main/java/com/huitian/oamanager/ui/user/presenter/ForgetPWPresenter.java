@@ -1,5 +1,6 @@
 package com.huitian.oamanager.ui.user.presenter;
 
+import com.huitian.oamanager.bean.GenCodeBean;
 import com.huitian.oamanager.bean.HuiTianResponse;
 import com.huitian.oamanager.ui.user.contract.ForgetPWContract;
 import com.jaydenxiao.common.baserx.RxSubscriber;
@@ -12,12 +13,12 @@ public class ForgetPWPresenter extends ForgetPWContract.Presenter {
 
     @Override
     public void genCode(String phone) {
-        mRxManage.add(mModel.genCode(phone).subscribe(new RxSubscriber<HuiTianResponse<String>>(mContext, false) {
+        mRxManage.add(mModel.genCode(phone).subscribe(new RxSubscriber<HuiTianResponse<GenCodeBean>>(mContext, false) {
             @Override
-            protected void _onNext(HuiTianResponse<String> response) {
+            protected void _onNext(HuiTianResponse<GenCodeBean> response) {
                 if (response.getState() == 1) { // 获取验证码成功
                     // 调用View层登陆成功方法
-                    mView.genCodeSuccess();
+                    mView.genCodeSuccess(response.getData());
                 } else { // 获取验证码失败,返回错误信息
                     mView.genCodeFail(response.getMessage());
                 }
@@ -33,7 +34,7 @@ public class ForgetPWPresenter extends ForgetPWContract.Presenter {
 
     @Override
     public void forgetPassword(String phone, String code, String password, String confirmPassword) {
-        mRxManage.add(mModel.forgetPassword(phone,code,password,confirmPassword).subscribe(new RxSubscriber<HuiTianResponse<String>>(mContext, false) {
+        mRxManage.add(mModel.forgetPassword(phone, code, password, confirmPassword).subscribe(new RxSubscriber<HuiTianResponse<String>>(mContext, false) {
             @Override
             public void onStart() {
                 super.onStart();

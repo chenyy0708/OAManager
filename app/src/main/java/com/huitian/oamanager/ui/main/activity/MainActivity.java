@@ -135,14 +135,14 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         if (taskTime > 0) { // 没有过期，在taskTime时间之后自动握手
             // 在过期前提前一分钟进行握手
             mHandler.removeCallbacksAndMessages(null);
-            mHandler.sendMessageDelayed(Message.obtain(),taskTime);
+            mHandler.sendMessageDelayed(Message.obtain(), taskTime);
         } else { // 在一分钟之内就会过期，立即重新进行握手
             // 一次握手
             getSalttime();
         }
 
         // 获取首页销售额
-        if(!TextUtils.isEmpty(SPUtils.getSharedStringData(mContext,Constans.keyStr))) {
+        if (!TextUtils.isEmpty(SPUtils.getSharedStringData(mContext, Constans.keyStr))) {
             getYMDSales();
         }
     }
@@ -333,9 +333,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.right_iv:
-                if(TextUtils.isEmpty(SPUtils.getSharedStringData(this,Constans.keyStr))) {
+                if (TextUtils.isEmpty(SPUtils.getSharedStringData(this, Constans.keyStr))) {
                     startActivity(LoginActivity.class);
-                }else {
+                } else {
                     showShortToast("您已登录");
                 }
                 break;
@@ -386,8 +386,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     protected void _onNext(HuiTianResponse<String> response) {
                         if (response.getState() == 1) {
                             // 退出登陆，清空keyStr，和cookie,时间戳
-                            SPUtils.setSharedStringData(mContext,Constans.keyStr,"");
-                            SPUtils.setSharedLongData(App.getAppContext(), Constans.EXPIRE_TIME,0L);
+                            SPUtils.setSharedStringData(mContext, Constans.keyStr, "");
+                            SPUtils.setSharedLongData(App.getAppContext(), Constans.EXPIRE_TIME, 0L);
                             SharedPreferences sp = mContext.getSharedPreferences(Constans.COOKIE_PREF, Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor = sp.edit();
                             editor.clear().commit();

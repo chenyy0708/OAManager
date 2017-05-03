@@ -2,6 +2,7 @@ package com.huitian.oamanager.ui.user.model;
 
 import com.huitian.oamanager.api.Api;
 import com.huitian.oamanager.app.Constans;
+import com.huitian.oamanager.bean.GenCodeBean;
 import com.huitian.oamanager.bean.HuiTianResponse;
 import com.huitian.oamanager.ui.user.contract.ForgetPWContract;
 import com.jaydenxiao.common.baserx.RxSchedulers;
@@ -15,9 +16,9 @@ import rx.Observable;
 public class ForgetPWModel implements ForgetPWContract.Model {
 
     @Override
-    public Observable<HuiTianResponse<String>> genCode(String phone) {
+    public Observable<HuiTianResponse<GenCodeBean>> genCode(String phone) {
         return Api.getDefault().genCode(Api.getCacheControl(), Constans.m, Constans.n, Constans.t,phone, Constans.k)
-                .compose(RxSchedulers.<HuiTianResponse<String>>io_main());
+                .compose(RxSchedulers.<HuiTianResponse<GenCodeBean>>io_main());
     }
 
     @Override

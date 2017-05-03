@@ -1,5 +1,6 @@
 package com.huitian.oamanager.ui.user.contract;
 
+import com.huitian.oamanager.bean.GenCodeBean;
 import com.huitian.oamanager.bean.HuiTianResponse;
 import com.jaydenxiao.common.base.BaseModel;
 import com.jaydenxiao.common.base.BasePresenter;
@@ -15,13 +16,13 @@ public interface ForgetPWContract {
 
     interface Model extends BaseModel {
         // 请求验证码
-        Observable<HuiTianResponse<String>> genCode(String phone);
+        Observable<HuiTianResponse<GenCodeBean>> genCode(String phone);
         // 提交
         Observable<HuiTianResponse<String>> forgetPassword(String phone,String code,String password,String confirmPassword);
     }
 
     interface View extends BaseView {
-        void genCodeSuccess();
+        void genCodeSuccess(GenCodeBean genCodeBean);
 
         void genCodeFail(String msg);
 

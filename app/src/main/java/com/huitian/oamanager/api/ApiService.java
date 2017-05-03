@@ -1,6 +1,7 @@
 package com.huitian.oamanager.api;
 
 
+import com.huitian.oamanager.bean.GenCodeBean;
 import com.huitian.oamanager.bean.HuiTianResponse;
 import com.huitian.oamanager.bean.LoginBean;
 import com.huitian.oamanager.bean.MeizhiData;
@@ -93,12 +94,12 @@ public interface ApiService {
      */
     @FormUrlEncoded
     @POST("User/genCode")
-    Observable<HuiTianResponse<String>> genCode(
+    Observable<HuiTianResponse<GenCodeBean>> genCode(
             @Header("Cache-Control") String cacheControl,
             @Header("m") String m,
             @Header("n") String n,
             @Header("t") String t,
-            @Header("phone") String phone,
+            @Field("phone") String phone,
             @Field("k") String k
     );
 
@@ -108,7 +109,7 @@ public interface ApiService {
      * @return
      */
     @FormUrlEncoded
-    @POST("User/genCode")
+    @POST("User/forgetPassword")
     Observable<HuiTianResponse<String>> forgetPassword(
             @Header("Cache-Control") String cacheControl,
             @Header("m") String m,
@@ -165,6 +166,6 @@ public interface ApiService {
             @Header("n") String n,
             @Header("t") String t,
             @Field("k") String k
-         );
+    );
 
 }
