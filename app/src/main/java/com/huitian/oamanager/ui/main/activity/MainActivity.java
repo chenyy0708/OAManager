@@ -334,9 +334,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         switch (item.getItemId()) {
             case R.id.nav_modify_pw:
                 startActivity(ModifyPasswordActivity.class);
+                drawerLayout.closeDrawers();
                 break;
             case R.id.nav_logout:
                 loginOut();
+                drawerLayout.closeDrawers();
                 break;
         }
         return false;
