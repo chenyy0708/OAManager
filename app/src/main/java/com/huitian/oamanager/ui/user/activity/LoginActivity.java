@@ -80,7 +80,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
             case R.id.login_bt: // 登陆
                 String userName = editTextUsername.getText().toString().trim();
                 String passWord = editTextPw.getText().toString().trim();
-                if (PhoneNumberUtils.isMobileNO(userName)) {
+                if (!PhoneNumberUtils.isMobileNO(userName)) {
                     showShortToast("手机号码格式不正确");
                     return;
                 }
