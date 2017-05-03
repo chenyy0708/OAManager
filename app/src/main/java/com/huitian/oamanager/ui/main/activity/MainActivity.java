@@ -23,6 +23,7 @@ import com.huitian.oamanager.bean.HuiTianResponse;
 import com.huitian.oamanager.bean.SalttimeBean;
 import com.huitian.oamanager.bean.YMDSales;
 import com.huitian.oamanager.ui.user.activity.LoginActivity;
+import com.huitian.oamanager.ui.webview.StockWebViewActivity;
 import com.huitian.oamanager.util.ImageUtils;
 import com.huitian.oamanager.util.MD5Utils;
 import com.jaeger.library.StatusBarUtil;
@@ -140,9 +141,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             // 一次握手
             getSalttime();
         }
-
         // 获取首页销售额
-        if (!TextUtils.isEmpty(SPUtils.getSharedStringData(mContext, Constans.keyStr))) {
+        if (!TextUtils.isEmpty(SPUtils.getSharedStringData(mContext, Constans.keyStr)) || taskTime > 0) { // 用户已经登录，并且握手没有失效
             getYMDSales();
         }
     }
@@ -354,7 +354,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 ToastUitl.showShort("销售下单");
                 break;
             case R.id.fahuo_search_tv:
-                ToastUitl.showShort("发货查询");
+//                ToastUitl.showShort("发货查询");
+                startActivity(StockWebViewActivity.class);
                 break;
             case R.id.kucun_search_tv:
                 ToastUitl.showShort("库存查询");

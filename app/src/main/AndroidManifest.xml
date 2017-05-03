@@ -63,6 +63,10 @@
         <activity
             android:name="com.huitian.oamanager.ui.user.activity.ModifyPasswordActivity"
             android:windowSoftInputMode="adjustPan|stateHidden"></activity>
+        <!-- WebView-->
+        <activity
+            android:name=".ui.webview.StockWebViewActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
     </application>
 
 </manifest>
