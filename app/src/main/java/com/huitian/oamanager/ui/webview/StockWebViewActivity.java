@@ -1,8 +1,11 @@
 package com.huitian.oamanager.ui.webview;
 
+import android.graphics.Bitmap;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -37,6 +40,7 @@ public class StockWebViewActivity extends BaseWebViewActivity {
 
     @Override
     public void initWebView() {
+        startProgressDialog("正在加载");
         setToolBar(toolBar, "");
         // 设置图标
         toolBar.setBackgroundColor(getResources().getColor(R.color.mainColor));
@@ -52,7 +56,33 @@ public class StockWebViewActivity extends BaseWebViewActivity {
             }
         });
         initWebView(webview);
+        webview.setWebViewClient(new MyWebViewClient());
         webview.loadUrl("https://www.baidu.com/");
+    }
+
+
+    private class MyWebViewClient extends WebViewClient {
+
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            super.onPageStarted(view, url, favicon);
+        }
+
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            stopProgressDialog();
+            super.onPageFinished(view, url);
+        }
+
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            return true;
+        }
+
+        @Override
+        public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
+            return super.shouldInterceptRequest(view, url);
+        }
     }
 
 }

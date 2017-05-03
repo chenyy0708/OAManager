@@ -53,7 +53,7 @@ public abstract class BaseWebViewActivity extends BaseActivity {
         webView.getSettings().setAppCacheEnabled(true);
         // 提供给H5的方法
         webView.addJavascriptInterface(new JavaScriptObject(mContext), "Android");
-        webView.setWebViewClient(new MyWebViewClient());
+//        webView.setWebViewClient(new MyWebViewClient());
         webView.clearCache(true);//支持缓存
     }
 
