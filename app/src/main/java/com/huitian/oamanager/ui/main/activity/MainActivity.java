@@ -142,7 +142,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             getSalttime();
         }
         // 获取首页销售额
-        if (!TextUtils.isEmpty(SPUtils.getSharedStringData(mContext, Constans.keyStr)) || taskTime > 0) { // 用户已经登录，并且握手没有失效，调用销售额接口
+        if (!TextUtils.isEmpty(SPUtils.getSharedStringData(mContext, Constans.keyStr)) && taskTime > 0) { // 用户已经登录，并且握手没有失效，调用销售额接口
             getYMDSales();
         }
     }

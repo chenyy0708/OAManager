@@ -124,7 +124,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
             SPUtils.setSharedStringData(this, Constans.USERNAME, editTextUsername.getText().toString().trim());
             SPUtils.setSharedStringData(this, Constans.PASSWORD, editTextPw.getText().toString().trim());
         }
-        showShortToast("登陆成功");
         // 保存keystr信息，用于登陆失效免密登陆
         SPUtils.setSharedStringData(mContext, Constans.keyStr, loginBean.getKey_str());
         finish();

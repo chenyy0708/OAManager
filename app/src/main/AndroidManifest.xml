@@ -66,6 +66,7 @@
         <!-- WebView-->
         <activity
             android:name=".ui.webview.StockWebViewActivity"
+            android:configChanges="keyboardHidden|orientation"
             android:windowSoftInputMode="adjustPan|stateHidden" />
     </application>
 
