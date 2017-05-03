@@ -23,6 +23,7 @@ import com.huitian.oamanager.bean.HuiTianResponse;
 import com.huitian.oamanager.bean.SalttimeBean;
 import com.huitian.oamanager.bean.YMDSales;
 import com.huitian.oamanager.ui.user.activity.LoginActivity;
+import com.huitian.oamanager.ui.user.activity.ModifyPasswordActivity;
 import com.huitian.oamanager.ui.webview.StockWebViewActivity;
 import com.huitian.oamanager.util.ImageUtils;
 import com.huitian.oamanager.util.MD5Utils;
@@ -325,9 +326,16 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.nav_modify_pw:
+                startActivity(ModifyPasswordActivity.class);
+                break;
+            case R.id.nav_logout:
+                loginOut();
+                break;
+        }
         return false;
     }
-
 
     @OnClick({R.id.right_iv, R.id.delivery_tv, R.id.shengpi_tv, R.id.zaiquan_tv, R.id.xiadan_tv, R.id.fahuo_search_tv, R.id.kucun_search_tv, R.id.data_search_tv, R.id.wuliu_search_tv, R.id.zhaiquan_search_tv, R.id.working_search_tv})
     public void onViewClicked(View view) {
