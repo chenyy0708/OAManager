@@ -22,12 +22,6 @@ import rx.Observable;
  * on 2016.06.15:47
  */
 public interface ApiService {
-    @GET("data/福利/{size}/{page}")
-    Observable<MeizhiData> getPhotoList(
-            @Header("Cache-Control") String cacheControl,
-            @Path("size") int size,
-            @Path("page") int page);
-
     /**
      * 用户登陆
      *

@@ -351,7 +351,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 break;
             case R.id.delivery_tv:
                 // 退出登陆
-                loginOut();
                 break;
             case R.id.shengpi_tv:
                 ToastUitl.showShort("审批担保");
@@ -400,6 +399,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                             SharedPreferences sp = mContext.getSharedPreferences(Constans.COOKIE_PREF, Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor = sp.edit();
                             editor.clear().commit();
+                            showShortToast("退出登陆成功");
                             // 重新握手
                             getSalttime();
                         } else {
