@@ -22,6 +22,9 @@ import com.jaydenxiao.common.base.BaseActivity;
 import com.jaydenxiao.common.commonutils.SPUtils;
 import com.jaydenxiao.common.commonutils.ToastUitl;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import butterknife.Bind;
 import butterknife.OnClick;
 
@@ -69,7 +72,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.close_iv:
-                finish();
+                onBackPressed();
                 break;
             case R.id.forget_pw_tv:
                 startActivity(ForgetPassWordActivity.class);
@@ -126,11 +129,36 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
         }
         // 保存keystr信息，用于登陆失效免密登陆
         SPUtils.setSharedStringData(mContext, Constans.keyStr, loginBean.getKey_str());
+        // 设置结果，并进行传送
+        this.setResult(Constans.LOGIN_ACTIVITY);
         finish();
     }
 
     @Override
     public void loginFail(String msg) {
         showShortToast(msg);
+    }
+
+    private static Boolean isExit = false;
+
+    @Override
+    public void onBackPressed() {
+        Timer tExit = null;
+        if (isExit == false) {
+            isExit = true; // 准备退出
+            showShortToast("再按一次退出程序");
+            tExit = new Timer();
+            tExit.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    isExit = false; // 取消退出
+                }
+            }, 2000); // 如果2秒钟内没有按下返回键，则启动定时器取消掉刚才执行的任务
+
+        } else {
+            // 设置结果，并进行传送
+            this.setResult(Constans.EXIT_SYSTEM);
+            finish();
+        }
     }
 }

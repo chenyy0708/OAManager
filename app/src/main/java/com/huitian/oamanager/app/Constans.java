@@ -42,4 +42,9 @@ public class Constans {
     public static final long TASK_TIME = 1 * 1000;
     // 保存cookie到本地
     public static final String COOKIE_PREF = "cookies_prefs";
+    // 跳转到登录Activity
+    public static final int LOGIN_ACTIVITY = 100;
+    // 退出页面
+    public static final int EXIT_SYSTEM = 101;
+
 }

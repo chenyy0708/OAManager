@@ -13,7 +13,6 @@ import android.widget.TextView;
 import com.huitian.oamanager.R;
 import com.huitian.oamanager.app.BaseWebViewActivity;
 import com.jaydenxiao.common.commonutils.LogUtils;
-import com.jaydenxiao.common.commonwidget.OnDoubleClickListener;
 
 import butterknife.Bind;
 
@@ -51,9 +50,9 @@ public class StockWebViewActivity extends BaseWebViewActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         toolBarTitleTv.setText("月汇总数据查询");
         toolBarTitleTv.setTextColor(getResources().getColor(R.color.white));
-        toolBar.setNavigationOnClickListener(new OnDoubleClickListener() {
+        toolBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
-            protected void onDoubleClick(View v) {
+            public void onClick(View v) {
                 finish();
             }
         });

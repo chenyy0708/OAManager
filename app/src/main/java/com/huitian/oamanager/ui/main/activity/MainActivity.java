@@ -2,6 +2,7 @@ package com.huitian.oamanager.ui.main.activity;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Message;
@@ -125,15 +126,15 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         // 设置toolbar的标题
         centerIv.setVisibility(View.VISIBLE);
         centerIv.setImageResource(R.mipmap.icon_logo);
-        rightIv.setVisibility(View.VISIBLE);
+        //        rightIv.setVisibility(View.VISIBLE);
         // 加载圆形图片
-        ImageUtils.loadCircle(this, "https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1942495469,4050776630&fm=23&gp=0.jpg", rightIv);
+//        ImageUtils.loadCircle(this, "https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1942495469,4050776630&fm=23&gp=0.jpg", rightIv);
         // 初始化轮播图
         initBanner();
         // 初始化日期
         initDate();
-        // 判断时间戳时间是否大于当前时间
         taskTime = (Constans.expire - System.currentTimeMillis()) - (1000 * 60);
+        // 判断保存的时间戳时间是否大于当前时间
         if (taskTime > 0) { // 没有过期，在taskTime时间之后自动握手
             // 在过期前提前一分钟进行握手
             mHandler.removeCallbacksAndMessages(null);
@@ -142,9 +143,18 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             // 一次握手
             getSalttime();
         }
-        // 获取首页销售额
-        if (!TextUtils.isEmpty(SPUtils.getSharedStringData(mContext, Constans.keyStr)) && taskTime > 0) { // 用户已经登录，并且握手没有失效，调用销售额接口
-            getYMDSales();
+        // 初始化数据
+        initData();
+    }
+
+    private void initData() {
+        if (TextUtils.isEmpty(SPUtils.getSharedStringData(this, Constans.keyStr))) { // 用户没有登录，跳转到登录界面
+            startActivityForResult(LoginActivity.class, Constans.LOGIN_ACTIVITY);
+        } else { // 用户已经登录，获取销售额
+            // 获取首页销售额
+            if (!TextUtils.isEmpty(SPUtils.getSharedStringData(mContext, Constans.keyStr)) && taskTime > 0) { // 用户已经登录，并且握手没有失效，调用销售额接口
+                getYMDSales();
+            }
         }
     }
 
@@ -200,11 +210,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     @Override
                     protected void _onNext(HuiTianResponse<SalttimeBean> response) {
                         if (response.getState() == 1) { // 握手成功
-                            // 保存密串有效的最迟时间戳
-                            // 当前时间超出最晚时间戳则接口二次认证密匙自动失效,
-                            // 客户端需记录保存该失效时间，
-                            // 失效时间到期前无需再次调用一次认证接口直至失效时间邻近
-                            // 或者失效时间超过再次调用一次认证接口重新进行计算接口密串
                             // 客户端注意处理好提前进行一次认证接口自动调用和异常自动补偿认证逻辑以防接口认证失败
                             long expire = (long) response.getData().getExpire() * 1000L;
                             long l = System.currentTimeMillis();
@@ -229,7 +234,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                             SPUtils.setSharedStringData(mContext, Constans.K, Constans.k);
                             // 时间戳保存到本地
                             SPUtils.setSharedLongData(mContext, Constans.EXPIRE_TIME, expire);
-                            showShortToast("一次握手成功");
+//                            showShortToast("一次握手成功");
                         } else { // 当服务器返回的不是成功 1 ，重新进行一次握手
                             getSalttime();
                         }
@@ -341,14 +346,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.right_iv:
-                if (TextUtils.isEmpty(SPUtils.getSharedStringData(this, Constans.keyStr))) {
-                    startActivity(LoginActivity.class);
-                } else {
-                    showShortToast("您已登录");
-                }
                 break;
             case R.id.delivery_tv:
-                ToastUitl.showShort("发货担保");
                 // 退出登陆
                 loginOut();
                 break;
@@ -362,7 +361,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 ToastUitl.showShort("销售下单");
                 break;
             case R.id.fahuo_search_tv:
-//                ToastUitl.showShort("发货查询");
                 startActivity(StockWebViewActivity.class);
                 break;
             case R.id.kucun_search_tv:
@@ -400,9 +398,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                             SharedPreferences sp = mContext.getSharedPreferences(Constans.COOKIE_PREF, Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor = sp.edit();
                             editor.clear().commit();
-                            showShortToast(response.getMessage());
                             // 重新握手
                             getSalttime();
+                        } else {
+                            showShortToast(response.getMessage());
                         }
                     }
 
@@ -431,6 +430,17 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         } else {
             finish();
             System.exit(0);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Constans.LOGIN_ACTIVITY && resultCode == Constans.LOGIN_ACTIVITY) {
+            initData();
+        }
+        if (requestCode == Constans.LOGIN_ACTIVITY && resultCode == Constans.EXIT_SYSTEM) {
+            finish();
         }
     }
 
