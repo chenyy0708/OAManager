@@ -118,6 +118,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
         if (cbPwSelect.isChecked()) {
             SPUtils.setSharedStringData(this, Constans.PASSWORD, editTextPw.getText().toString().trim());
         }
+        // 保存用户昵称
+        SPUtils.setSharedStringData(mContext,Constans.USER_NICK_NAME,loginBean.getUser_info().getUSER_NAME());
         // 保存keystr信息，用于登陆失效免密登陆
         SPUtils.setSharedStringData(mContext, Constans.keyStr, loginBean.getKey_str());
         // 设置结果，并进行传送

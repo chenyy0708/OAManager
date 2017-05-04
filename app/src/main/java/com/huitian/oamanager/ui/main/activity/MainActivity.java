@@ -21,7 +21,6 @@ import com.huitian.oamanager.api.Api;
 import com.huitian.oamanager.app.App;
 import com.huitian.oamanager.app.Constans;
 import com.huitian.oamanager.bean.HuiTianResponse;
-import com.huitian.oamanager.bean.SalttimeBean;
 import com.huitian.oamanager.bean.YMDSales;
 import com.huitian.oamanager.ui.user.activity.LoginActivity;
 import com.huitian.oamanager.ui.user.activity.ModifyPasswordActivity;
@@ -33,12 +32,8 @@ import com.jaydenxiao.common.base.BaseActivity;
 import com.jaydenxiao.common.baserx.RxSchedulers;
 import com.jaydenxiao.common.baserx.RxSubscriber;
 import com.jaydenxiao.common.commonutils.SPUtils;
-import com.jaydenxiao.common.commonutils.ToastUitl;
 import com.jaydenxiao.common.imagePager.BigImagePagerActivity;
 
-import org.apache.commons.codec.binary.Base64;
-
-import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Timer;
@@ -141,6 +136,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             // 一次握手
             getSalttime();
         }
+        // 设置用户昵称
+        TextView tvNickName = (TextView) navigationView.getHeaderView(0).findViewById(R.id.tv_nick_name);
+//            tvNickName.setText(SPUtils.getSharedStringData(mContext,Constans.USER_NICK_NAME));
+        tvNickName.setText("哈哈哈，你好!");
     }
 
     /**
@@ -152,6 +151,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         } else { // 用户已经登录，获取销售额
             // 获取首页销售额
             getYMDSales();
+            // 设置用户昵称
+            TextView tvNickName = (TextView) navigationView.getHeaderView(0).findViewById(R.id.tv_nick_name);
+            tvNickName.setText(SPUtils.getSharedStringData(mContext, Constans.USER_NICK_NAME) + "，你好!");
         }
     }
 

@@ -38,6 +38,8 @@ public class Constans {
     public static final String T = "t";
     public static final String K = "k";
     public static final String EXPIRE_TIME = "expire";
+    public static final String USER_NICK_NAME = "userNiceName";
+
     // 保存cookie到本地的SP名称
     public static final String COOKIE_PREF = "cookies_prefs";
     // 跳转到登录Activity的RequestCode

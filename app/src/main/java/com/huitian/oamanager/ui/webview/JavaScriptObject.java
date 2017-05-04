@@ -1,7 +1,11 @@
 package com.huitian.oamanager.ui.webview;
 
 import android.content.Context;
+import android.content.Intent;
 import android.webkit.JavascriptInterface;
+
+import com.huitian.oamanager.ui.user.activity.LoginActivity;
+import com.jaydenxiao.common.baseapp.AppManager;
 
 
 /**
@@ -17,11 +21,15 @@ public class JavaScriptObject {
     }
 
     /**
-     * 友盟regID
+     * 跳转到LoginActivity
      */
     @JavascriptInterface
-    public void nativeShare(String data) {
-
+    public void jumpLoginActivity() {
+        mContext.startActivity(new Intent(mContext, LoginActivity.class));
+        // 跳转到登录Activity
+        StockWebViewActivity stockWebViewActivity = (StockWebViewActivity) mContext;
+        // 关闭打开的WebViewActivity
+        AppManager.getAppManager().finishActivity(StockWebViewActivity.class);
     }
 
 }
