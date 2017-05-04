@@ -44,5 +44,7 @@ public class Constans {
     public static final int LOGIN_ACTIVITY = 100;
     // 退出页面ResultCode
     public static final int EXIT_SYSTEM = 101;
+    // 跳转Splash欢迎页RequestCode
+    public static final int SPLASH_ACT = 102;
 
 }

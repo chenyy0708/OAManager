@@ -48,8 +48,10 @@ public class StockWebViewActivity extends BaseWebViewActivity {
         // 给左上角的图标加上一个返回的图标
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        toolBarTitleTv.setText("月汇总数据查询");
+        toolBarTitleTv.setText("发货查询");
         toolBarTitleTv.setTextColor(getResources().getColor(R.color.white));
+        rightTv.setVisibility(View.VISIBLE);
+        rightTv.setText("筛选");
         toolBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,7 +60,7 @@ public class StockWebViewActivity extends BaseWebViewActivity {
         });
         initWebView(webview);
         webview.setWebViewClient(new MyWebViewClient());
-        webview.loadUrl("https://www.baidu.com/");
+        webview.loadUrl("http://192.168.1.180:82/oa/shippingQuery.html");
     }
 
 
