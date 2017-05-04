@@ -4,7 +4,6 @@ package com.huitian.oamanager.ui.main.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.NavigationView;
@@ -46,7 +45,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.bingoogolapple.bgabanner.BGABanner;
 
@@ -403,33 +401,41 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             case R.id.right_iv:
                 break;
             case R.id.delivery_tv:
-                // 退出登陆
+                showShortToast("敬请期待");
                 break;
             case R.id.shengpi_tv:
+                showShortToast("敬请期待");
 //                ToastUitl.showShort("审批担保");
                 break;
             case R.id.zaiquan_tv:
+                showShortToast("敬请期待");
 //                ToastUitl.showShort("债权提醒");
                 break;
             case R.id.xiadan_tv:
+                showShortToast("敬请期待");
 //                ToastUitl.showShort("销售下单");
                 break;
             case R.id.fahuo_search_tv:
                 startActivity(StockWebViewActivity.class);
                 break;
             case R.id.kucun_search_tv:
+                showShortToast("敬请期待");
 //                ToastUitl.showShort("库存查询");
                 break;
             case R.id.data_search_tv:
+                showShortToast("敬请期待");
 //                ToastUitl.showShort("数据查询");
                 break;
             case R.id.wuliu_search_tv:
+                showShortToast("敬请期待");
 //                ToastUitl.showShort("物理查询");
                 break;
             case R.id.zhaiquan_search_tv:
+                showShortToast("敬请期待");
 //                ToastUitl.showShort("债权查询");
                 break;
             case R.id.working_search_tv:
+                showShortToast("敬请期待");
 //                ToastUitl.showShort("业绩查询");
                 break;
         }

@@ -133,6 +133,13 @@
                     android:layout_marginTop="@dimen/dp_10"
                     android:background="@drawable/shape_main">
 
+                    <View
+                        android:layout_width="2dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="16dp"
+                        android:layout_marginTop="16dp"
+                        android:background="@drawable/shape_vertical_divider" />
+
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
@@ -153,15 +160,9 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="24dp"
                             android:text=""
-                            android:textColor="@color/text_color_72A" />
+                            android:textColor="@color/text_color_72A"
+                            android:textSize="@dimen/text_11" />
                     </LinearLayout>
-
-                    <View
-                        android:layout_width="2dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="16dp"
-                        android:layout_marginTop="16dp"
-                        android:background="@drawable/shape_vertical_divider" />
 
                     <LinearLayout
                         android:layout_width="0dp"
