@@ -126,9 +126,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         // 设置toolbar的标题
         centerIv.setVisibility(View.VISIBLE);
         centerIv.setImageResource(R.mipmap.icon_logo);
-        //        rightIv.setVisibility(View.VISIBLE);
-        // 加载圆形图片
-//        ImageUtils.loadCircle(this, "https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1942495469,4050776630&fm=23&gp=0.jpg", rightIv);
         // 初始化轮播图
         initBanner();
         // 初始化日期
@@ -147,6 +144,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         initData();
     }
 
+    /**
+     * 初始化数据
+     */
     private void initData() {
         if (TextUtils.isEmpty(SPUtils.getSharedStringData(this, Constans.keyStr))) { // 用户没有登录，跳转到登录界面
             startActivityForResult(LoginActivity.class, Constans.LOGIN_ACTIVITY);
@@ -158,6 +158,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         }
     }
 
+    /**
+     * 销售额数据
+     */
     private void getYMDSales() {
         mRxManager.add(Api.getDefault().getYMDSales(Api.getCacheControl(), Constans.m, Constans.n, Constans.t, Constans.k)
                 .compose(RxSchedulers.<HuiTianResponse<YMDSales>>io_main()).subscribe(new RxSubscriber<HuiTianResponse<YMDSales>>(mContext, false) {
@@ -299,6 +302,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         currentWeekTv.setText(Month);
     }
 
+    /**
+     * 初始化轮播图数据和点击事件
+     */
     private void initBanner() {
         mainBanner.setAdapter(new BGABanner.Adapter<ImageView, String>() {
             @Override
@@ -307,8 +313,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             }
         });
         // 设置数据
-        mainBanner.setData(Arrays.asList("http://img07.tooopen.com/images/20170412/tooopen_sy_205630266491.jpg", "http://img07.tooopen.com/images/20170412/tooopen_sy_205630266491.jpg",
-                "http://img07.tooopen.com/images/20170412/tooopen_sy_205630266491.jpg", "http://img07.tooopen.com/images/20170412/tooopen_sy_205630266491.jpg"), null);
+        mainBanner.setData(Arrays.asList("http://img07.tooopen.com/images/20170412/tooopen_sy_205630266491.jpg", "http://scimg.jb51.net/allimg/150629/14-1506291A242927.jpg",
+                "http://pic4.nipic.com/20091121/3764872_215617048242_2.jpg", "http://scimg.jb51.net/allimg/151228/14-15122Q60431W4.jpg"), null);
         mainBanner.setDelegate(new BGABanner.Delegate<ImageView, String>() {
             @Override
             public void onBannerItemClick(BGABanner banner, ImageView itemView, String model, int position) {
@@ -317,6 +323,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         });
     }
 
+    /**
+     * 初始化DrawLayout侧边栏
+     */
     private void initDrawLayout() {
         //创建返回键，并实现打开关/闭监听
         mDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolBar, R.string.open, R.string.close);
@@ -382,6 +391,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         }
     }
 
+    /**
+     * 退出登陆接口
+     */
     private void loginOut() {
         mRxManager.add(Api.getDefault().loginOut(Api.getCacheControl(), Constans.m, Constans.n, Constans.t, Constans.k)
                 .compose(RxSchedulers.<HuiTianResponse<String>>io_main()).subscribe(new RxSubscriber<HuiTianResponse<String>>(mContext, false) {
@@ -400,6 +412,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                             SharedPreferences.Editor editor = sp.edit();
                             editor.clear().commit();
                             showShortToast("退出登陆成功");
+                            // 跳转登陆界面
+                            startActivityForResult(LoginActivity.class, Constans.LOGIN_ACTIVITY);
                             // 重新握手
                             getSalttime();
                         } else {
