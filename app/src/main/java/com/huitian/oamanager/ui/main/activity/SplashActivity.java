@@ -33,8 +33,8 @@ public class SplashActivity extends Activity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                finish();
                 setResult(Constans.SPLASH_ACT);
+                finish();
             }
         }, 3000);
     }

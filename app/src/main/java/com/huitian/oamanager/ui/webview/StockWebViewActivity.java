@@ -68,7 +68,8 @@ public class StockWebViewActivity extends BaseWebViewActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.right_tv:
-                showShortToast("筛选");
+                //  筛选
+                webview.loadUrl("javascript:showSearch()");
                 break;
         }
     }
@@ -84,6 +85,7 @@ public class StockWebViewActivity extends BaseWebViewActivity {
         @Override
         public void onPageFinished(WebView view, String url) {
             LogUtils.logd(view.getUrl());
+            //  隐藏头部
             super.onPageFinished(view, url);
         }
 
