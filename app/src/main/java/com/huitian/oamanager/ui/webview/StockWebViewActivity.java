@@ -1,9 +1,9 @@
 package com.huitian.oamanager.ui.webview;
 
-import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.webkit.WebChromeClient;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -15,6 +15,7 @@ import com.huitian.oamanager.app.BaseWebViewActivity;
 import com.jaydenxiao.common.commonutils.LogUtils;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 
 /**
  * Created by Chen on 2017/5/2.
@@ -41,7 +42,6 @@ public class StockWebViewActivity extends BaseWebViewActivity {
 
     @Override
     public void initWebView() {
-        startProgressDialog("正在加载");
         setToolBar(toolBar, "");
         // 设置图标
         toolBar.setBackgroundColor(getResources().getColor(R.color.mainColor));
@@ -60,7 +60,17 @@ public class StockWebViewActivity extends BaseWebViewActivity {
         });
         initWebView(webview);
         webview.setWebViewClient(new MyWebViewClient());
+        webview.setWebChromeClient(new WebChromeClient());
         webview.loadUrl("http://192.168.1.180:82/oa/shippingQuery.html");
+    }
+
+    @OnClick({R.id.right_tv})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.right_tv:
+                showShortToast("筛选");
+                break;
+        }
     }
 
 
@@ -73,7 +83,6 @@ public class StockWebViewActivity extends BaseWebViewActivity {
 
         @Override
         public void onPageFinished(WebView view, String url) {
-            stopProgressDialog();
             LogUtils.logd(view.getUrl());
             super.onPageFinished(view, url);
         }
@@ -89,14 +98,4 @@ public class StockWebViewActivity extends BaseWebViewActivity {
         }
     }
 
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        try {
-            super.onConfigurationChanged(newConfig);
-            if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            } else if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-            }
-        } catch (Exception ex) {
-        }
-    }
 }

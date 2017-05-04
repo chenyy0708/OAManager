@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.huitian.oamanager.R;
 import com.huitian.oamanager.app.Constans;
+import com.jaydenxiao.common.baseapp.AppManager;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -38,4 +39,8 @@ public class SplashActivity extends Activity {
         }, 3000);
     }
 
+    @Override
+    public void onBackPressed() {
+        AppManager.getAppManager().AppExit(this,false);
+    }
 }

@@ -19,6 +19,7 @@ import com.huitian.oamanager.ui.user.model.LoginModel;
 import com.huitian.oamanager.ui.user.presenter.LoginPresenter;
 import com.huitian.oamanager.util.PhoneNumberUtils;
 import com.jaydenxiao.common.base.BaseActivity;
+import com.jaydenxiao.common.baseapp.AppManager;
 import com.jaydenxiao.common.commonutils.SPUtils;
 import com.jaydenxiao.common.commonutils.ToastUitl;
 

@@ -6,6 +6,7 @@ import android.webkit.JavascriptInterface;
 
 import com.huitian.oamanager.ui.user.activity.LoginActivity;
 import com.jaydenxiao.common.baseapp.AppManager;
+import com.jaydenxiao.common.commonutils.ToastUitl;
 
 
 /**
@@ -25,6 +26,7 @@ public class JavaScriptObject {
      */
     @JavascriptInterface
     public void jumpLoginActivity() {
+        ToastUitl.showShort("调用了方法");
         mContext.startActivity(new Intent(mContext, LoginActivity.class));
         // 跳转到登录Activity
         StockWebViewActivity stockWebViewActivity = (StockWebViewActivity) mContext;

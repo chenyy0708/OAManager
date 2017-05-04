@@ -138,7 +138,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         }
         // 设置用户昵称
         TextView tvNickName = (TextView) navigationView.getHeaderView(0).findViewById(R.id.tv_nick_name);
-//            tvNickName.setText(SPUtils.getSharedStringData(mContext,Constans.USER_NICK_NAME));
         tvNickName.setText("哈哈哈，你好!");
     }
 
