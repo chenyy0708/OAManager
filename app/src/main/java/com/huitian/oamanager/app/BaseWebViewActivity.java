@@ -6,7 +6,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.huitian.oamanager.util.JavaScriptObject;
+import com.huitian.oamanager.ui.webview.JavaScriptObject;
 import com.jaydenxiao.common.base.BaseActivity;
 
 /**

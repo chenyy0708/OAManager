@@ -56,15 +56,15 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
 
     @Override
     public void initView() {
+        // 忘记密码textview颜色部分变化
         SpannableStringBuilder builder = new SpannableStringBuilder(forgetPwTv.getText().toString());
         //ForegroundColorSpan 为文字前景色，BackgroundColorSpan为文字背景色
         ForegroundColorSpan mainColor = new ForegroundColorSpan(getResources().getColor(R.color.mainColor));
         builder.setSpan(mainColor, 4, 5, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         forgetPwTv.setText(builder);
+        // 将保存的账号和密码输入到EditText中
         editTextUsername.setText(SPUtils.getSharedStringData(this, Constans.USERNAME));
         editTextPw.setText(SPUtils.getSharedStringData(this, Constans.PASSWORD));
-//        editTextUsername.setText("13871750550");
-//        editTextPw.setText("750619");
     }
 
 
@@ -92,14 +92,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
                     return;
                 }
                 mPresenter.loginUser(userName, passWord, "");
-//                if(TextUtils.isEmpty(SPUtils.getSharedStringData(mContext, Constans.keyStr))) { // 如果Key_str为空第一次登录，需要调用账号密码登录接口
-//                    // 调用Presenter的登陆方法
-//                    mPresenter.loginUser(userName, passWord,"");
-//                }else{ // key_str不为空，直接调用key_str登录
-//                    String sharedStringData = SPUtils.getSharedStringData(mContext, Constans.keyStr);
-//                    // 调用Presenter的登陆方法
-//                    mPresenter.loginUser("", "",sharedStringData);
-//                }
                 break;
         }
     }
@@ -124,7 +116,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
         // 记住用户名
         SPUtils.setSharedStringData(this, Constans.USERNAME, editTextUsername.getText().toString().trim());
         if (cbPwSelect.isChecked()) {
-            SPUtils.setSharedStringData(this, Constans.USERNAME, editTextUsername.getText().toString().trim());
             SPUtils.setSharedStringData(this, Constans.PASSWORD, editTextPw.getText().toString().trim());
         }
         // 保存keystr信息，用于登陆失效免密登陆

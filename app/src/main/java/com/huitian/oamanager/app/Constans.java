@@ -38,13 +38,11 @@ public class Constans {
     public static final String T = "t";
     public static final String K = "k";
     public static final String EXPIRE_TIME = "expire";
-    // 进入APP，当时间戳没有过期，后面一分钟更新一次握手
-    public static final long TASK_TIME = 1 * 1000;
-    // 保存cookie到本地
+    // 保存cookie到本地的SP名称
     public static final String COOKIE_PREF = "cookies_prefs";
-    // 跳转到登录Activity
+    // 跳转到登录Activity的RequestCode
     public static final int LOGIN_ACTIVITY = 100;
-    // 退出页面
+    // 退出页面ResultCode
     public static final int EXIT_SYSTEM = 101;
 
 }

@@ -119,10 +119,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Override
     public void initView() {
         setToolBar(toolBar, "");
+        // 初始化侧边栏
         initDrawLayout();
-        int color = getResources().getColor(R.color.colorPrimary);
         // 沉浸式状态栏
-        StatusBarUtil.setColorForDrawerLayout(MainActivity.this, drawerLayout, color, 1);
+        StatusBarUtil.setColorForDrawerLayout(MainActivity.this, drawerLayout, getResources().getColor(R.color.colorPrimary), 1);
         // 设置toolbar的标题
         centerIv.setVisibility(View.VISIBLE);
         centerIv.setImageResource(R.mipmap.icon_logo);
@@ -192,7 +192,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
      * 一次握手
      */
     private void getSalttime() {
-        // 获取到随机字符串
+        // 获取到10位的随机字符串
         String randomString = MD5Utils.getRandomString(10).toLowerCase();
         String s = null; // 一次握手需要的参数
         try {
@@ -214,6 +214,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     protected void _onNext(HuiTianResponse<SalttimeBean> response) {
                         if (response.getState() == 1) { // 握手成功
                             // 客户端注意处理好提前进行一次认证接口自动调用和异常自动补偿认证逻辑以防接口认证失败
+                            // PHP的时间戳需要乘以1000才跟java获取的相同
                             long expire = (long) response.getData().getExpire() * 1000L;
                             long l = System.currentTimeMillis();
                             // 服务器返回的时间戳 - 当前时间戳 = 时间戳有效期（在有效期失效之前需要提前进行一次握手） 提前一分钟去握手
@@ -237,7 +238,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                             SPUtils.setSharedStringData(mContext, Constans.K, Constans.k);
                             // 时间戳保存到本地
                             SPUtils.setSharedLongData(mContext, Constans.EXPIRE_TIME, expire);
-//                            showShortToast("一次握手成功");
                         } else { // 当服务器返回的不是成功 1 ，重新进行一次握手
                             getSalttime();
                         }
