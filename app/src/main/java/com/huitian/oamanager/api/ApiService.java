@@ -4,16 +4,14 @@ package com.huitian.oamanager.api;
 import com.huitian.oamanager.bean.GenCodeBean;
 import com.huitian.oamanager.bean.HuiTianResponse;
 import com.huitian.oamanager.bean.LoginBean;
-import com.huitian.oamanager.bean.MeizhiData;
+import com.huitian.oamanager.bean.PaymentZhaiQuanBean;
 import com.huitian.oamanager.bean.SalttimeBean;
 import com.huitian.oamanager.bean.YMDSales;
 
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
-import retrofit2.http.Path;
 import rx.Observable;
 
 /**
@@ -155,6 +153,27 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("report/getYMDSales")
     Observable<HuiTianResponse<YMDSales>> getYMDSales(
+            @Header("Cache-Control") String cacheControl,
+            @Header("m") String m,
+            @Header("n") String n,
+            @Header("t") String t,
+            @Field("k") String k
+    );
+
+
+    /**
+     * 债权和回款
+     *
+     * @param cacheControl
+     * @param m
+     * @param n
+     * @param t
+     * @param k
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("report/getCreditInfo")
+    Observable<HuiTianResponse<PaymentZhaiQuanBean>> getPaymentAndZhaiQuan(
             @Header("Cache-Control") String cacheControl,
             @Header("m") String m,
             @Header("n") String n,

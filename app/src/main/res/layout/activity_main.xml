@@ -152,7 +152,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="24dp"
-                            android:text="100,000"
+                            android:text=""
                             android:textColor="@color/text_color_72A" />
                     </LinearLayout>
 
@@ -182,8 +182,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="24dp"
-                            android:text="100,000"
-                            android:textColor="@color/text_color_E6A" />
+                            android:text=""
+                            android:textColor="@color/text_color_E6A"
+                            android:textSize="@dimen/text_11" />
                     </LinearLayout>
 
                     <View
@@ -201,7 +202,6 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/tv_month_return_money"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="当月回款"
@@ -209,11 +209,13 @@
                             android:textSize="@dimen/text_11" />
 
                         <TextView
+                            android:id="@+id/tv_month_return_money"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="24dp"
-                            android:text="100,000"
-                            android:textColor="@color/text_color_91D" />
+                            android:text=""
+                            android:textColor="@color/text_color_91D"
+                            android:textSize="@dimen/text_11" />
                     </LinearLayout>
 
                     <View
@@ -242,8 +244,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="24dp"
-                            android:text="100,000"
-                            android:textColor="@color/text_color_F66" />
+                            android:text=""
+                            android:textColor="@color/text_color_F66"
+                            android:textSize="@dimen/text_11" />
                     </LinearLayout>
 
                 </LinearLayout>

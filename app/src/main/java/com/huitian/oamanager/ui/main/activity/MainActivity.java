@@ -4,6 +4,7 @@ package com.huitian.oamanager.ui.main.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.NavigationView;
@@ -21,6 +22,7 @@ import com.huitian.oamanager.api.Api;
 import com.huitian.oamanager.app.App;
 import com.huitian.oamanager.app.Constans;
 import com.huitian.oamanager.bean.HuiTianResponse;
+import com.huitian.oamanager.bean.PaymentZhaiQuanBean;
 import com.huitian.oamanager.bean.SalttimeBean;
 import com.huitian.oamanager.bean.YMDSales;
 import com.huitian.oamanager.ui.user.activity.LoginActivity;
@@ -44,6 +46,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.bingoogolapple.bgabanner.BGABanner;
 
@@ -96,6 +99,14 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     TextView tvMonthSale;
     @Bind(R.id.tv_year_sale)
     TextView tvYearSale;
+    @Bind(R.id.tv_zhaiquan)
+    TextView tvZhaiquan;
+    @Bind(R.id.day_return_money)
+    TextView dayReturnMoney;
+    @Bind(R.id.tv_month_return_money)
+    TextView tvMonthReturnMoney;
+    @Bind(R.id.tv_year_return_money)
+    TextView tvYearReturnMoney;
     private ActionBarDrawerToggle mDrawerToggle;
     private long taskTime;
 
@@ -151,12 +162,40 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         } else { // 用户已经登录，获取销售额
             // 获取首页销售额
             getYMDSales();
+            // 获取债权信息和回款信息
+            getPaymentAndZhaiQuan();
             // 设置用户昵称
             TextView tvNickName = (TextView) navigationView.getHeaderView(0).findViewById(R.id.tv_nick_name);
             if (!TextUtils.isEmpty(SPUtils.getSharedStringData(mContext, Constans.USER_NICK_NAME))) { // 如果昵称不为空，设置
                 tvNickName.setText(SPUtils.getSharedStringData(mContext, Constans.USER_NICK_NAME) + "，你好!");
             }
         }
+    }
+
+    private void getPaymentAndZhaiQuan() {
+        mRxManager.add(Api.getDefault().getPaymentAndZhaiQuan(Api.getCacheControl(), Constans.m, Constans.n, Constans.t, Constans.k)
+                .compose(RxSchedulers.<HuiTianResponse<PaymentZhaiQuanBean>>io_main()).subscribe(new RxSubscriber<HuiTianResponse<PaymentZhaiQuanBean>>(mContext, false) {
+                    @Override
+                    public void onStart() {
+                        super.onStart();
+                    }
+
+                    @Override
+                    protected void _onNext(HuiTianResponse<PaymentZhaiQuanBean> response) {
+                        if (response.getState() == 1) {
+                            tvZhaiquan.setText(String.valueOf(response.getData().getCREDIT_AMOUNT()));
+                            dayReturnMoney.setText(String.valueOf(response.getData().getDay()));
+                            tvMonthReturnMoney.setText(String.valueOf(response.getData().getMonth()));
+                            tvYearReturnMoney.setText(String.valueOf(response.getData().getYear()));
+                        }
+                    }
+
+                    @Override
+                    protected void _onError(String message) {
+                        stopProgressDialog();
+                        showShortToast(message);
+                    }
+                }));
     }
 
     /**
