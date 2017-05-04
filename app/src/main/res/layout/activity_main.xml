@@ -126,6 +126,127 @@
                     </LinearLayout>
 
                 </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:background="@drawable/shape_main">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="当前债权"
+                            android:textColor="@color/text_color_2A2"
+                            android:textSize="@dimen/text_11" />
+
+                        <TextView
+                            android:id="@+id/tv_zhaiquan"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="24dp"
+                            android:text="100,000"
+                            android:textColor="@color/text_color_72A" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="2dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="16dp"
+                        android:layout_marginTop="16dp"
+                        android:background="@drawable/shape_vertical_divider" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="当天回款"
+                            android:textColor="@color/text_color_2A2"
+                            android:textSize="@dimen/text_11" />
+
+                        <TextView
+                            android:id="@+id/day_return_money"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="24dp"
+                            android:text="100,000"
+                            android:textColor="@color/text_color_E6A" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="2dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="16dp"
+                        android:layout_marginTop="16dp"
+                        android:background="@drawable/shape_vertical_divider" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tv_month_return_money"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="当月回款"
+                            android:textColor="@color/text_color_2A2"
+                            android:textSize="@dimen/text_11" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="24dp"
+                            android:text="100,000"
+                            android:textColor="@color/text_color_91D" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="2dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="16dp"
+                        android:layout_marginTop="16dp"
+                        android:background="@drawable/shape_vertical_divider" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="本年回款"
+                            android:textColor="@color/text_color_2A2"
+                            android:textSize="@dimen/text_11" />
+
+                        <TextView
+                            android:id="@+id/tv_year_return_money"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="24dp"
+                            android:text="100,000"
+                            android:textColor="@color/text_color_F66" />
+                    </LinearLayout>
+
+                </LinearLayout>
                 <!--业务处理-->
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -278,10 +399,13 @@
                             style="@style/business_process"
                             android:text="" />
                     </LinearLayout>
+
                 </LinearLayout>
 
             </LinearLayout>
+
         </ScrollView>
+
     </LinearLayout>
 
     <android.support.design.widget.NavigationView
