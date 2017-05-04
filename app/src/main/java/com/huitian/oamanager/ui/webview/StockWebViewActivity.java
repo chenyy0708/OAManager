@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.webkit.WebChromeClient;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -95,8 +96,13 @@ public class StockWebViewActivity extends BaseWebViewActivity {
         }
 
         @Override
-        public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
-            return super.shouldInterceptRequest(view, url);
+        public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
+            if (request.getUrl().equals("salttime")) {
+                LogUtils.logd("getMethod" + request.getMethod());
+                LogUtils.logd("getUrl" + request.getUrl());
+                LogUtils.logd("getRequestHeaders" + request.getRequestHeaders());
+            }
+            return super.shouldInterceptRequest(view, request);
         }
     }
 

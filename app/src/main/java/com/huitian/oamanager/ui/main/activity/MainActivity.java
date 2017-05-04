@@ -153,7 +153,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             getYMDSales();
             // 设置用户昵称
             TextView tvNickName = (TextView) navigationView.getHeaderView(0).findViewById(R.id.tv_nick_name);
-            tvNickName.setText(SPUtils.getSharedStringData(mContext, Constans.USER_NICK_NAME) + "，你好!");
+            if (!TextUtils.isEmpty(SPUtils.getSharedStringData(mContext, Constans.USER_NICK_NAME))) { // 如果昵称不为空，设置
+                tvNickName.setText(SPUtils.getSharedStringData(mContext, Constans.USER_NICK_NAME) + "，你好!");
+            }
         }
     }
 
@@ -218,6 +220,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                             long l = System.currentTimeMillis();
                             // 服务器返回的时间戳 - 当前时间戳 = 时间戳有效期（在有效期失效之前需要提前进行一次握手） 提前一分钟去握手
                             taskTime = (expire - l) - (1000 * 60);
+                            if (taskTime < 0) { // 如果taskTime为负数，设置一个默认值 1分钟
+                                taskTime = 1 * 6000;
+                            }
                             // 移除handler里面的消息
                             mHandler.removeCallbacksAndMessages(null);
                             // 开启定时任务
@@ -317,7 +322,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         mainBanner.setDelegate(new BGABanner.Delegate<ImageView, String>() {
             @Override
             public void onBannerItemClick(BGABanner banner, ImageView itemView, String model, int position) {
-                BigImagePagerActivity.startImagePagerActivity(MainActivity.this, Arrays.asList(model), 0);
+                BigImagePagerActivity.startImagePagerActivity(MainActivity.this, Arrays.asList("http://img07.tooopen.com/images/20170412/tooopen_sy_205630266491.jpg", "http://scimg.jb51.net/allimg/150629/14-1506291A242927.jpg",
+                        "http://pic4.nipic.com/20091121/3764872_215617048242_2.jpg", "http://scimg.jb51.net/allimg/151228/14-15122Q60431W4.jpg"), position);
             }
         });
     }
@@ -398,6 +404,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 .compose(RxSchedulers.<HuiTianResponse<String>>io_main()).subscribe(new RxSubscriber<HuiTianResponse<String>>(mContext, false) {
                     @Override
                     public void onStart() {
+                        startProgressDialog("正在退出登陆");
                         super.onStart();
                     }
 
@@ -418,10 +425,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                         } else {
                             showShortToast(response.getMessage());
                         }
+                        stopProgressDialog();
                     }
 
                     @Override
                     protected void _onError(String message) {
+                        stopProgressDialog();
                     }
                 }));
     }

@@ -2,7 +2,6 @@ package com.huitian.oamanager.app;
 
 import android.graphics.Bitmap;
 import android.webkit.WebResourceResponse;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -41,20 +40,21 @@ public abstract class BaseWebViewActivity extends BaseActivity {
      */
     public void initWebView(WebView webView) {
         webView.getSettings().setJavaScriptEnabled(true);
-        String appCachePath = getApplicationContext().getCacheDir().getAbsolutePath();
+//        String appCachePath = getApplicationContext().getCacheDir().getAbsolutePath();
         //设置数据库缓存路径
-        webView.getSettings().setDatabasePath(appCachePath);
-        webView.getSettings().setAppCachePath(appCachePath);
-        webView.getSettings().setAppCacheMaxSize(1024 * 1024 * 8);
-        webView.getSettings().setAllowFileAccess(true);
-        webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
+//        webView.getSettings().setDatabasePath(appCachePath);
+//        webView.getSettings().setAppCachePath(appCachePath);
+//        webView.getSettings().setAppCacheMaxSize(1024 * 1024 * 8);
+//        webView.getSettings().setAllowFileAccess(true);
+//        webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
         // 开启 DOM storage API 功能
         webView.getSettings().setDomStorageEnabled(true);
-        webView.getSettings().setAppCacheEnabled(true);
+//        webView.getSettings().setAppCacheEnabled(true);
         // 提供给H5的方法
         webView.addJavascriptInterface(new JavaScriptObject(mContext), "Android");
 //        webView.setWebViewClient(new MyWebViewClient());
-        webView.clearCache(true);//支持缓存
+        webView.clearCache(false);//支持缓存
+        webView.getSettings().setAllowFileAccessFromFileURLs(true);
     }
 
     private class MyWebViewClient extends WebViewClient {
