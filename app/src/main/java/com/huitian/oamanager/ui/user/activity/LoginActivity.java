@@ -19,7 +19,6 @@ import com.huitian.oamanager.ui.user.model.LoginModel;
 import com.huitian.oamanager.ui.user.presenter.LoginPresenter;
 import com.huitian.oamanager.util.PhoneNumberUtils;
 import com.jaydenxiao.common.base.BaseActivity;
-import com.jaydenxiao.common.baseapp.AppManager;
 import com.jaydenxiao.common.commonutils.SPUtils;
 import com.jaydenxiao.common.commonutils.ToastUitl;
 
@@ -65,7 +64,11 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
         forgetPwTv.setText(builder);
         // 将保存的账号和密码输入到EditText中
         editTextUsername.setText(SPUtils.getSharedStringData(this, Constans.USERNAME));
-        editTextPw.setText(SPUtils.getSharedStringData(this, Constans.PASSWORD));
+        String password = SPUtils.getSharedStringData(this, Constans.PASSWORD);
+        if (!"".equals(password)) {
+            editTextPw.setText(password);
+            cbPwSelect.setChecked(true);
+        }
     }
 
 
@@ -120,7 +123,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
             SPUtils.setSharedStringData(this, Constans.PASSWORD, editTextPw.getText().toString().trim());
         }
         // 保存用户昵称
-        SPUtils.setSharedStringData(mContext,Constans.USER_NICK_NAME,loginBean.getUser_info().getUSER_NAME());
+        SPUtils.setSharedStringData(mContext, Constans.USER_NICK_NAME, loginBean.getUser_info().getUSER_NAME());
         // 保存keystr信息，用于登陆失效免密登陆
         SPUtils.setSharedStringData(mContext, Constans.keyStr, loginBean.getKey_str());
         // 设置结果，并进行传送
