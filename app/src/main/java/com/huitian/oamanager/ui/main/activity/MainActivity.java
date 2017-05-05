@@ -107,6 +107,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     TextView tvYearReturnMoney;
     private ActionBarDrawerToggle mDrawerToggle;
     private long taskTime;
+    // 请求握手失败的次数
+    private int requestSalttimeFailCount = 0;
 
     private Handler mHandler = new Handler() {
         @Override
@@ -280,14 +282,31 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                             // 时间戳保存到本地
                             SPUtils.setSharedLongData(mContext, Constans.EXPIRE_TIME, expire);
                         } else { // 当服务器返回的不是成功 1 ，重新进行一次握手
-                            getSalttime();
+                            // 请求失败，记录一次失败
+                            requestSalttimeFailCount++;
+                            if (requestSalttimeFailCount > 10) { // 如果请求握手失败次数大于10，一分钟后在去请求
+                                requestSalttimeFailCount = 0; // 重置失败次数
+                                // 移除handler里面的消息
+                                mHandler.removeCallbacksAndMessages(null);
+                                mHandler.sendMessageDelayed(Message.obtain(), 60 * 1000);
+                            } else {
+                                getSalttime();
+                            }
                         }
                     }
 
                     @Override
                     protected void _onError(String message) {
-                        // 一次握手失败，重新进行握手
-                        getSalttime();
+                        // 请求失败，记录一次失败
+                        requestSalttimeFailCount++;
+                        if (requestSalttimeFailCount > 10) { // 如果请求握手失败次数大于10，一分钟后在去请求
+                            requestSalttimeFailCount = 0; // 重置失败次数
+                            // 移除handler里面的消息
+                            mHandler.removeCallbacksAndMessages(null);
+                            mHandler.sendMessageDelayed(Message.obtain(), 60 * 1000);
+                        } else {
+                            getSalttime();
+                        }
                     }
                 }));
     }
