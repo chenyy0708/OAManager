@@ -17,15 +17,11 @@
 package com.huitian.oamanager.api;
 
 public class ApiConstants {
-    public static final String SERVICE_URL = "http://cy1798.imwork.net";
+    public static final String SERVICE_URL = "http://cy1798.imwork.net";    // 正式服务器地址
+//    public static final String SERVICE_URL = "http://192.168.1.180:82";    // 测试服务器地址
 
 
-    // 程哥地址
     public static final String HUITIAN_OA_URL = SERVICE_URL + "/index.php/";
-    // 小胖地址
-//    public static final String HUITIAN_OA_URL = "http://192.168.1.180:82/index.php/";
-    // 正式服务器
-//    public static final String HUITIAN_OA_URL = "http://huitian.dev.com/index.php/";
 
     /**
      * 获取对应的host
