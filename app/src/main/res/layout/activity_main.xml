@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <!--toolbar-->
+        <!--toolbar_simple-->
         <include layout="@layout/toolbar_layout" />
 
         <ScrollView
@@ -312,6 +312,7 @@
                             android:drawableTop="@mipmap/icon_xiadan"
                             android:text="@string/xiadan" />
                     </LinearLayout>
+
                 </LinearLayout>
 
                 <!--业务查询-->

@@ -1,9 +1,10 @@
 package com.huitian.oamanager.ui.user.activity;
 
 
+import android.support.v7.widget.Toolbar;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.huitian.oamanager.R;
 import com.huitian.oamanager.ui.user.contract.ModifyPasswordContract;
@@ -15,8 +16,6 @@ import butterknife.Bind;
 import butterknife.OnClick;
 
 public class ModifyPasswordActivity extends BaseActivity<ModifyPasswordPresenter, ModifyPasswordModel> implements ModifyPasswordContract.View {
-    @Bind(R.id.iv_close)
-    ImageView ivClose;
     @Bind(R.id.et_old_pw)
     EditText etOldPw;
     @Bind(R.id.et_new_pw)
@@ -25,15 +24,14 @@ public class ModifyPasswordActivity extends BaseActivity<ModifyPasswordPresenter
     EditText etConfirmPw;
     @Bind(R.id.btn_commit)
     Button btnCommit;
+    @Bind(R.id.tv_toolbar_title)
+    TextView tvToolbarTitle;
+    @Bind(R.id.tool_bar)
+    Toolbar toolBar;
 
     @OnClick(R.id.btn_commit)
     public void changePassword() {
         commit();
-    }
-
-    @OnClick(R.id.iv_close)
-    public void finishActivity() {
-        finish();
     }
 
     @Override
@@ -48,6 +46,7 @@ public class ModifyPasswordActivity extends BaseActivity<ModifyPasswordPresenter
 
     @Override
     public void initView() {
+        setSimpleToolbar(toolBar, tvToolbarTitle, "修改密码");
     }
 
     private void commit() {
@@ -94,4 +93,5 @@ public class ModifyPasswordActivity extends BaseActivity<ModifyPasswordPresenter
     public void changePasswordFail(String msg) {
         showShortToast(msg);
     }
+
 }
