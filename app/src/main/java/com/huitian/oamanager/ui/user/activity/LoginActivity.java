@@ -14,11 +14,13 @@ import android.widget.TextView;
 import com.huitian.oamanager.R;
 import com.huitian.oamanager.app.Constans;
 import com.huitian.oamanager.bean.LoginBean;
+import com.huitian.oamanager.ui.main.activity.MainActivity;
 import com.huitian.oamanager.ui.user.contract.LoginContract;
 import com.huitian.oamanager.ui.user.model.LoginModel;
 import com.huitian.oamanager.ui.user.presenter.LoginPresenter;
 import com.huitian.oamanager.util.PhoneNumberUtils;
 import com.jaydenxiao.common.base.BaseActivity;
+import com.jaydenxiao.common.baseapp.AppManager;
 import com.jaydenxiao.common.commonutils.SPUtils;
 import com.jaydenxiao.common.commonutils.ToastUitl;
 
@@ -126,8 +128,16 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
         SPUtils.setSharedStringData(mContext, Constans.USER_NICK_NAME, loginBean.getUser_info().getUSER_NAME());
         // 保存keystr信息，用于登陆失效免密登陆
         SPUtils.setSharedStringData(mContext, Constans.keyStr, loginBean.getKey_str());
-        // 设置结果，并进行传送
-        this.setResult(Constans.LOGIN_ACTIVITY);
+        // 跳转主界面,如果主界面没有打开开启，如果开启了则关闭该界面
+//        if (AppManager.getAppManager().isOpenActivity(MainActivity.class)) { // 开启
+//            // 不是第一次打开MainActivity
+//            Constans.isFirstOpenMainActivity = false;
+//            finish();
+//        } else { // 未开启
+//            Constans.isFirstOpenMainActivity = true; // 第一次打开MainACtivity
+//            startActivity(MainActivity.class);
+//        }
+        startActivity(MainActivity.class);
         finish();
     }
 

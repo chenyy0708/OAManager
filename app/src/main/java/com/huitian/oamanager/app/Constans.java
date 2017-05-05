@@ -6,6 +6,8 @@ package com.huitian.oamanager.app;
  */
 
 public class Constans {
+    // 标记是否是第一次打开MainACtivity,默认为true
+    public static boolean isFirstOpenMainActivity = true;
     //  应用终端名
     public static String appname = "android";
     // 应用终端版本

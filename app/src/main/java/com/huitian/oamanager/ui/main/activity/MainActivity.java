@@ -116,6 +116,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             getSalttime();
         }
     };
+    private boolean isStartLoginActivity;
 
     @Override
     public int getLayoutId() {
@@ -150,7 +151,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             // 一次握手
             getSalttime();
         }
-        startActivityForResult(SplashActivity.class, Constans.SPLASH_ACT);
+        initData();
     }
 
     /**
@@ -158,7 +159,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
      */
     private void initData() {
         if (TextUtils.isEmpty(SPUtils.getSharedStringData(this, Constans.keyStr))) { // 用户没有登录，跳转到登录界面
-            startActivityForResult(LoginActivity.class, Constans.LOGIN_ACTIVITY);
+            finish();
+            startActivity(LoginActivity.class);
         } else { // 用户已经登录，获取销售额
             // 获取首页销售额
             getYMDSales();
@@ -281,6 +283,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                             SPUtils.setSharedStringData(mContext, Constans.K, Constans.k);
                             // 时间戳保存到本地
                             SPUtils.setSharedLongData(mContext, Constans.EXPIRE_TIME, expire);
+                            if (isStartLoginActivity) { // 是否跳转到登录
+                                finish();
+                                // 跳转登陆界面
+                                startActivity(LoginActivity.class);
+                            }
                         } else { // 当服务器返回的不是成功 1 ，重新进行一次握手
                             // 请求失败，记录一次失败
                             requestSalttimeFailCount++;
@@ -481,8 +488,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                             SharedPreferences.Editor editor = sp.edit();
                             editor.clear().commit();
                             showShortToast("退出登陆成功");
-                            // 跳转登陆界面
-                            startActivityForResult(LoginActivity.class, Constans.LOGIN_ACTIVITY);
+                            // 标记需要打开登录Activity
+                            isStartLoginActivity = true;
                             // 重新握手
                             getSalttime();
                         } else {
@@ -523,23 +530,23 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        // 从登录界面回到主界面，并且已经登录成功了，需要去获取销售额
-        if (requestCode == Constans.LOGIN_ACTIVITY && resultCode == Constans.LOGIN_ACTIVITY) {
-            initData();
-        }
+//        // 从登录界面回到主界面，并且已经登录成功了，需要去获取销售额
+//        if (requestCode == Constans.LOGIN_ACTIVITY && resultCode == Constans.LOGIN_ACTIVITY) {
+//            initData();
+//        }
         // 从登录界面回到主界面，用户没有登录，直接退出系统
-        if (requestCode == Constans.LOGIN_ACTIVITY && resultCode == Constans.EXIT_SYSTEM) {
-            finish();
-        }
-        // 从SplashActivity返回主界面，需要判断是否登录
-        if (requestCode == Constans.SPLASH_ACT && resultCode == Constans.SPLASH_ACT) {
-            initData();
-        }
+//        if (requestCode == Constans.LOGIN_ACTIVITY && resultCode == Constans.EXIT_SYSTEM) {
+//            finish();
+//        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        // 判断是否是第一次打开MainActivity
+//        if (!Constans.isFirstOpenMainActivity) { // 如果不是第一次打开，刷新数据
+//            initData();
+//        }
         if (mainBanner != null)
             mainBanner.startAutoPlay();
     }

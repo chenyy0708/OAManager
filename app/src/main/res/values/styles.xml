@@ -94,4 +94,10 @@
         <item name="colorControlNormal">@color/color_CAC</item>
         <item name="colorControlActivated">@color/mainColor</item>
     </style>
+
+
+    <!--闪屏页主题-->
+    <style name="ThemeSplash" parent="@android:style/Theme.NoTitleBar.Fullscreen">
+        <item name="android:windowBackground">@mipmap/splash</item>
+    </style>
 </resources>

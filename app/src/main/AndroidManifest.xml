@@ -45,11 +45,7 @@
             </intent-filter>
         </receiver>
         <activity android:name="com.huitian.oamanager.ui.main.activity.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <!-- 登陆 -->
         <activity
@@ -70,9 +66,15 @@
             android:windowSoftInputMode="adjustPan|stateHidden" />
 
         <!-- 欢迎页-->
-        <activity android:name=".ui.main.activity.SplashActivity"
-            android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen"
-            />
+        <activity
+            android:name=".ui.main.activity.SplashActivity"
+            android:theme="@style/ThemeSplash">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
