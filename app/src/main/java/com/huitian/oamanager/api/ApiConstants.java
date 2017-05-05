@@ -17,6 +17,9 @@
 package com.huitian.oamanager.api;
 
 public class ApiConstants {
+    public static final String SERVICE_URL = "http://192.168.1.44:84/index.php/";
+
+
     // 程哥地址
     public static final String HUITIAN_OA_URL = "http://192.168.1.44:84/index.php/";
     // 小胖地址

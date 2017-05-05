@@ -4,6 +4,8 @@ package com.huitian.oamanager.ui.main.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
+import android.content.res.Resources;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.NavigationView;
@@ -16,6 +18,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.huitian.oamanager.R;
 import com.huitian.oamanager.api.Api;
 import com.huitian.oamanager.app.App;
@@ -27,14 +30,12 @@ import com.huitian.oamanager.bean.YMDSales;
 import com.huitian.oamanager.ui.user.activity.LoginActivity;
 import com.huitian.oamanager.ui.user.activity.ModifyPasswordActivity;
 import com.huitian.oamanager.ui.webview.StockWebViewActivity;
-import com.huitian.oamanager.util.ImageUtils;
 import com.huitian.oamanager.util.MD5Utils;
 import com.jaeger.library.StatusBarUtil;
 import com.jaydenxiao.common.base.BaseActivity;
 import com.jaydenxiao.common.baserx.RxSchedulers;
 import com.jaydenxiao.common.baserx.RxSubscriber;
 import com.jaydenxiao.common.commonutils.SPUtils;
-import com.jaydenxiao.common.imagePager.BigImagePagerActivity;
 
 import org.apache.commons.codec.binary.Base64;
 
@@ -132,7 +133,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         // 初始化侧边栏
         initDrawLayout();
         // 沉浸式状态栏
-        StatusBarUtil.setColorForDrawerLayout(MainActivity.this, drawerLayout, getResources().getColor(R.color.colorPrimary), 1);
+//        StatusBarUtil.setColorForDrawerLayout(MainActivity.this, drawerLayout, getResources().getColor(R.color.colorPrimary), 1);
         // 设置toolbar的标题
         centerIv.setVisibility(View.VISIBLE);
         centerIv.setImageResource(R.mipmap.icon_logo);
@@ -284,12 +285,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                         } else { // 当服务器返回的不是成功 1 ，重新进行一次握手
                             // 请求失败，记录一次失败
                             requestSalttimeFailCount++;
-                            if (requestSalttimeFailCount > 10) { // 如果请求握手失败次数大于10，一分钟后在去请求
+                            if (requestSalttimeFailCount > 5) { // 如果请求握手失败次数大于10，一分钟后在去请求
                                 requestSalttimeFailCount = 0; // 重置失败次数
                                 // 移除handler里面的消息
                                 mHandler.removeCallbacksAndMessages(null);
                                 mHandler.sendMessageDelayed(Message.obtain(), 60 * 1000);
-                            } else {
+                            } else { // 失败次数小于5，握手
                                 getSalttime();
                             }
                         }
@@ -299,12 +300,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     protected void _onError(String message) {
                         // 请求失败，记录一次失败
                         requestSalttimeFailCount++;
-                        if (requestSalttimeFailCount > 10) { // 如果请求握手失败次数大于10，一分钟后在去请求
+                        if (requestSalttimeFailCount > 5) { // 如果请求握手失败次数大于10，一分钟后在去请求
                             requestSalttimeFailCount = 0; // 重置失败次数
                             // 移除handler里面的消息
                             mHandler.removeCallbacksAndMessages(null);
                             mHandler.sendMessageDelayed(Message.obtain(), 60 * 1000);
-                        } else {
+                        } else { // 失败次数小于5，握手
                             getSalttime();
                         }
                     }
@@ -366,22 +367,17 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
      * 初始化轮播图数据和点击事件
      */
     private void initBanner() {
-        mainBanner.setAdapter(new BGABanner.Adapter<ImageView, String>() {
+        mainBanner.setAdapter(new BGABanner.Adapter<ImageView, Integer>() {
             @Override
-            public void fillBannerItem(BGABanner banner, ImageView itemView, String model, int position) {
-                ImageUtils.load(mContext, model, itemView);
+            public void fillBannerItem(BGABanner banner, ImageView itemView, Integer model, int position) {
+                Glide.with(mContext).load(model)
+                        .centerCrop()
+                        .into(itemView)
+                ;
             }
         });
         // 设置数据
-        mainBanner.setData(Arrays.asList("http://img07.tooopen.com/images/20170412/tooopen_sy_205630266491.jpg", "http://scimg.jb51.net/allimg/150629/14-1506291A242927.jpg",
-                "http://pic4.nipic.com/20091121/3764872_215617048242_2.jpg", "http://scimg.jb51.net/allimg/151228/14-15122Q60431W4.jpg"), null);
-        mainBanner.setDelegate(new BGABanner.Delegate<ImageView, String>() {
-            @Override
-            public void onBannerItemClick(BGABanner banner, ImageView itemView, String model, int position) {
-                BigImagePagerActivity.startImagePagerActivity(MainActivity.this, Arrays.asList("http://img07.tooopen.com/images/20170412/tooopen_sy_205630266491.jpg", "http://scimg.jb51.net/allimg/150629/14-1506291A242927.jpg",
-                        "http://pic4.nipic.com/20091121/3764872_215617048242_2.jpg", "http://scimg.jb51.net/allimg/151228/14-15122Q60431W4.jpg"), position);
-            }
-        });
+        mainBanner.setData(Arrays.asList(R.mipmap.banner_1, R.mipmap.banner_2), null);
     }
 
     /**
@@ -397,6 +393,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         navigationView.setItemTextColor(null);
         navigationView.setItemIconTintList(null);
         navigationView.setNavigationItemSelectedListener(this);
+        Resources resource=(Resources)getBaseContext().getResources();
+        ColorStateList csl=(ColorStateList)resource.getColorStateList(R.color.color_afa);
+        navigationView.setItemTextColor(csl);
     }
 
     @Override

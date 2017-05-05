@@ -42,7 +42,7 @@
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="2"
+                        android:layout_weight="2.5"
                         android:background="@drawable/shape_main"
                         android:gravity="center">
 
@@ -80,16 +80,20 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/textView"
                             style="@style/mainTextStyle"
-                            android:text="@string/today_sales_volume" />
+                            android:text="@string/today_sales_volume"
+                            android:textSize="@dimen/text_12" />
 
                         <TextView
                             style="@style/mainTextStyle"
-                            android:text="@string/month_sales_volume" />
+                            android:text="@string/month_sales_volume"
+                            android:textSize="@dimen/text_12" />
 
                         <TextView
                             style="@style/mainTextStyle"
-                            android:text="@string/year_sales_volume" />
+                            android:text="@string/year_sales_volume"
+                            android:textSize="@dimen/text_12" />
                     </LinearLayout>
                     <!--具体销售额-->
                     <LinearLayout
@@ -144,18 +148,19 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginBottom="13dp"
                             android:text="当前债权"
                             android:textColor="@color/text_color_2A2"
-                            android:textSize="@dimen/text_11" />
+                            android:textSize="@dimen/text_12" />
 
                         <TextView
+
                             android:id="@+id/tv_zhaiquan"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="24dp"
                             android:text=""
                             android:textColor="@color/text_color_72A"
-                            android:textSize="@dimen/text_11" />
+                            android:textSize="@dimen/text_14" />
                     </LinearLayout>
 
                     <View
@@ -175,18 +180,18 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginBottom="13dp"
                             android:text="当天回款"
                             android:textColor="@color/text_color_2A2"
-                            android:textSize="@dimen/text_11" />
+                            android:textSize="@dimen/text_12" />
 
                         <TextView
                             android:id="@+id/day_return_money"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="24dp"
                             android:text=""
                             android:textColor="@color/text_color_E6A"
-                            android:textSize="@dimen/text_11" />
+                            android:textSize="@dimen/text_14" />
                     </LinearLayout>
 
                     <View
@@ -206,18 +211,18 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginBottom="13dp"
                             android:text="当月回款"
                             android:textColor="@color/text_color_2A2"
-                            android:textSize="@dimen/text_11" />
+                            android:textSize="@dimen/text_12" />
 
                         <TextView
                             android:id="@+id/tv_month_return_money"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="24dp"
                             android:text=""
                             android:textColor="@color/text_color_91D"
-                            android:textSize="@dimen/text_11" />
+                            android:textSize="@dimen/text_14" />
                     </LinearLayout>
 
                     <View
@@ -237,18 +242,18 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginBottom="13dp"
                             android:text="本年回款"
                             android:textColor="@color/text_color_2A2"
-                            android:textSize="@dimen/text_11" />
+                            android:textSize="@dimen/text_12" />
 
                         <TextView
                             android:id="@+id/tv_year_return_money"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="24dp"
                             android:text=""
                             android:textColor="@color/text_color_F66"
-                            android:textSize="@dimen/text_11" />
+                            android:textSize="@dimen/text_14" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -416,9 +421,10 @@
 
     <android.support.design.widget.NavigationView
         android:id="@+id/navigationView"
-        android:layout_width="match_parent"
+        android:layout_width="240dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
+        android:background="#FFF"
         app:headerLayout="@layout/header_layout"
         app:menu="@menu/main" />
 
