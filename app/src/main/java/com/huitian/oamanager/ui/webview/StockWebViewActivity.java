@@ -1,19 +1,16 @@
 package com.huitian.oamanager.ui.webview;
 
-import android.graphics.Bitmap;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.webkit.WebChromeClient;
-import android.webkit.WebResourceRequest;
-import android.webkit.WebResourceResponse;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.huitian.oamanager.R;
+import com.huitian.oamanager.api.ApiConstants;
 import com.huitian.oamanager.app.BaseWebViewActivity;
-import com.jaydenxiao.common.commonutils.LogUtils;
+import com.huitian.oamanager.app.Constans;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -60,9 +57,11 @@ public class StockWebViewActivity extends BaseWebViewActivity {
             }
         });
         initWebView(webview);
-        webview.setWebViewClient(new MyWebViewClient());
-        webview.setWebChromeClient(new WebChromeClient());
-        webview.loadUrl("http://192.168.1.180:82/oa/shippingQuery.html");
+        WebSettings settings = webview.getSettings();
+        settings.setLoadWithOverviewMode(true); // 缩放至屏幕大小
+        settings.setJavaScriptCanOpenWindowsAutomatically(true); // 支持通过Js打开新窗口
+        webview.setWebChromeClient(new MyWebChromeClient());
+        webview.loadUrl(ApiConstants.SERVICE_URL + "/oa/shippingQuery.html");
     }
 
     @OnClick({R.id.right_tv})
@@ -72,37 +71,6 @@ public class StockWebViewActivity extends BaseWebViewActivity {
                 //  筛选
                 webview.loadUrl("javascript:showSearch()");
                 break;
-        }
-    }
-
-
-    private class MyWebViewClient extends WebViewClient {
-
-        @Override
-        public void onPageStarted(WebView view, String url, Bitmap favicon) {
-            super.onPageStarted(view, url, favicon);
-        }
-
-        @Override
-        public void onPageFinished(WebView view, String url) {
-            LogUtils.logd(view.getUrl());
-            //  隐藏头部
-            super.onPageFinished(view, url);
-        }
-
-        @Override
-        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            return true;
-        }
-
-        @Override
-        public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
-            if (request.getUrl().equals("salttime")) {
-                LogUtils.logd("getMethod" + request.getMethod());
-                LogUtils.logd("getUrl" + request.getUrl());
-                LogUtils.logd("getRequestHeaders" + request.getRequestHeaders());
-            }
-            return super.shouldInterceptRequest(view, request);
         }
     }
 

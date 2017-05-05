@@ -1,7 +1,9 @@
 package com.huitian.oamanager.app;
 
 import android.graphics.Bitmap;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -40,19 +42,13 @@ public abstract class BaseWebViewActivity extends BaseActivity {
      */
     public void initWebView(WebView webView) {
         webView.getSettings().setJavaScriptEnabled(true);
-//        String appCachePath = getApplicationContext().getCacheDir().getAbsolutePath();
-        //设置数据库缓存路径
-//        webView.getSettings().setDatabasePath(appCachePath);
-//        webView.getSettings().setAppCachePath(appCachePath);
-//        webView.getSettings().setAppCacheMaxSize(1024 * 1024 * 8);
-//        webView.getSettings().setAllowFileAccess(true);
-//        webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
+        webView.getSettings().setSupportZoom(true);
+        webView.getSettings().setTextSize(WebSettings.TextSize.NORMAL);
         // 开启 DOM storage API 功能
         webView.getSettings().setDomStorageEnabled(true);
-//        webView.getSettings().setAppCacheEnabled(true);
         // 提供给H5的方法
         webView.addJavascriptInterface(new JavaScriptObject(mContext), "Android");
-//        webView.setWebViewClient(new MyWebViewClient());
+        webView.setWebViewClient(new MyWebViewClient());
         webView.clearCache(false);//支持缓存
         webView.getSettings().setAllowFileAccessFromFileURLs(true);
     }
@@ -75,8 +71,8 @@ public abstract class BaseWebViewActivity extends BaseActivity {
         }
 
         @Override
-        public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
-            return super.shouldInterceptRequest(view, url);
+        public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
+            return super.shouldInterceptRequest(view, request);
         }
     }
 

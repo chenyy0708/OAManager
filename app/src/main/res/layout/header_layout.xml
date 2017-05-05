@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:background="@color/white"
     android:orientation="vertical"
-    android:paddingLeft="15dp"
+    android:paddingLeft="10dp"
     android:paddingTop="24dp">
 
     <ImageView
@@ -18,11 +18,11 @@
         android:id="@+id/tv_nick_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
+        android:layout_marginLeft="10dp"
         android:layout_marginTop="8dp"
         android:text=""
         android:textColor="@color/black"
         android:layout_marginBottom="20dp"
-        android:textSize="@dimen/sp_16" />
+        android:textSize="@dimen/sp_14" />
 
 </LinearLayout>

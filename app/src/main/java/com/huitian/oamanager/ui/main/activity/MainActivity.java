@@ -31,7 +31,6 @@ import com.huitian.oamanager.ui.user.activity.LoginActivity;
 import com.huitian.oamanager.ui.user.activity.ModifyPasswordActivity;
 import com.huitian.oamanager.ui.webview.StockWebViewActivity;
 import com.huitian.oamanager.util.MD5Utils;
-import com.jaeger.library.StatusBarUtil;
 import com.jaydenxiao.common.base.BaseActivity;
 import com.jaydenxiao.common.baserx.RxSchedulers;
 import com.jaydenxiao.common.baserx.RxSubscriber;
@@ -194,7 +193,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     @Override
                     protected void _onError(String message) {
                         stopProgressDialog();
-                        showShortToast(message);
+//                        showShortToast(message);
                     }
                 }));
     }
@@ -224,7 +223,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     @Override
                     protected void _onError(String message) {
                         stopProgressDialog();
-                        showShortToast(message);
+//                        showShortToast(message);
                     }
                 }));
     }
@@ -393,8 +392,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         navigationView.setItemTextColor(null);
         navigationView.setItemIconTintList(null);
         navigationView.setNavigationItemSelectedListener(this);
-        Resources resource=(Resources)getBaseContext().getResources();
-        ColorStateList csl=(ColorStateList)resource.getColorStateList(R.color.color_afa);
+        // 设置侧边栏的文字颜色
+        Resources resource = (Resources) getBaseContext().getResources();
+        ColorStateList csl = (ColorStateList) resource.getColorStateList(R.color.color_afa);
         navigationView.setItemTextColor(csl);
     }
 
