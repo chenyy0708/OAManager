@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.flyco.dialog.listener.OnBtnClickL;
 import com.flyco.dialog.widget.NormalDialog;
 import com.huitian.oamanager.R;
+import com.huitian.oamanager.app.Constans;
 import com.huitian.oamanager.bean.GenCodeBean;
 import com.huitian.oamanager.ui.user.contract.ForgetPWContract;
 import com.huitian.oamanager.ui.user.model.ForgetPWModel;
@@ -18,6 +19,7 @@ import com.huitian.oamanager.util.PhoneNumberUtils;
 import com.huitian.oamanager.widget.CountDownTimerUtils;
 import com.jaeger.library.StatusBarUtil;
 import com.jaydenxiao.common.base.BaseActivity;
+import com.jaydenxiao.common.commonutils.SPUtils;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -137,6 +139,8 @@ public class ForgetPassWordActivity extends BaseActivity<ForgetPWPresenter, Forg
     @Override
     public void forgetPasswordSuccess() {
         showShortToast("修改成功");
+        // 将以前保存的密码清空
+        SPUtils.setSharedStringData(mContext, Constans.PASSWORD,"");
         finish();
     }
 
