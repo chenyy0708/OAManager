@@ -19,6 +19,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.flyco.dialog.listener.OnBtnClickL;
+import com.flyco.dialog.widget.NormalDialog;
 import com.huitian.oamanager.R;
 import com.huitian.oamanager.api.Api;
 import com.huitian.oamanager.app.App;
@@ -118,6 +120,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         }
     };
     private boolean isStartLoginActivity;
+    private NormalDialog dialog;
 
     @Override
     public int getLayoutId() {
@@ -414,11 +417,43 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 drawerLayout.closeDrawers();
                 break;
             case R.id.nav_logout:
-                loginOut();
+//                loginOut();
                 drawerLayout.closeDrawers();
+                showLoginOutDialog();
                 break;
         }
         return false;
+    }
+
+    /**
+     * 退出登陆
+     */
+    private void showLoginOutDialog() {
+        if(dialog == null) {
+            dialog = new NormalDialog(mContext);
+            dialog.content("是否退出登录")//
+                    .title("提示")
+                    .titleTextColor(mainColor)
+                    .style(NormalDialog.STYLE_TWO)//
+                    .titleTextSize(23)//
+                    .show();
+            dialog.setOnBtnClickL(
+                    new OnBtnClickL() {
+                        @Override
+                        public void onBtnClick() {
+                            dialog.dismiss();
+                        }
+                    },
+                    new OnBtnClickL() {
+                        @Override
+                        public void onBtnClick() { // 退出登陆
+                            loginOut();
+                            dialog.dismiss();
+                        }
+                    });
+        }else {
+            dialog.show();
+        }
     }
 
     @OnClick({R.id.right_iv, R.id.delivery_tv, R.id.shengpi_tv, R.id.zaiquan_tv, R.id.xiadan_tv, R.id.fahuo_search_tv, R.id.kucun_search_tv, R.id.data_search_tv, R.id.wuliu_search_tv, R.id.zhaiquan_search_tv, R.id.working_search_tv})

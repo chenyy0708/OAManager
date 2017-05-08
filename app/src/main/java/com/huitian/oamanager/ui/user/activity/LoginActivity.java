@@ -1,5 +1,6 @@
 package com.huitian.oamanager.ui.user.activity;
 
+import android.os.Bundle;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
@@ -11,6 +12,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.flyco.dialog.listener.OnBtnClickL;
+import com.flyco.dialog.widget.NormalDialog;
 import com.huitian.oamanager.R;
 import com.huitian.oamanager.app.Constans;
 import com.huitian.oamanager.bean.LoginBean;
@@ -28,6 +31,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> implements LoginContract.View {
@@ -45,6 +49,9 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
     Button loginBt;
     @Bind(R.id.cb_pw_select)
     AppCompatCheckBox cbPwSelect;
+    @Bind(R.id.tv_help)
+    TextView tvHelp;
+    private NormalDialog dialog;
 
     @Override
     public int getLayoutId() {
@@ -75,7 +82,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
     }
 
 
-    @OnClick({R.id.close_iv, R.id.forget_pw_tv, R.id.tv_modify_password, R.id.login_bt, R.id.cb_pw_select})
+    @OnClick({R.id.close_iv, R.id.forget_pw_tv, R.id.tv_modify_password, R.id.login_bt, R.id.cb_pw_select,R.id.tv_help})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.close_iv:
@@ -100,6 +107,40 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
                 }
                 mPresenter.loginUser(userName, passWord, "");
                 break;
+            case R.id.tv_help: // 帮助
+                showDialog();
+                break;
+        }
+    }
+
+    /**
+     * 拨打客服
+     */
+    private void showDialog() {
+        if(dialog == null) {
+            dialog = new NormalDialog(mContext);
+            dialog.content("是否拨打客服电话" + getResources().getString(R.string.phone_number))//
+                    .title("提示")
+                    .titleTextColor(mainColor)
+                    .style(NormalDialog.STYLE_TWO)//
+                    .titleTextSize(23)//
+                    .show();
+            dialog.setOnBtnClickL(
+                    new OnBtnClickL() {
+                        @Override
+                        public void onBtnClick() {
+                            dialog.dismiss();
+                        }
+                    },
+                    new OnBtnClickL() {
+                        @Override
+                        public void onBtnClick() { //
+                            call(getResources().getString(R.string.phone_number));
+                            dialog.dismiss();
+                        }
+                    });
+        }else {
+            dialog.show();
         }
     }
 
@@ -161,4 +202,5 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
             finish();
         }
     }
+
 }

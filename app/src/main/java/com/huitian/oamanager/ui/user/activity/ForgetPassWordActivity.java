@@ -7,6 +7,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.flyco.dialog.listener.OnBtnClickL;
+import com.flyco.dialog.widget.NormalDialog;
 import com.huitian.oamanager.R;
 import com.huitian.oamanager.bean.GenCodeBean;
 import com.huitian.oamanager.ui.user.contract.ForgetPWContract;
@@ -43,6 +45,7 @@ public class ForgetPassWordActivity extends BaseActivity<ForgetPWPresenter, Forg
     EditText etComfirmPassword;
     @Bind(R.id.bt_submit)
     Button btSubmit;
+    private NormalDialog dialog;
 
     @Override
     public int getLayoutId() {
@@ -81,6 +84,7 @@ public class ForgetPassWordActivity extends BaseActivity<ForgetPWPresenter, Forg
                 }
                 break;
             case R.id.tv_phone_unavailable: // 手机号码不可用
+                showDialog();
                 break;
             case R.id.bt_submit: // 提交
                 phoneNumber = etPhoneNumber.getText().toString().trim(); // 手机号
@@ -139,5 +143,37 @@ public class ForgetPassWordActivity extends BaseActivity<ForgetPWPresenter, Forg
     @Override
     public void forgetPasswordFail(String msg) {
         showShortToast(msg);
+    }
+
+
+    /**
+     * 拨打客服
+     */
+    private void showDialog() {
+        if(dialog == null) {
+            dialog = new NormalDialog(mContext);
+            dialog.content("是否拨打客服电话" + getResources().getString(R.string.phone_number))//
+                    .title("提示")
+                    .titleTextColor(mainColor)
+                    .style(NormalDialog.STYLE_TWO)//
+                    .titleTextSize(23)//
+                    .show();
+            dialog.setOnBtnClickL(
+                    new OnBtnClickL() {
+                        @Override
+                        public void onBtnClick() {
+                            dialog.dismiss();
+                        }
+                    },
+                    new OnBtnClickL() {
+                        @Override
+                        public void onBtnClick() { //
+                            call(getResources().getString(R.string.phone_number));
+                            dialog.dismiss();
+                        }
+                    });
+        }else {
+            dialog.show();
+        }
     }
 }

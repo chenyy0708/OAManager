@@ -4,6 +4,7 @@ package com.jaydenxiao.common.base;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
@@ -67,6 +68,7 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
     public E mModel;
     public Context mContext;
     public RxManager mRxManager;
+    public int mainColor;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -100,8 +102,8 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
         // 默认着色状态栏
 //        SetStatusBarColor();
         // 沉浸式状态栏
-        int color = getResources().getColor(R.color.colorPrimary);
-        StatusBarUtil.setColor(this, color, 1);
+        mainColor = getResources().getColor(R.color.colorPrimary);
+        StatusBarUtil.setColor(this, mainColor, 1);
 
     }
 
@@ -284,6 +286,17 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
 
     public void showNetErrorTip(String error) {
         ToastUitl.showToastWithImg(error, R.drawable.ic_wifi_off);
+    }
+
+    /**
+     * 调用拨号界面
+     *
+     * @param phone 电话号码
+     */
+    public void call(String phone) {
+        Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phone));
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 
     @Override

@@ -14,6 +14,7 @@ import com.google.gson.GsonBuilder;
 import com.huitian.oamanager.app.App;
 import com.huitian.oamanager.app.Constans;
 import com.huitian.oamanager.util.AddCookiesInterceptor;
+import com.huitian.oamanager.util.GsonDConverterFactory;
 import com.huitian.oamanager.util.SaveCookiesInterceptor;
 import com.jaydenxiao.common.baseapp.BaseApplication;
 import com.jaydenxiao.common.commonutils.NetWorkUtils;
@@ -122,7 +123,9 @@ public class Api {
         Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").serializeNulls().create();
         retrofit = new Retrofit.Builder()
                 .client(okHttpClient)
-                .addConverterFactory(GsonConverterFactory.create(gson))
+                // 增加自定义解析
+                .addConverterFactory(GsonDConverterFactory.create())
+//                .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .baseUrl(ApiConstants.getHost(HostType.HUITIAN_URL))
                 .build();
