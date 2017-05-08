@@ -10,8 +10,8 @@ import com.huitian.oamanager.R;
 import com.huitian.oamanager.ui.user.contract.ModifyPasswordContract;
 import com.huitian.oamanager.ui.user.model.ModifyPasswordModel;
 import com.huitian.oamanager.ui.user.presenter.ModifyPasswordPresenter;
-import com.jaeger.library.StatusBarUtil;
 import com.jaydenxiao.common.base.BaseActivity;
+import com.jaydenxiao.common.baseapp.AppManager;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -87,7 +87,8 @@ public class ModifyPasswordActivity extends BaseActivity<ModifyPasswordPresenter
     @Override
     public void changePasswordSuccess(String msg) {
         showShortToast("密码修改成功");
-        finish();
+        AppManager.getAppManager().finishAllActivity();
+        startActivity(LoginActivity.class);
     }
 
     @Override
