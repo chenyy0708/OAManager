@@ -32,7 +32,6 @@ final class GsonResponseBodyConverter<T> implements Converter<ResponseBody,
     public T convert(ResponseBody value) throws IOException {
         String response = value.string();
         try {
-            // 这里的type实际类型是 HttpResult<PhoneBean>  PhoneBean就是retData要获取的对象。
             HuiTianResponse result = gson.fromJson(response, HuiTianResponse.class);
             int code = result.getState();
             if (code == 1) {

@@ -276,6 +276,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                             Constans.m = response.getData().getZ();
                             Constans.n = new String(Base64.decodeBase64(response.getData().getY().getBytes()));
                             Constans.t = new String(Base64.decodeBase64(response.getData().getX().getBytes()));
+                            Constans.expire = expire;
                             try {
                                 Constans.k = MD5Utils.getMD5(Constans.api_key + "_" + MD5Utils.getMD5(Constans.t + "_" + Constans.n));
                             } catch (NoSuchAlgorithmException e) {
