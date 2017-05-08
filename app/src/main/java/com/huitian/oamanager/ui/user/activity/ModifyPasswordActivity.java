@@ -7,11 +7,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.huitian.oamanager.R;
+import com.huitian.oamanager.app.Constans;
 import com.huitian.oamanager.ui.user.contract.ModifyPasswordContract;
 import com.huitian.oamanager.ui.user.model.ModifyPasswordModel;
 import com.huitian.oamanager.ui.user.presenter.ModifyPasswordPresenter;
 import com.jaydenxiao.common.base.BaseActivity;
 import com.jaydenxiao.common.baseapp.AppManager;
+import com.jaydenxiao.common.commonutils.SPUtils;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -81,13 +83,15 @@ public class ModifyPasswordActivity extends BaseActivity<ModifyPasswordPresenter
 
     @Override
     public void showErrorTip(String msg) {
-        showShortToast("密码修改失败");
+        showShortToast(msg);
     }
 
     @Override
     public void changePasswordSuccess(String msg) {
         showShortToast("密码修改成功");
         AppManager.getAppManager().finishAllActivity();
+        // 将以前保存的密码清空
+        SPUtils.setSharedStringData(mContext, Constans.PASSWORD,"");
         startActivity(LoginActivity.class);
     }
 
