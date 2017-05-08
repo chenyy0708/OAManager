@@ -215,8 +215,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     @Override
                     protected void _onNext(HuiTianResponse<YMDSales> response) {
                         if (response.getState() == 1) {
-                            tvTodaySale.setText(String.valueOf(response.getData().getDay()));
-                            tvMonthSale.setText(String.valueOf(response.getData().getMonth()));
+                            Long data = Long.valueOf(response.getData().getDay());
+                            String obj = MD5Utils.formatTosepara(data);
+                            String text = String.valueOf(obj);
+                            tvTodaySale.setText(text);
+                            tvMonthSale.setText(String.valueOf(MD5Utils.formatTosepara(Long.valueOf(response.getData().getMonth()))));
                             tvYearSale.setText(String.valueOf(MD5Utils.formatTosepara(Long.valueOf(response.getData().getYear()))));
                         }
                         stopProgressDialog();
