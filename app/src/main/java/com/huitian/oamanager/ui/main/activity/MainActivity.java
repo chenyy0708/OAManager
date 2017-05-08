@@ -145,7 +145,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         initBanner();
         // 初始化日期
         initDate();
-        taskTime = (Constans.expire - System.currentTimeMillis()) - (1000 * 60);
+        long l = System.currentTimeMillis();
+        taskTime = (Constans.expire - l) - (1000 * 60);
         // 判断保存的时间戳时间是否大于当前时间
         if (taskTime > 0) { // 没有过期，在taskTime时间之后自动握手
             // 在过期前提前一分钟进行握手
@@ -199,7 +200,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     @Override
                     protected void _onError(String message) {
                         stopProgressDialog();
-//                        showShortToast(message);
+                        showShortToast(message);
                     }
                 }));
     }
@@ -229,7 +230,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     @Override
                     protected void _onError(String message) {
                         stopProgressDialog();
-//                        showShortToast(message);
+                        showShortToast(message);
                     }
                 }));
     }
@@ -536,6 +537,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
                     @Override
                     protected void _onError(String message) {
+                        showShortToast(message);
                         stopProgressDialog();
                     }
                 }));
