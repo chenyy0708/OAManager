@@ -58,7 +58,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
 
     @Override
     public void initView() {
-        StatusBarUtil.setColor(this, getResources().getColor(R.color.color_D7D),1);
+        StatusBarUtil.setColor(this, getResources().getColor(R.color.color_D7D), 1);
         // 忘记密码textview颜色部分变化
         SpannableStringBuilder builder = new SpannableStringBuilder(forgetPwTv.getText().toString());
         //ForegroundColorSpan 为文字前景色，BackgroundColorSpan为文字背景色
@@ -129,15 +129,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
         SPUtils.setSharedStringData(mContext, Constans.USER_NICK_NAME, loginBean.getUser_info().getUSER_NAME());
         // 保存keystr信息，用于登陆失效免密登陆
         SPUtils.setSharedStringData(mContext, Constans.keyStr, loginBean.getKey_str());
-        // 跳转主界面,如果主界面没有打开开启，如果开启了则关闭该界面
-//        if (AppManager.getAppManager().isOpenActivity(MainActivity.class)) { // 开启
-//            // 不是第一次打开MainActivity
-//            Constans.isFirstOpenMainActivity = false;
-//            finish();
-//        } else { // 未开启
-//            Constans.isFirstOpenMainActivity = true; // 第一次打开MainACtivity
-//            startActivity(MainActivity.class);
-//        }
+        showShortToast("登陆成功");
         startActivity(MainActivity.class);
         finish();
     }

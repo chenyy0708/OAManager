@@ -17,9 +17,9 @@
 package com.huitian.oamanager.api;
 
 public class ApiConstants {
-        public static final String SERVICE_URL = "http://cy1798.imwork.net";    // 正式服务器地址
+//        public static final String SERVICE_URL = "http://cy1798.imwork.net";    // 正式服务器地址
 //    public static final String SERVICE_URL = "http://192.168.1.44:84";    // 程哥服务器地址
-//    public static final String SERVICE_URL = "http://192.168.1.180:82";    // 小胖服务器地址
+    public static final String SERVICE_URL = "http://192.168.1.180:82";    // 小胖服务器地址
 
 
     public static final String HUITIAN_OA_URL = SERVICE_URL + "/index.php/";

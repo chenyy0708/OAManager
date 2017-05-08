@@ -529,25 +529,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-//        // 从登录界面回到主界面，并且已经登录成功了，需要去获取销售额
-//        if (requestCode == Constans.LOGIN_ACTIVITY && resultCode == Constans.LOGIN_ACTIVITY) {
-//            initData();
-//        }
-        // 从登录界面回到主界面，用户没有登录，直接退出系统
-//        if (requestCode == Constans.LOGIN_ACTIVITY && resultCode == Constans.EXIT_SYSTEM) {
-//            finish();
-//        }
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
-        // 判断是否是第一次打开MainActivity
-//        if (!Constans.isFirstOpenMainActivity) { // 如果不是第一次打开，刷新数据
-//            initData();
-//        }
         if (mainBanner != null)
             mainBanner.startAutoPlay();
     }

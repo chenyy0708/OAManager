@@ -6,8 +6,8 @@ import android.webkit.JavascriptInterface;
 
 import com.huitian.oamanager.app.Constans;
 import com.huitian.oamanager.ui.user.activity.LoginActivity;
+import com.jaydenxiao.common.baseapp.AppManager;
 import com.jaydenxiao.common.commonutils.SPUtils;
-import com.jaydenxiao.common.commonutils.ToastUitl;
 
 
 /**
@@ -27,12 +27,9 @@ public class JavaScriptObject {
      */
     @JavascriptInterface
     public void jumpLoginActivity() {
-        ToastUitl.showShort("调用了方法");
+        // 关闭所有界面
+        AppManager.getAppManager().finishAllActivity();
         mContext.startActivity(new Intent(mContext, LoginActivity.class));
-        // 跳转到登录Activity
-        StockWebViewActivity stockWebViewActivity = (StockWebViewActivity) mContext;
-        // 关闭打开的WebViewActivity
-//        AppManager.getAppManager().finishActivity(StockWebViewActivity.class);
     }
 
     /**

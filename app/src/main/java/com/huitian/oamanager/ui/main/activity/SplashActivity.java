@@ -115,6 +115,7 @@ public class SplashActivity extends Activity {
                             endTime = System.currentTimeMillis();
                             // 判断当前时间是否超过3000
                             if (endTime - startTime >= 3000) { // 握手请求超过3000，直接进入主界面
+                                finish();
                                 startActivity(MainActivity.class);
                             } else { // 没有超过3000
                                 new Handler().postDelayed(new Runnable() {
