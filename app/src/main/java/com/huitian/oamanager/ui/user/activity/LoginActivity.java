@@ -19,8 +19,8 @@ import com.huitian.oamanager.ui.user.contract.LoginContract;
 import com.huitian.oamanager.ui.user.model.LoginModel;
 import com.huitian.oamanager.ui.user.presenter.LoginPresenter;
 import com.huitian.oamanager.util.PhoneNumberUtils;
+import com.jaeger.library.StatusBarUtil;
 import com.jaydenxiao.common.base.BaseActivity;
-import com.jaydenxiao.common.baseapp.AppManager;
 import com.jaydenxiao.common.commonutils.SPUtils;
 import com.jaydenxiao.common.commonutils.ToastUitl;
 
@@ -58,6 +58,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
 
     @Override
     public void initView() {
+        StatusBarUtil.setColor(this, getResources().getColor(R.color.color_D7D),1);
         // 忘记密码textview颜色部分变化
         SpannableStringBuilder builder = new SpannableStringBuilder(forgetPwTv.getText().toString());
         //ForegroundColorSpan 为文字前景色，BackgroundColorSpan为文字背景色

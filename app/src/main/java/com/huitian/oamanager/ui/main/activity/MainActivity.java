@@ -31,6 +31,7 @@ import com.huitian.oamanager.ui.user.activity.LoginActivity;
 import com.huitian.oamanager.ui.user.activity.ModifyPasswordActivity;
 import com.huitian.oamanager.ui.webview.StockWebViewActivity;
 import com.huitian.oamanager.util.MD5Utils;
+import com.jaeger.library.StatusBarUtil;
 import com.jaydenxiao.common.base.BaseActivity;
 import com.jaydenxiao.common.baserx.RxSchedulers;
 import com.jaydenxiao.common.baserx.RxSubscriber;
@@ -133,7 +134,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         // 初始化侧边栏
         initDrawLayout();
         // 沉浸式状态栏
-//        StatusBarUtil.setColorForDrawerLayout(MainActivity.this, drawerLayout, getResources().getColor(R.color.colorPrimary), 1);
+        StatusBarUtil.setColor(this, getResources().getColor(R.color.color_D7D),1);
         // 设置toolbar的标题
         centerIv.setVisibility(View.VISIBLE);
         centerIv.setImageResource(R.mipmap.icon_logo);
@@ -215,10 +216,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     @Override
                     protected void _onNext(HuiTianResponse<YMDSales> response) {
                         if (response.getState() == 1) {
-                            Long data = Long.valueOf(response.getData().getDay());
-                            String obj = MD5Utils.formatTosepara(data);
-                            String text = String.valueOf(obj);
-                            tvTodaySale.setText(text);
+                            tvTodaySale.setText(MD5Utils.formatTosepara(Long.valueOf(response.getData().getDay())));
                             tvMonthSale.setText(String.valueOf(MD5Utils.formatTosepara(Long.valueOf(response.getData().getMonth()))));
                             tvYearSale.setText(String.valueOf(MD5Utils.formatTosepara(Long.valueOf(response.getData().getYear()))));
                         }

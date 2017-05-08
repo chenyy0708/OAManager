@@ -14,6 +14,7 @@ import com.huitian.oamanager.ui.user.model.ForgetPWModel;
 import com.huitian.oamanager.ui.user.presenter.ForgetPWPresenter;
 import com.huitian.oamanager.util.PhoneNumberUtils;
 import com.huitian.oamanager.widget.CountDownTimerUtils;
+import com.jaeger.library.StatusBarUtil;
 import com.jaydenxiao.common.base.BaseActivity;
 
 import butterknife.Bind;
@@ -55,7 +56,7 @@ public class ForgetPassWordActivity extends BaseActivity<ForgetPWPresenter, Forg
 
     @Override
     public void initView() {
-
+        StatusBarUtil.setColor(this, getResources().getColor(R.color.color_D7D),1);
     }
 
     @OnClick({R.id.close_iv, R.id.get_yzm_tv, R.id.tv_phone_unavailable, R.id.bt_submit})
