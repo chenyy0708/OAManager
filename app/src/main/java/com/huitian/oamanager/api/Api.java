@@ -13,9 +13,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.huitian.oamanager.app.App;
 import com.huitian.oamanager.app.Constans;
-import com.huitian.oamanager.util.AddCookiesInterceptor;
-import com.huitian.oamanager.util.GsonDConverterFactory;
-import com.huitian.oamanager.util.SaveCookiesInterceptor;
+import com.huitian.oamanager.net.AddCookiesInterceptor;
+import com.huitian.oamanager.net.GsonDConverterFactory;
+import com.huitian.oamanager.net.SaveCookiesInterceptor;
 import com.jaydenxiao.common.baseapp.BaseApplication;
 import com.jaydenxiao.common.commonutils.NetWorkUtils;
 
@@ -32,7 +32,6 @@ import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * des:retorfit api

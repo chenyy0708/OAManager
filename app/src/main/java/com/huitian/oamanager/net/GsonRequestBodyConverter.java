@@ -1,4 +1,4 @@
-package com.huitian.oamanager.util;
+package com.huitian.oamanager.net;
 
 import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
