@@ -7,7 +7,9 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.huitian.oamanager.app.Constans;
 import com.huitian.oamanager.ui.main.activity.MainActivity;
+import com.jaydenxiao.common.commonutils.SPUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,7 +34,9 @@ public class JpushReceiver extends BroadcastReceiver {
         Log.d(TAG, "[MyReceiver] onReceive - " + intent.getAction() + ", extras: " + printBundle(bundle));
         if (JPushInterface.ACTION_REGISTRATION_ID.equals(intent.getAction())) {
             String regId = bundle.getString(JPushInterface.EXTRA_REGISTRATION_ID);
+            // 保存RegistrationId
             Log.d(TAG, "[MyReceiver] 接收Registration Id : " + regId);
+            SPUtils.setSharedStringData(context,Constans.REGISTRATIONID,regId);
             //send the Registration Id to your server...
         } else if (JPushInterface.ACTION_MESSAGE_RECEIVED.equals(intent.getAction())) {
             Log.d(TAG, "[MyReceiver] 接收到推送下来的自定义消息: " + bundle.getString(JPushInterface.EXTRA_MESSAGE));

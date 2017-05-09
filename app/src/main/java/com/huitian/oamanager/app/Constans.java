@@ -41,6 +41,7 @@ public class Constans {
     public static final String K = "k";
     public static final String EXPIRE_TIME = "expire";
     public static final String USER_NICK_NAME = "userNiceName";
+    public static final String REGISTRATIONID = "c";
     // webview类型
     public static final String WEBVIEW_TYPE = "webviewType";
     // 保存cookie到本地的SP名称
