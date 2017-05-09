@@ -31,7 +31,7 @@ import com.huitian.oamanager.bean.SalttimeBean;
 import com.huitian.oamanager.bean.YMDSales;
 import com.huitian.oamanager.ui.user.activity.LoginActivity;
 import com.huitian.oamanager.ui.user.activity.ModifyPasswordActivity;
-import com.huitian.oamanager.ui.webview.StockWebViewActivity;
+import com.huitian.oamanager.ui.webview.WebViewActivity;
 import com.huitian.oamanager.util.MD5Utils;
 import com.jaeger.library.StatusBarUtil;
 import com.jaydenxiao.common.base.BaseActivity;
@@ -138,6 +138,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         initDrawLayout();
         // 沉浸式状态栏
         StatusBarUtil.setColor(this, getResources().getColor(R.color.color_D7D), 1);
+//        StatusBarUtil.setColorForDrawerLayout(this, drawerLayout,getResources().getColor(R.color.color_D7D), 1);
         // 设置toolbar的标题
         centerIv.setVisibility(View.VISIBLE);
         centerIv.setImageResource(R.mipmap.icon_logo);
@@ -509,7 +510,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
      * 打开webviewActivity
      */
     private void startWebViewActivity(int type) {
-        Intent intent = new Intent(mContext, StockWebViewActivity.class);
+        Intent intent = new Intent(mContext, WebViewActivity.class);
         intent.putExtra(Constans.WEBVIEW_TYPE, type);
         startActivity(intent);
     }

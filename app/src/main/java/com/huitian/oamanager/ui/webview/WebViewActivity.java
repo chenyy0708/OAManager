@@ -18,7 +18,7 @@ import butterknife.OnClick;
  * Created by Chen on 2017/5/2.
  */
 
-public class StockWebViewActivity extends BaseWebViewActivity {
+public class WebViewActivity extends BaseWebViewActivity {
     @Bind(R.id.tool_bar_title_tv)
     TextView toolBarTitleTv;
     @Bind(R.id.right_iv)
