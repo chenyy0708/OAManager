@@ -121,6 +121,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     };
     private boolean isStartLoginActivity;
     private NormalDialog dialog;
+    // 是否是第一次进入并且去请求销售额等数据
+    private boolean isFirstInitData = true;
 
     @Override
     public int getLayoutId() {
@@ -150,6 +152,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         taskTime = (Constans.expire - l) - (1000 * 60);
         // 判断保存的时间戳时间是否大于当前时间
         if (taskTime > 0) { // 没有过期，在taskTime时间之后自动握手
+            initData(); // 请求销售额等数据
             // 在过期前提前一分钟进行握手
             mHandler.removeCallbacksAndMessages(null);
             mHandler.sendMessageDelayed(Message.obtain(), taskTime);
@@ -157,7 +160,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             // 一次握手
             getSalttime();
         }
-        initData();
     }
 
     /**
@@ -294,6 +296,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                                 finish();
                                 // 跳转登陆界面
                                 startActivity(LoginActivity.class);
+                            }
+
+                            if (isFirstInitData) { // 如果是第一次进入MainACtivity，初始化销售额等数据
+                                // 并将boolean值置为false
+                                isFirstInitData = false;
+                                initData();
                             }
                         } else { // 当服务器返回的不是成功 1 ，重新进行一次握手
                             // 请求失败，记录一次失败
