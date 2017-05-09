@@ -53,6 +53,10 @@ public class WebViewActivity extends BaseWebViewActivity {
                 toolBarTitleTv.setText("库存查询");
                 webview.loadUrl(ApiConstants.SERVICE_URL + "/oa/page/stock.html");
                 break;
+            case Constans.LOGISTICS_SEACH: // 物流查询
+                toolBarTitleTv.setText("物流查询");
+                webview.loadUrl(ApiConstants.SERVICE_URL + "/oa/page/logistics.html");
+                break;
         }
 
     }

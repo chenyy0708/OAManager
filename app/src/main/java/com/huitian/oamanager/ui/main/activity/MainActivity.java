@@ -493,15 +493,13 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             case R.id.kucun_search_tv:
                 startWebViewActivity(Constans.STOCK_SEACH);
 //                showShortToast("敬请期待");
-//                ToastUitl.showShort("库存查询");
                 break;
             case R.id.data_search_tv:
                 showShortToast("敬请期待");
 //                ToastUitl.showShort("数据查询");
                 break;
-            case R.id.wuliu_search_tv:
-                showShortToast("敬请期待");
-//                ToastUitl.showShort("物理查询");
+            case R.id.wuliu_search_tv: // 物流查询
+                startWebViewActivity(Constans.LOGISTICS_SEACH);
                 break;
             case R.id.zhaiquan_search_tv:
                 showShortToast("敬请期待");
