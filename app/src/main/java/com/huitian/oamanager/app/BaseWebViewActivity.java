@@ -8,6 +8,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.huitian.oamanager.ui.webview.JavaScriptObject;
+import com.huitian.oamanager.ui.webview.MyWebChromeClient;
 import com.jaydenxiao.common.base.BaseActivity;
 
 /**
@@ -48,9 +49,12 @@ public abstract class BaseWebViewActivity extends BaseActivity {
         webView.getSettings().setDomStorageEnabled(true);
         // 提供给H5的方法
         webView.addJavascriptInterface(new JavaScriptObject(mContext), "Android");
-        webView.setWebViewClient(new MyWebViewClient());
+        webView.getSettings().setLoadWithOverviewMode(true); // 缩放至屏幕大小
+        webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true); // 支持通过Js打开新窗口
         webView.clearCache(false);//支持缓存
         webView.getSettings().setAllowFileAccessFromFileURLs(true);
+        webView.setWebViewClient(new MyWebViewClient());
+        webView.setWebChromeClient(new MyWebChromeClient());
     }
 
     private class MyWebViewClient extends WebViewClient {

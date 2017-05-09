@@ -2,7 +2,6 @@ package com.huitian.oamanager.ui.webview;
 
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -32,6 +31,7 @@ public class StockWebViewActivity extends BaseWebViewActivity {
     Toolbar toolBar;
     @Bind(R.id.webview)
     WebView webview;
+    private int webviewType;
 
     @Override
     public int getWebViewLayoutId() {
@@ -40,28 +40,40 @@ public class StockWebViewActivity extends BaseWebViewActivity {
 
     @Override
     public void initWebView() {
+        webviewType = getIntent().getIntExtra(Constans.WEBVIEW_TYPE, 0);
+        initWebView(webview);
+        initToolbar();
+        // 根据type，设置不同的url和标题
+        switch (webviewType) {
+            case Constans.DELIVER_SEACH: // 发货查询
+                toolBarTitleTv.setText("发货查询");
+                webview.loadUrl(ApiConstants.SERVICE_URL + "/oa/page/shippingQuery.html");
+                break;
+            case Constans.STOCK_SEACH: // 库存查询
+                toolBarTitleTv.setText("库存查询");
+                webview.loadUrl(ApiConstants.SERVICE_URL + "/oa/page/stock.html");
+                break;
+        }
+
+    }
+
+    // 设置toolbar
+    private void initToolbar() {
         setToolBar(toolBar, "");
         // 设置图标
         toolBar.setBackgroundColor(getResources().getColor(R.color.mainColor));
         // 给左上角的图标加上一个返回的图标
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        toolBarTitleTv.setText("发货查询");
-        toolBarTitleTv.setTextColor(getResources().getColor(R.color.white));
-        rightTv.setVisibility(View.VISIBLE);
-        rightTv.setText("筛选");
         toolBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
-        initWebView(webview);
-        WebSettings settings = webview.getSettings();
-        settings.setLoadWithOverviewMode(true); // 缩放至屏幕大小
-        settings.setJavaScriptCanOpenWindowsAutomatically(true); // 支持通过Js打开新窗口
-        webview.setWebChromeClient(new MyWebChromeClient());
-        webview.loadUrl(ApiConstants.SERVICE_URL + "/oa/shippingQuery.html");
+        toolBarTitleTv.setTextColor(getResources().getColor(R.color.white));
+        rightTv.setVisibility(View.VISIBLE);
+        rightTv.setText("筛选");
     }
 
     @OnClick({R.id.right_tv})

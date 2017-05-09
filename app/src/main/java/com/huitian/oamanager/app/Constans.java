@@ -41,7 +41,8 @@ public class Constans {
     public static final String K = "k";
     public static final String EXPIRE_TIME = "expire";
     public static final String USER_NICK_NAME = "userNiceName";
-
+    // webview类型
+    public static final String WEBVIEW_TYPE = "webviewType";
     // 保存cookie到本地的SP名称
     public static final String COOKIE_PREF = "cookies_prefs";
     // 跳转到登录Activity的RequestCode
@@ -50,5 +51,10 @@ public class Constans {
     public static final int EXIT_SYSTEM = 101;
     // 跳转Splash欢迎页RequestCode
     public static final int SPLASH_ACT = 102;
+    /**
+     * 打开webview的Type类型
+     */
+    public static final int STOCK_SEACH = 10000; // 库存查询
+    public static final int DELIVER_SEACH = 10001; // 发货查询
 
 }

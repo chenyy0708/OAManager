@@ -137,7 +137,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         // 初始化侧边栏
         initDrawLayout();
         // 沉浸式状态栏
-        StatusBarUtil.setColor(this, getResources().getColor(R.color.color_D7D),1);
+        StatusBarUtil.setColor(this, getResources().getColor(R.color.color_D7D), 1);
         // 设置toolbar的标题
         centerIv.setVisibility(View.VISIBLE);
         centerIv.setImageResource(R.mipmap.icon_logo);
@@ -431,7 +431,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
      * 退出登陆
      */
     private void showLoginOutDialog() {
-        if(dialog == null) {
+        if (dialog == null) {
             dialog = new NormalDialog(mContext);
             dialog.content("是否退出登录")//
                     .title("提示")
@@ -453,7 +453,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                             dialog.dismiss();
                         }
                     });
-        }else {
+        } else {
             dialog.show();
         }
     }
@@ -478,11 +478,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 showShortToast("敬请期待");
 //                ToastUitl.showShort("销售下单");
                 break;
-            case R.id.fahuo_search_tv:
-                startActivity(StockWebViewActivity.class);
+            case R.id.fahuo_search_tv: // 发货查询
+                startWebViewActivity(Constans.DELIVER_SEACH);
                 break;
             case R.id.kucun_search_tv:
-                showShortToast("敬请期待");
+                startWebViewActivity(Constans.STOCK_SEACH);
+//                showShortToast("敬请期待");
 //                ToastUitl.showShort("库存查询");
                 break;
             case R.id.data_search_tv:
@@ -502,6 +503,15 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 //                ToastUitl.showShort("业绩查询");
                 break;
         }
+    }
+
+    /**
+     * 打开webviewActivity
+     */
+    private void startWebViewActivity(int type) {
+        Intent intent = new Intent(mContext, StockWebViewActivity.class);
+        intent.putExtra(Constans.WEBVIEW_TYPE, type);
+        startActivity(intent);
     }
 
     /**
