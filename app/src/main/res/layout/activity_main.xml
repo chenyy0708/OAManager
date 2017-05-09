@@ -8,9 +8,9 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:fitsSystemWindows="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
         android:orientation="vertical">
         <!--toolbar_simple-->
         <include layout="@layout/toolbar_layout" />
@@ -401,7 +401,7 @@
                             android:id="@+id/working_search_tv"
                             style="@style/business_process"
                             android:drawableTop="@mipmap/icon_yeji_search"
-                            android:text="业绩查询" />
+                            android:text="汇总查询" />
 
                         <TextView
                             style="@style/business_process"
@@ -421,12 +421,12 @@
     </LinearLayout>
 
     <android.support.design.widget.NavigationView
-        android:fitsSystemWindows="true"
         android:id="@+id/navigationView"
         android:layout_width="240dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:background="#FFF"
+        android:fitsSystemWindows="true"
         app:headerLayout="@layout/header_layout"
         app:menu="@menu/main" />
 

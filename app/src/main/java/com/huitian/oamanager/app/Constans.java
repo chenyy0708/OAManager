@@ -58,5 +58,6 @@ public class Constans {
     public static final int STOCK_SEACH = 10000; // 库存查询
     public static final int DELIVER_SEACH = 10001; // 发货查询
     public static final int LOGISTICS_SEACH = 10002; // 物流查询
+    public static final int AGGREGATE_SEACH = 10003; // 汇总查询
 
 }

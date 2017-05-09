@@ -505,9 +505,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 showShortToast("敬请期待");
 //                ToastUitl.showShort("债权查询");
                 break;
-            case R.id.working_search_tv:
-                showShortToast("敬请期待");
-//                ToastUitl.showShort("业绩查询");
+            case R.id.working_search_tv: // 汇总查询
+                startWebViewActivity(Constans.AGGREGATE_SEACH);
                 break;
         }
     }
