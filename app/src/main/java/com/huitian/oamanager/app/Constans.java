@@ -6,6 +6,11 @@ package com.huitian.oamanager.app;
  */
 
 public class Constans {
+    /**
+     * EventBus 的消息
+     */
+    public static final int LOGIN_MESSAGE = 1000;  // 登录
+    public static final int SALTTIME_MESSAGE = 1001; // 握手认证失效
     // 标记是否是第一次打开MainACtivity,默认为true
     public static boolean isFirstOpenMainActivity = true;
     //  应用终端名

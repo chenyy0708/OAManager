@@ -96,7 +96,8 @@ public abstract class RxSubscriber<T> extends Subscriber<T> {
         //服务器
         else if (e instanceof ResultException) { // 得到自定义Error，取得失败信息
             ResultException err = (ResultException) e;
-            _onError(err.getErrMsg());
+            if (err.getErrCode() != -1006 && err.getErrCode()!= -1005)
+                _onError(err.getErrMsg());
         }
         //其它
         else {

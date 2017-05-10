@@ -26,6 +26,8 @@ import com.huitian.oamanager.api.Api;
 import com.huitian.oamanager.app.App;
 import com.huitian.oamanager.app.Constans;
 import com.huitian.oamanager.bean.HuiTianResponse;
+import com.huitian.oamanager.bean.LoginBean;
+import com.huitian.oamanager.bean.LoginMessageEvent;
 import com.huitian.oamanager.bean.PaymentZhaiQuanBean;
 import com.huitian.oamanager.bean.SalttimeBean;
 import com.huitian.oamanager.bean.YMDSales;
@@ -40,6 +42,9 @@ import com.jaydenxiao.common.baserx.RxSubscriber;
 import com.jaydenxiao.common.commonutils.SPUtils;
 
 import org.apache.commons.codec.binary.Base64;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
@@ -135,6 +140,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     @Override
     public void initView() {
+        EventBus.getDefault().register(this);
         setToolBar(toolBar, "");
         // 初始化侧边栏
         initDrawLayout();
@@ -152,6 +158,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         taskTime = (Constans.expire - l) - (1000 * 60);
         // 判断保存的时间戳时间是否大于当前时间
         if (taskTime > 0) { // 没有过期，在taskTime时间之后自动握手
+            isFirstInitData = false;
             initData(); // 请求销售额等数据
             // 在过期前提前一分钟进行握手
             mHandler.removeCallbacksAndMessages(null);
@@ -428,7 +435,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 drawerLayout.closeDrawers();
                 break;
             case R.id.nav_logout:
-//                loginOut();
                 drawerLayout.closeDrawers();
                 showLoginOutDialog();
                 break;
@@ -490,9 +496,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             case R.id.fahuo_search_tv: // 发货查询
                 startWebViewActivity(Constans.DELIVER_SEACH);
                 break;
-            case R.id.kucun_search_tv:
+            case R.id.kucun_search_tv: // 库存查询
                 startWebViewActivity(Constans.STOCK_SEACH);
-//                showShortToast("敬请期待");
                 break;
             case R.id.data_search_tv:
                 showShortToast("敬请期待");
@@ -560,6 +565,53 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 }));
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(LoginMessageEvent event) {
+        switch (event.getType()) {
+            case Constans.LOGIN_MESSAGE: // 登录失效,重新登录
+                login();
+                break;
+            case Constans.SALTTIME_MESSAGE: // 握手失效，重新握手
+                getSalttime();
+                break;
+        }
+    }
+
+    /**
+     * 自动登录
+     */
+    private void login() {
+        String keyStr = SPUtils.getSharedStringData(mContext, Constans.keyStr);
+        String registrationId = SPUtils.getSharedStringData(mContext, Constans.REGISTRATIONID);
+        mRxManager.add(Api.getDefault().getLoginUser(Api.getCacheControl(), Constans.m, Constans.n, Constans.t, "", "", Constans.k, keyStr, registrationId)
+                .compose(RxSchedulers.<HuiTianResponse<LoginBean>>io_main()).subscribe(new RxSubscriber<HuiTianResponse<LoginBean>>(mContext, false) {
+                    @Override
+                    public void onStart() {
+                        super.onStart();
+                    }
+
+                    @Override
+                    protected void _onNext(HuiTianResponse<LoginBean> response) {
+                        if (response.getState() == 1) { // 登陆成功
+                            // 保存用户昵称
+                            SPUtils.setSharedStringData(mContext, Constans.USER_NICK_NAME, response.getData().getUser_info().getUSER_NAME());
+                            // 保存keystr信息，用于登陆失效免密登陆
+                            SPUtils.setSharedStringData(mContext, Constans.keyStr, response.getData().getKey_str());
+                            // 判断销售额数据是否调取过，如果没有调用，调用
+                            if (isFirstInitData) { // 如果是第一次进入MainACtivity，初始化销售额等数据
+                                // 并将boolean值置为false
+                                isFirstInitData = false;
+                                initData();
+                            }
+                        }
+                    }
+
+                    @Override
+                    protected void _onError(String message) {
+                    }
+                }));
+    }
+
     private static Boolean isExit = false;
 
     @Override
@@ -601,6 +653,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         super.onDestroy();
         // 移除所有的消息
         mHandler.removeCallbacksAndMessages(null);
+        EventBus.getDefault().unregister(this);
     }
 
 }

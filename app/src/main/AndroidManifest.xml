@@ -50,7 +50,9 @@
         <!-- 登陆 -->
         <activity
             android:name="com.huitian.oamanager.ui.user.activity.LoginActivity"
-            android:windowSoftInputMode="adjustPan|stateHidden" />
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            android:launchMode="singleTask"
+            />
         <!-- 忘记密码 -->
         <activity
             android:name="com.huitian.oamanager.ui.user.activity.ForgetPassWordActivity"

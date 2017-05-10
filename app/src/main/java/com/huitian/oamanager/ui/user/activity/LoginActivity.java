@@ -29,6 +29,7 @@ import com.huitian.oamanager.util.MD5Utils;
 import com.huitian.oamanager.util.PhoneNumberUtils;
 import com.jaeger.library.StatusBarUtil;
 import com.jaydenxiao.common.base.BaseActivity;
+import com.jaydenxiao.common.baseapp.AppManager;
 import com.jaydenxiao.common.baserx.RxSchedulers;
 import com.jaydenxiao.common.baserx.RxSubscriber;
 import com.jaydenxiao.common.commonutils.SPUtils;
@@ -207,8 +208,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
         // 保存keystr信息，用于登陆失效免密登陆
         SPUtils.setSharedStringData(mContext, Constans.keyStr, loginBean.getKey_str());
         showShortToast("登陆成功");
-        startActivity(MainActivity.class);
         finish();
+        startActivity(MainActivity.class);
     }
 
     @Override
@@ -233,7 +234,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
             }, 2000); // 如果2秒钟内没有按下返回键，则启动定时器取消掉刚才执行的任务
 
         } else {
-            finish();
+            AppManager.getAppManager().AppExit(mContext,false);
         }
     }
 
