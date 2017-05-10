@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.NavigationView;
@@ -31,6 +32,7 @@ import com.huitian.oamanager.bean.LoginMessageEvent;
 import com.huitian.oamanager.bean.PaymentZhaiQuanBean;
 import com.huitian.oamanager.bean.SalttimeBean;
 import com.huitian.oamanager.bean.YMDSales;
+import com.huitian.oamanager.bean.ZQCountBean;
 import com.huitian.oamanager.ui.user.activity.LoginActivity;
 import com.huitian.oamanager.ui.user.activity.ModifyPasswordActivity;
 import com.huitian.oamanager.ui.webview.WebViewActivity;
@@ -53,6 +55,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.bingoogolapple.bgabanner.BGABanner;
 
@@ -113,6 +116,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     TextView tvMonthReturnMoney;
     @Bind(R.id.tv_year_return_money)
     TextView tvYearReturnMoney;
+    @Bind(R.id.textView)
+    TextView textView;
+    @Bind(R.id.tv_zhanquan_count)
+    TextView tvZhanquanCount;
     private ActionBarDrawerToggle mDrawerToggle;
     private long taskTime;
     // 请求握手失败的次数
@@ -183,10 +190,40 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             getPaymentAndZhaiQuan();
             // 设置用户昵称
             TextView tvNickName = (TextView) navigationView.getHeaderView(0).findViewById(R.id.tv_nick_name);
-            if (!TextUtils.isEmpty(SPUtils.getSharedStringData(mContext, Constans.USER_NICK_NAME))) { // 如果昵称不为空，设置
-                tvNickName.setText(SPUtils.getSharedStringData(mContext, Constans.USER_NICK_NAME) + "，你好!");
+            String userName = SPUtils.getSharedStringData(mContext, Constans.USER_NICK_NAME);
+            if (!TextUtils.isEmpty(userName)) { // 如果昵称不为空，设置
+                tvNickName.setText(userName + "，你好!");
             }
+            // 获取风险债权提醒个数
+            getZQCount(userName);
         }
+    }
+
+    /**
+     * 风险债权提醒个数
+     *
+     * @param userName
+     */
+    private void getZQCount(String userName) {
+        mRxManager.add(Api.getDefault().getZQCount(Api.getCacheControl(), Constans.m, Constans.n, Constans.t, Constans.k, userName)
+                .compose(RxSchedulers.<HuiTianResponse<ZQCountBean>>io_main()).subscribe(new RxSubscriber<HuiTianResponse<ZQCountBean>>(mContext, false) {
+                    @Override
+                    protected void _onNext(HuiTianResponse<ZQCountBean> response) {
+                        if (response.getState() == 1) {
+                            if (response.getData().getNum() > 0) { // 提醒个数大于0
+                                tvZhanquanCount.setVisibility(View.VISIBLE);
+                                tvZhanquanCount.setText(String.valueOf(response.getData().getNum()));
+                            } else {
+                                tvZhanquanCount.setVisibility(View.GONE);
+                            }
+                        }
+                    }
+
+                    @Override
+                    protected void _onError(String message) {
+                        stopProgressDialog();
+                    }
+                }));
     }
 
     private void getPaymentAndZhaiQuan() {

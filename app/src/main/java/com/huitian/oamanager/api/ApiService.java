@@ -7,6 +7,7 @@ import com.huitian.oamanager.bean.LoginBean;
 import com.huitian.oamanager.bean.PaymentZhaiQuanBean;
 import com.huitian.oamanager.bean.SalttimeBean;
 import com.huitian.oamanager.bean.YMDSales;
+import com.huitian.oamanager.bean.ZQCountBean;
 
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -180,6 +181,28 @@ public interface ApiService {
             @Header("n") String n,
             @Header("t") String t,
             @Field("k") String k
+    );
+
+
+    /**
+     * 风险债权个数
+     *
+     * @param cacheControl
+     * @param m
+     * @param n
+     * @param t
+     * @param k
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("Proc/PROC_QUERY_RISK_DEFINE")
+    Observable<HuiTianResponse<ZQCountBean>> getZQCount(
+            @Header("Cache-Control") String cacheControl,
+            @Header("m") String m,
+            @Header("n") String n,
+            @Header("t") String t,
+            @Field("k") String k,
+            @Field("P_CURR_USER_ID") String userName
     );
 
 }
