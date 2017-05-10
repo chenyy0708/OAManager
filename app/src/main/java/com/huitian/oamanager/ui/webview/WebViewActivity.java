@@ -67,7 +67,7 @@ public class WebViewActivity extends BaseWebViewActivity {
                 break;
             case Constans.RISK_SEACH: // 债权提醒
                 toolBarTitleTv.setText("债权查询");
-                rightIv.setVisibility(View.GONE); // 隐藏标题右边按钮
+                rightTv.setVisibility(View.GONE); // 隐藏标题右边按钮
                 // 获取字段
                 String name = getIntent().getStringExtra(Constans.EXTRA_EXTRA_NAME);
                 String value = getIntent().getStringExtra(Constans.EXTRA_EXTRA_VALUE);

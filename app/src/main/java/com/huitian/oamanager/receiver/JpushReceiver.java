@@ -51,14 +51,16 @@ public class JpushReceiver extends BroadcastReceiver {
         } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
             String json = bundle.getString(JPushInterface.EXTRA_EXTRA); // 接受到服务器推送的Json
             jPushBean = new Gson().fromJson(json, JPushBean.class); // 解析对象
-            Log.d(TAG, "[MyReceiver] 用户点击打开了通知" + json);
+            Log.d(TAG, "[MyReceiver] 用户点击接受到的Json" + json);
+            Intent intent1 = new Intent(context, MainActivity.class);
+            intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent1);
             //打开WebViewActivity
             Intent i = new Intent(context, WebViewActivity.class);
             i.putExtra(Constans.EXTRA_EXTRA_NAME, Constans.EXTRA_EXTRA_NAME);
             i.putExtra(Constans.EXTRA_EXTRA_VALUE, jPushBean.getP_CUSTOMER_NUM());
-            i.putExtra(Constans.WEBVIEW_TYPE,Constans.RISK_SEACH);
+            i.putExtra(Constans.WEBVIEW_TYPE, Constans.RISK_SEACH);
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             context.startActivity(i);
         } else if (JPushInterface.ACTION_RICHPUSH_CALLBACK.equals(intent.getAction())) {
             Log.d(TAG, "[MyReceiver] 用户收到到RICH PUSH CALLBACK: " + bundle.getString(JPushInterface.EXTRA_EXTRA));

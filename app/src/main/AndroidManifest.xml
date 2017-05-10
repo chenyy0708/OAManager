@@ -44,15 +44,16 @@
                 <category android:name="${applicationId}" />
             </intent-filter>
         </receiver>
-        <activity android:name="com.huitian.oamanager.ui.main.activity.MainActivity">
+        <activity
+            android:name="com.huitian.oamanager.ui.main.activity.MainActivity"
+            android:launchMode="singleTask">
 
         </activity>
         <!-- 登陆 -->
         <activity
             android:name="com.huitian.oamanager.ui.user.activity.LoginActivity"
-            android:windowSoftInputMode="adjustPan|stateHidden"
             android:launchMode="singleTask"
-            />
+            android:windowSoftInputMode="adjustPan|stateHidden" />
         <!-- 忘记密码 -->
         <activity
             android:name="com.huitian.oamanager.ui.user.activity.ForgetPassWordActivity"
@@ -65,9 +66,8 @@
         <activity
             android:name=".ui.webview.WebViewActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:windowSoftInputMode="adjustPan|stateHidden"
             android:launchMode="singleTop"
-            />
+            android:windowSoftInputMode="adjustPan|stateHidden" />
 
         <!-- 欢迎页-->
         <activity
