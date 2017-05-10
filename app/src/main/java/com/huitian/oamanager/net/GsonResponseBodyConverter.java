@@ -46,7 +46,7 @@ final class GsonResponseBodyConverter<T> implements Converter<ResponseBody,
                     EventBus.getDefault().post(new LoginMessageEvent("login", Constans.LOGIN_MESSAGE));
                     throw new ResultException(errResponse.getData(), code);
                 } if(code == -1005){ // 认证秘钥失效，重新认证
-                    EventBus.getDefault().post(new LoginMessageEvent("login", Constans.LOGIN_MESSAGE));
+                    EventBus.getDefault().post(new LoginMessageEvent("login", Constans.SALTTIME_MESSAGE));
                     throw new ResultException(errResponse.getData(), code);
                 } else {
                     throw new ResultException(errResponse.getData(), code);

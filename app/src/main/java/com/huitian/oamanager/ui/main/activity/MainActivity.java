@@ -135,6 +135,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private NormalDialog dialog;
     // 是否是第一次进入并且去请求销售额等数据
     private boolean isFirstInitData = true;
+    private boolean isCurrentSalttime = false;
+    private boolean isCurrentLogin;
 
     @Override
     public int getLayoutId() {
@@ -246,8 +248,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
                     @Override
                     protected void _onError(String message) {
+                        isFirstInitData = true;
                         stopProgressDialog();
-                        showShortToast(message);
                     }
                 }));
     }
@@ -261,7 +263,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     @Override
                     public void onStart() {
                         super.onStart();
-                        startProgressDialog("正在查询销售额");
+//                        startProgressDialog("正在查询销售额");
                     }
 
                     @Override
@@ -277,7 +279,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     @Override
                     protected void _onError(String message) {
                         stopProgressDialog();
-                        showShortToast(message);
                     }
                 }));
     }
@@ -286,68 +287,86 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
      * 一次握手
      */
     private void getSalttime() {
-        // 获取到10位的随机字符串
-        String randomString = MD5Utils.getRandomString(10).toLowerCase();
-        String s = null; // 一次握手需要的参数
-        try {
-            s = MD5Utils.getMD5(Constans.api_key + "_" + MD5Utils.getMD5(Constans.appname + "_" + Constans.ver + "_" + randomString)).toLowerCase();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-        Constans.s = s;
-        Constans.r = randomString;
-        // 进行一次握手
-        mRxManager.add(Api.getDefault().getSalttime(Api.getCacheControl(), Constans.s, Constans.r)
-                .compose(RxSchedulers.<HuiTianResponse<SalttimeBean>>io_main()).subscribe(new RxSubscriber<HuiTianResponse<SalttimeBean>>(mContext, false) {
-                    @Override
-                    public void onStart() {
-                        super.onStart();
-                    }
+        if (!isCurrentSalttime) { // 如果当前在握手，那么不去握手
+            isCurrentSalttime = true;
+            // 获取到10位的随机字符串
+            String randomString = MD5Utils.getRandomString(10).toLowerCase();
+            String s = null; // 一次握手需要的参数
+            try {
+                s = MD5Utils.getMD5(Constans.api_key + "_" + MD5Utils.getMD5(Constans.appname + "_" + Constans.ver + "_" + randomString)).toLowerCase();
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            }
+            Constans.s = s;
+            Constans.r = randomString;
+            // 进行一次握手
+            mRxManager.add(Api.getDefault().getSalttime(Api.getCacheControl(), Constans.s, Constans.r)
+                    .compose(RxSchedulers.<HuiTianResponse<SalttimeBean>>io_main()).subscribe(new RxSubscriber<HuiTianResponse<SalttimeBean>>(mContext, false) {
+                        @Override
+                        public void onStart() {
+                            super.onStart();
+                        }
 
-                    @Override
-                    protected void _onNext(HuiTianResponse<SalttimeBean> response) {
-                        if (response.getState() == 1) { // 握手成功
-                            // 客户端注意处理好提前进行一次认证接口自动调用和异常自动补偿认证逻辑以防接口认证失败
-                            // PHP的时间戳需要乘以1000才跟java获取的相同
-                            long expire = (long) response.getData().getExpire() * 1000L;
-                            long l = System.currentTimeMillis();
-                            // 服务器返回的时间戳 - 当前时间戳 = 时间戳有效期（在有效期失效之前需要提前进行一次握手） 提前一分钟去握手
-                            taskTime = (expire - l) - (1000 * 60);
-                            if (taskTime < 0) { // 如果taskTime为负数，设置一个默认值 1分钟
-                                taskTime = 1 * 6000;
-                            }
-                            // 移除handler里面的消息
-                            mHandler.removeCallbacksAndMessages(null);
-                            // 开启定时任务
-                            mHandler.sendMessageDelayed(Message.obtain(), taskTime);
-                            Constans.m = response.getData().getZ();
-                            Constans.n = new String(Base64.decodeBase64(response.getData().getY().getBytes()));
-                            Constans.t = new String(Base64.decodeBase64(response.getData().getX().getBytes()));
-                            Constans.expire = expire;
-                            try {
-                                Constans.k = MD5Utils.getMD5(Constans.api_key + "_" + MD5Utils.getMD5(Constans.t + "_" + Constans.n));
-                            } catch (NoSuchAlgorithmException e) {
-                                e.printStackTrace();
-                            }
-                            // 将请求参数信息存入到本地
-                            SPUtils.setSharedStringData(mContext, Constans.M, Constans.m);
-                            SPUtils.setSharedStringData(mContext, Constans.N, Constans.n);
-                            SPUtils.setSharedStringData(mContext, Constans.T, Constans.t);
-                            SPUtils.setSharedStringData(mContext, Constans.K, Constans.k);
-                            // 时间戳保存到本地
-                            SPUtils.setSharedLongData(mContext, Constans.EXPIRE_TIME, expire);
-                            if (isStartLoginActivity) { // 是否跳转到登录
-                                finish();
-                                // 跳转登陆界面
-                                startActivity(LoginActivity.class);
-                            }
+                        @Override
+                        protected void _onNext(HuiTianResponse<SalttimeBean> response) {
+                            if (response.getState() == 1) { // 握手成功
+                                isCurrentSalttime = false;
+                                // 客户端注意处理好提前进行一次认证接口自动调用和异常自动补偿认证逻辑以防接口认证失败
+                                // PHP的时间戳需要乘以1000才跟java获取的相同
+                                long expire = (long) response.getData().getExpire() * 1000L;
+                                long l = System.currentTimeMillis();
+                                // 服务器返回的时间戳 - 当前时间戳 = 时间戳有效期（在有效期失效之前需要提前进行一次握手） 提前一分钟去握手
+                                taskTime = (expire - l) - (1000 * 60);
+                                if (taskTime < 0) { // 如果taskTime为负数，设置一个默认值 1分钟
+                                    taskTime = 1 * 6000;
+                                }
+                                // 移除handler里面的消息
+                                mHandler.removeCallbacksAndMessages(null);
+                                // 开启定时任务
+                                mHandler.sendMessageDelayed(Message.obtain(), taskTime);
+                                Constans.m = response.getData().getZ();
+                                Constans.n = new String(Base64.decodeBase64(response.getData().getY().getBytes()));
+                                Constans.t = new String(Base64.decodeBase64(response.getData().getX().getBytes()));
+                                Constans.expire = expire;
+                                try {
+                                    Constans.k = MD5Utils.getMD5(Constans.api_key + "_" + MD5Utils.getMD5(Constans.t + "_" + Constans.n));
+                                } catch (NoSuchAlgorithmException e) {
+                                    e.printStackTrace();
+                                }
+                                // 将请求参数信息存入到本地
+                                SPUtils.setSharedStringData(mContext, Constans.M, Constans.m);
+                                SPUtils.setSharedStringData(mContext, Constans.N, Constans.n);
+                                SPUtils.setSharedStringData(mContext, Constans.T, Constans.t);
+                                SPUtils.setSharedStringData(mContext, Constans.K, Constans.k);
+                                // 时间戳保存到本地
+                                SPUtils.setSharedLongData(mContext, Constans.EXPIRE_TIME, expire);
+                                if (isStartLoginActivity) { // 是否跳转到登录
+                                    finish();
+                                    // 跳转登陆界面
+                                    startActivity(LoginActivity.class);
+                                }
 
-                            if (isFirstInitData) { // 如果是第一次进入MainACtivity，初始化销售额等数据
-                                // 并将boolean值置为false
-                                isFirstInitData = false;
-                                initData();
+                                if (isFirstInitData) { // 如果是第一次进入MainACtivity，初始化销售额等数据
+                                    // 并将boolean值置为false
+                                    isFirstInitData = false;
+                                    initData();
+                                }
+                            } else { // 当服务器返回的不是成功 1 ，重新进行一次握手
+                                // 请求失败，记录一次失败
+                                requestSalttimeFailCount++;
+                                if (requestSalttimeFailCount > 5) { // 如果请求握手失败次数大于10，一分钟后在去请求
+                                    requestSalttimeFailCount = 0; // 重置失败次数
+                                    // 移除handler里面的消息
+                                    mHandler.removeCallbacksAndMessages(null);
+                                    mHandler.sendMessageDelayed(Message.obtain(), 60 * 1000);
+                                } else { // 失败次数小于5，握手
+                                    getSalttime();
+                                }
                             }
-                        } else { // 当服务器返回的不是成功 1 ，重新进行一次握手
+                        }
+
+                        @Override
+                        protected void _onError(String message) {
                             // 请求失败，记录一次失败
                             requestSalttimeFailCount++;
                             if (requestSalttimeFailCount > 5) { // 如果请求握手失败次数大于10，一分钟后在去请求
@@ -359,22 +378,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                                 getSalttime();
                             }
                         }
-                    }
-
-                    @Override
-                    protected void _onError(String message) {
-                        // 请求失败，记录一次失败
-                        requestSalttimeFailCount++;
-                        if (requestSalttimeFailCount > 5) { // 如果请求握手失败次数大于10，一分钟后在去请求
-                            requestSalttimeFailCount = 0; // 重置失败次数
-                            // 移除handler里面的消息
-                            mHandler.removeCallbacksAndMessages(null);
-                            mHandler.sendMessageDelayed(Message.obtain(), 60 * 1000);
-                        } else { // 失败次数小于5，握手
-                            getSalttime();
-                        }
-                    }
-                }));
+                    }));
+        }
     }
 
     /**
@@ -570,7 +575,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 .compose(RxSchedulers.<HuiTianResponse<String>>io_main()).subscribe(new RxSubscriber<HuiTianResponse<String>>(mContext, false) {
                     @Override
                     public void onStart() {
-                        startProgressDialog("正在退出登陆");
+//                        startProgressDialog("正在退出登陆");
                         super.onStart();
                     }
 
@@ -596,7 +601,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
                     @Override
                     protected void _onError(String message) {
-                        showShortToast(message);
+                        isFirstInitData = true;
                         stopProgressDialog();
                     }
                 }));
@@ -618,37 +623,47 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
      * 自动登录
      */
     private void login() {
-        String keyStr = SPUtils.getSharedStringData(mContext, Constans.keyStr);
-        String registrationId = SPUtils.getSharedStringData(mContext, Constans.REGISTRATIONID);
-        mRxManager.add(Api.getDefault().getLoginUser(Api.getCacheControl(), Constans.m, Constans.n, Constans.t, "", "", Constans.k, keyStr, registrationId)
-                .compose(RxSchedulers.<HuiTianResponse<LoginBean>>io_main()).subscribe(new RxSubscriber<HuiTianResponse<LoginBean>>(mContext, false) {
-                    @Override
-                    public void onStart() {
-                        super.onStart();
-                    }
+        if (!isCurrentLogin) {
+            isCurrentLogin = true;
+            String keyStr = SPUtils.getSharedStringData(mContext, Constans.keyStr);
+            String registrationId = SPUtils.getSharedStringData(mContext, Constans.REGISTRATIONID);
+            mRxManager.add(Api.getDefault().getLoginUser(Api.getCacheControl(), Constans.m, Constans.n, Constans.t, "", "", Constans.k, keyStr, registrationId)
+                    .compose(RxSchedulers.<HuiTianResponse<LoginBean>>io_main()).subscribe(new RxSubscriber<HuiTianResponse<LoginBean>>(mContext, false) {
+                        @Override
+                        public void onStart() {
+                            super.onStart();
+                        }
 
-                    @Override
-                    protected void _onNext(HuiTianResponse<LoginBean> response) {
-                        if (response.getState() == 1) { // 登陆成功
-                            // 保存用户昵称
-                            SPUtils.setSharedStringData(mContext, Constans.USER_NICK_NAME, response.getData().getUser_info().getUSER_NAME());
-                            // 保存keystr信息，用于登陆失效免密登陆
-                            SPUtils.setSharedStringData(mContext, Constans.keyStr, response.getData().getKey_str());
-                            stopProgressDialog();
-                            // 判断销售额数据是否调取过，如果没有调用，调用
-                            if (isFirstInitData) { // 如果是第一次进入MainACtivity，初始化销售额等数据
-                                // 并将boolean值置为false
-                                isFirstInitData = false;
-                                initData();
+                        @Override
+                        protected void _onNext(HuiTianResponse<LoginBean> response) {
+                            if (response.getState() == 1) { // 登陆成功
+                                isCurrentLogin = false;
+                                // 保存用户昵称
+                                SPUtils.setSharedStringData(mContext, Constans.USER_NICK_NAME, response.getData().getUser_info().getUSER_NAME());
+                                // 保存keystr信息，用于登陆失效免密登陆
+                                SPUtils.setSharedStringData(mContext, Constans.keyStr, response.getData().getKey_str());
+                                stopProgressDialog();
+                                // 判断销售额数据是否调取过，如果没有调用，调用
+                                if (isFirstInitData) { // 如果是第一次进入MainACtivity，初始化销售额等数据
+                                    // 并将boolean值置为false
+                                    isFirstInitData = false;
+                                    initData();
+                                }
+                            }else { // 自动登录失败
+                                startActivity(LoginActivity.class);
+                                finish();
                             }
                         }
-                    }
 
-                    @Override
-                    protected void _onError(String message) {
-                        stopProgressDialog();
-                    }
-                }));
+                        @Override
+                        protected void _onError(String message) {
+                            isCurrentLogin = false;
+                            stopProgressDialog();
+                            startActivity(LoginActivity.class);
+                            finish();
+                        }
+                    }));
+        }
     }
 
     private static Boolean isExit = false;
