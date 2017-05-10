@@ -523,7 +523,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 //                ToastUitl.showShort("审批担保");
                 break;
             case R.id.zaiquan_tv:
-                showShortToast("敬请期待");
+                startWebViewActivity(Constans.RISK_LIST_SEACH);
+//                showShortToast("敬请期待");
 //                ToastUitl.showShort("债权提醒");
                 break;
             case R.id.xiadan_tv:

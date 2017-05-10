@@ -11,6 +11,7 @@ public class Constans {
      */
     public static final int LOGIN_MESSAGE = 1000;  // 登录
     public static final int SALTTIME_MESSAGE = 1001; // 握手认证失效
+    public static final int CHANGE_TITLE = 1002; // 改变标题栏的文字
     /**
      * 极光推送字段
      */
@@ -56,12 +57,6 @@ public class Constans {
     public static final String WEBVIEW_TYPE = "webviewType";
     // 保存cookie到本地的SP名称
     public static final String COOKIE_PREF = "cookies_prefs";
-    // 跳转到登录Activity的RequestCode
-    public static final int LOGIN_ACTIVITY = 100;
-    // 退出页面ResultCode
-    public static final int EXIT_SYSTEM = 101;
-    // 跳转Splash欢迎页RequestCode
-    public static final int SPLASH_ACT = 102;
     /**
      * 打开webview的Type类型
      */
@@ -71,5 +66,6 @@ public class Constans {
     public static final int AGGREGATE_SEACH = 10003; // 汇总查询
     public static final int CREDITOR_SEACH = 10004; // 债权查询
     public static final int RISK_SEACH = 10005; // 债权提醒
+    public static final int RISK_LIST_SEACH = 10006; // 债权提醒列表
 
 }

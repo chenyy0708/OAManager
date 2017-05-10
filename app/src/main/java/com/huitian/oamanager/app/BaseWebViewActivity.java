@@ -53,7 +53,6 @@ public abstract class BaseWebViewActivity extends BaseActivity {
         webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true); // 支持通过Js打开新窗口
         webView.clearCache(false);//支持缓存
         webView.getSettings().setAllowFileAccessFromFileURLs(true);
-        webView.setWebViewClient(new MyWebViewClient());
         webView.setWebChromeClient(new MyWebChromeClient());
     }
 
@@ -71,6 +70,7 @@ public abstract class BaseWebViewActivity extends BaseActivity {
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            view.loadUrl(url);
             return true;
         }
 

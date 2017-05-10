@@ -1,8 +1,12 @@
 package com.huitian.oamanager.ui.webview;
 
+import android.graphics.Bitmap;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -10,6 +14,11 @@ import com.huitian.oamanager.R;
 import com.huitian.oamanager.api.ApiConstants;
 import com.huitian.oamanager.app.BaseWebViewActivity;
 import com.huitian.oamanager.app.Constans;
+import com.huitian.oamanager.bean.LoginMessageEvent;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -40,8 +49,10 @@ public class WebViewActivity extends BaseWebViewActivity {
 
     @Override
     public void initWebView() {
+        EventBus.getDefault().register(this);
         webviewType = getIntent().getIntExtra(Constans.WEBVIEW_TYPE, 0);
         initWebView(webview);
+        webview.setWebViewClient(new CustomWebViewClient());
         initToolbar();
         // 根据type，设置不同的url和标题
         switch (webviewType) {
@@ -73,6 +84,9 @@ public class WebViewActivity extends BaseWebViewActivity {
                 String value = getIntent().getStringExtra(Constans.EXTRA_EXTRA_VALUE);
                 webview.loadUrl(ApiConstants.SERVICE_URL + "/oa/page/risk.html" + "?" + name + "=" + value);
                 break;
+            case Constans.RISK_LIST_SEACH: // 债权提醒列表
+                webview.loadUrl(ApiConstants.SERVICE_URL + "/oa/page/riskList.html");
+                break;
         }
 
     }
@@ -88,13 +102,23 @@ public class WebViewActivity extends BaseWebViewActivity {
         toolBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                onBackPressed();
             }
         });
         toolBarTitleTv.setTextColor(getResources().getColor(R.color.white));
         rightTv.setVisibility(View.VISIBLE);
         rightTv.setText("筛选");
     }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(LoginMessageEvent event) {
+        switch (event.getType()) {
+            case Constans.CHANGE_TITLE: // 改变标题栏
+                toolBarTitleTv.setText(event.getMessage());
+                break;
+        }
+    }
+
 
     @OnClick({R.id.right_tv})
     public void onViewClicked(View view) {
@@ -107,11 +131,54 @@ public class WebViewActivity extends BaseWebViewActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        String url = webview.getUrl();
+        boolean contains = url.contains("risk.html");
+        if (contains) { // 在风险详情页，加载列表页面
+            webview.loadUrl(ApiConstants.SERVICE_URL + "/oa/page/riskList.html");
+        } else if (url.contains("riskList.html")) {
+            finish();
+        } else { // 其他默认
+            super.onBackPressed();
+        }
+    }
+
+    @Override
     protected void onDestroy() {
-        if(webview != null) {
+        EventBus.getDefault().unregister(this);
+        if (webview != null) {
             webview.destroy();
             webview = null;
         }
         super.onDestroy();
+    }
+
+    private class CustomWebViewClient extends WebViewClient {
+
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            super.onPageStarted(view, url, favicon);
+        }
+
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            if(url.contains("risk.html")) {
+                rightTv.setVisibility(View.GONE);
+            }else if(url.contains("riskList.html")) {
+                rightTv.setVisibility(View.VISIBLE);
+            }
+            super.onPageFinished(view, url);
+        }
+
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            view.loadUrl(url);
+            return true;
+        }
+
+        @Override
+        public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
+            return super.shouldInterceptRequest(view, request);
+        }
     }
 }
