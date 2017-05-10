@@ -61,6 +61,19 @@ public class WebViewActivity extends BaseWebViewActivity {
                 toolBarTitleTv.setText("汇总查询");
                 webview.loadUrl(ApiConstants.SERVICE_URL + "/oa/page/aggregate.html");
                 break;
+            case Constans.CREDITOR_SEACH: // 债权查询
+                toolBarTitleTv.setText("债权查询");
+                webview.loadUrl(ApiConstants.SERVICE_URL + "/oa/page/creditor.html");
+                break;
+            case Constans.RISK_SEACH: // 债权提醒
+                toolBarTitleTv.setText("债权查询");
+                rightIv.setVisibility(View.GONE); // 隐藏标题右边按钮
+                // 获取字段
+                String name = getIntent().getStringExtra(Constans.EXTRA_EXTRA_NAME);
+                String value = getIntent().getStringExtra(Constans.EXTRA_EXTRA_VALUE);
+                String s = ApiConstants.SERVICE_URL + "/oa/page/risk.html" + "?" + name + "=" + value;
+                webview.loadUrl(ApiConstants.SERVICE_URL + "/oa/page/risk.html" + "?" + name + "=" + value);
+                break;
         }
 
     }

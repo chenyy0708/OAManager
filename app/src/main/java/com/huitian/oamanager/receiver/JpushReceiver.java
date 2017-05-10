@@ -7,8 +7,11 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.google.gson.Gson;
 import com.huitian.oamanager.app.Constans;
+import com.huitian.oamanager.bean.JPushBean;
 import com.huitian.oamanager.ui.main.activity.MainActivity;
+import com.huitian.oamanager.ui.webview.WebViewActivity;
 import com.jaydenxiao.common.commonutils.SPUtils;
 
 import org.json.JSONException;
@@ -27,6 +30,7 @@ import cn.jpush.android.api.JPushInterface;
 
 public class JpushReceiver extends BroadcastReceiver {
     private static final String TAG = "JPush";
+    private JPushBean jPushBean;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -36,7 +40,7 @@ public class JpushReceiver extends BroadcastReceiver {
             String regId = bundle.getString(JPushInterface.EXTRA_REGISTRATION_ID);
             // 保存RegistrationId
             Log.d(TAG, "[MyReceiver] 接收Registration Id : " + regId);
-            SPUtils.setSharedStringData(context,Constans.REGISTRATIONID,regId);
+            SPUtils.setSharedStringData(context, Constans.REGISTRATIONID, regId);
             //send the Registration Id to your server...
         } else if (JPushInterface.ACTION_MESSAGE_RECEIVED.equals(intent.getAction())) {
             Log.d(TAG, "[MyReceiver] 接收到推送下来的自定义消息: " + bundle.getString(JPushInterface.EXTRA_MESSAGE));
@@ -45,12 +49,16 @@ public class JpushReceiver extends BroadcastReceiver {
             int notifactionId = bundle.getInt(JPushInterface.EXTRA_NOTIFICATION_ID);
             Log.d(TAG, "[MyReceiver] 接收到推送下来的通知的ID: " + notifactionId);
         } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
-            Log.d(TAG, "[MyReceiver] 用户点击打开了通知");
-            //打开自定义的Activity
-            Intent i = new Intent(context, MainActivity.class);
-            i.putExtras(bundle);
-            //i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            String json = bundle.getString(JPushInterface.EXTRA_EXTRA); // 接受到服务器推送的Json
+            jPushBean = new Gson().fromJson(json, JPushBean.class); // 解析对象
+            Log.d(TAG, "[MyReceiver] 用户点击打开了通知" + json);
+            //打开WebViewActivity
+            Intent i = new Intent(context, WebViewActivity.class);
+            i.putExtra(Constans.EXTRA_EXTRA_NAME, Constans.EXTRA_EXTRA_NAME);
+            i.putExtra(Constans.EXTRA_EXTRA_VALUE, jPushBean.getP_CUSTOMER_NUM());
+            i.putExtra(Constans.WEBVIEW_TYPE,Constans.RISK_SEACH);
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             context.startActivity(i);
         } else if (JPushInterface.ACTION_RICHPUSH_CALLBACK.equals(intent.getAction())) {
             Log.d(TAG, "[MyReceiver] 用户收到到RICH PUSH CALLBACK: " + bundle.getString(JPushInterface.EXTRA_EXTRA));

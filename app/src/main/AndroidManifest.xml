@@ -65,7 +65,9 @@
         <activity
             android:name=".ui.webview.WebViewActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:windowSoftInputMode="adjustPan|stateHidden" />
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            android:launchMode="singleTop"
+            />
 
         <!-- 欢迎页-->
         <activity

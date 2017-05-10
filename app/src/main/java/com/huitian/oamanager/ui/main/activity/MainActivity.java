@@ -506,9 +506,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             case R.id.wuliu_search_tv: // 物流查询
                 startWebViewActivity(Constans.LOGISTICS_SEACH);
                 break;
-            case R.id.zhaiquan_search_tv:
-                showShortToast("敬请期待");
-//                ToastUitl.showShort("债权查询");
+            case R.id.zhaiquan_search_tv: // 债权查询
+                startWebViewActivity(Constans.CREDITOR_SEACH);
                 break;
             case R.id.working_search_tv: // 汇总查询
                 startWebViewActivity(Constans.AGGREGATE_SEACH);
@@ -597,6 +596,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                             SPUtils.setSharedStringData(mContext, Constans.USER_NICK_NAME, response.getData().getUser_info().getUSER_NAME());
                             // 保存keystr信息，用于登陆失效免密登陆
                             SPUtils.setSharedStringData(mContext, Constans.keyStr, response.getData().getKey_str());
+                            stopProgressDialog();
                             // 判断销售额数据是否调取过，如果没有调用，调用
                             if (isFirstInitData) { // 如果是第一次进入MainACtivity，初始化销售额等数据
                                 // 并将boolean值置为false
@@ -608,6 +608,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
                     @Override
                     protected void _onError(String message) {
+                        stopProgressDialog();
                     }
                 }));
     }

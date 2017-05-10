@@ -11,6 +11,11 @@ public class Constans {
      */
     public static final int LOGIN_MESSAGE = 1000;  // 登录
     public static final int SALTTIME_MESSAGE = 1001; // 握手认证失效
+    /**
+     * 极光推送字段
+     */
+    public static final String EXTRA_EXTRA_NAME = "P_CUSTOMER_NUM";
+    public static final String EXTRA_EXTRA_VALUE = "EXTRA_EXTRA_VALUE";
     // 标记是否是第一次打开MainACtivity,默认为true
     public static boolean isFirstOpenMainActivity = true;
     //  应用终端名
@@ -64,5 +69,7 @@ public class Constans {
     public static final int DELIVER_SEACH = 10001; // 发货查询
     public static final int LOGISTICS_SEACH = 10002; // 物流查询
     public static final int AGGREGATE_SEACH = 10003; // 汇总查询
+    public static final int CREDITOR_SEACH = 10004; // 债权查询
+    public static final int RISK_SEACH = 10005; // 债权提醒
 
 }
