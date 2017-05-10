@@ -71,7 +71,6 @@ public class WebViewActivity extends BaseWebViewActivity {
                 // 获取字段
                 String name = getIntent().getStringExtra(Constans.EXTRA_EXTRA_NAME);
                 String value = getIntent().getStringExtra(Constans.EXTRA_EXTRA_VALUE);
-                String s = ApiConstants.SERVICE_URL + "/oa/page/risk.html" + "?" + name + "=" + value;
                 webview.loadUrl(ApiConstants.SERVICE_URL + "/oa/page/risk.html" + "?" + name + "=" + value);
                 break;
         }
@@ -107,4 +106,12 @@ public class WebViewActivity extends BaseWebViewActivity {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        if(webview != null) {
+            webview.destroy();
+            webview = null;
+        }
+        super.onDestroy();
+    }
 }

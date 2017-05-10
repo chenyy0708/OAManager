@@ -372,10 +372,10 @@
                             android:text="库存查询" />
 
                         <TextView
-                            android:id="@+id/data_search_tv"
+                            android:id="@+id/working_search_tv"
                             style="@style/business_process"
-                            android:drawableTop="@mipmap/icon_data_search"
-                            android:text="数据查询" />
+                            android:drawableTop="@mipmap/icon_yeji_search"
+                            android:text="汇总查询" />
 
                         <TextView
                             android:id="@+id/wuliu_search_tv"
@@ -398,10 +398,10 @@
                             android:text="债权查询" />
 
                         <TextView
-                            android:id="@+id/working_search_tv"
+                            android:id="@+id/data_search_tv"
                             style="@style/business_process"
-                            android:drawableTop="@mipmap/icon_yeji_search"
-                            android:text="汇总查询" />
+                            android:drawableTop="@mipmap/icon_data_search"
+                            android:text="业绩查询" />
 
                         <TextView
                             style="@style/business_process"
