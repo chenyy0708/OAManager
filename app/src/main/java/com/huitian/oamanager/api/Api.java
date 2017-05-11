@@ -40,9 +40,9 @@ import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
  */
 public class Api {
     //读超时长，单位：毫秒
-    public static final int READ_TIME_OUT = 7676;
+    public static final int READ_TIME_OUT = 7676 * 10;
     //连接时长，单位：毫秒
-    public static final int CONNECT_TIME_OUT = 7676;
+    public static final int CONNECT_TIME_OUT = 7676 * 10;
     public Retrofit retrofit;
     public ApiService movieService;
 

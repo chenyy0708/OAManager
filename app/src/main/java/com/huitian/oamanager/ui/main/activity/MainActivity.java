@@ -196,7 +196,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 tvNickName.setText(userName + "，你好!");
             }
             // 获取风险债权提醒个数
-            getZQCount(userName);
+//            getZQCount(userName);
         }
     }
 
