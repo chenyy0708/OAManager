@@ -196,7 +196,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 tvNickName.setText(userName + "，你好!");
             }
             // 获取风险债权提醒个数
-//            getZQCount(userName);
+            getZQCount(userName);
         }
     }
 
@@ -619,7 +619,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 .compose(RxSchedulers.<HuiTianResponse<String>>io_main()).subscribe(new RxSubscriber<HuiTianResponse<String>>(mContext, false) {
                     @Override
                     public void onStart() {
-//                        startProgressDialog("正在退出登陆");
+                        startProgressDialog("正在退出登陆");
                         super.onStart();
                     }
 
