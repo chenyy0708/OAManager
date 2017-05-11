@@ -38,7 +38,7 @@ public class RxResultHelper {
                         if (result.success()) {
                             return createData(result.data);
                         } else {
-                            return Observable.error(new ServerException(result.msg));
+                            return Observable.error(new ServerException(result.getMessage()));
                         }
                     }
                 }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
@@ -46,23 +46,6 @@ public class RxResultHelper {
         };
 
     }
-
-    /**
-     * 线程切换
-     *
-     * @return
-     */
-    public static <T extends IModel> Observable.Transformer<T, ? extends T> getScheduler() {
-        Observable.Transformer<T, ? extends T> transformer = new Observable.Transformer<T, T>() {
-            @Override
-            public Observable<T> call(Observable<T> observable) {
-                return observable.subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread());
-            }
-        };
-        return transformer;
-    }
-
 
     /**
      * 创建成功的数据

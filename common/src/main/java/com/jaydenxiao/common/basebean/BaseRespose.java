@@ -8,21 +8,37 @@ import java.io.Serializable;
  * on 2016.09.9:47
  */
 public class BaseRespose <T> implements Serializable {
-    public String code;
-    public String msg;
+    public int state;
+    public String message;
 
     public T data;
 
-    public boolean success() {
-        return "1".equals(code);
+    public int getState() {
+        return state;
     }
 
-    @Override
-    public String toString() {
-        return "BaseRespose{" +
-                "code='" + code + '\'' +
-                ", msg='" + msg + '\'' +
-                ", data=" + data +
-                '}';
+    public void setState(int state) {
+        this.state = state;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public T getData() {
+        return data;
+    }
+
+    public void setData(T data) {
+        this.data = data;
+    }
+
+
+    public boolean success() { // 1 服务器表示成功
+        return "1".equals(state);
     }
 }
