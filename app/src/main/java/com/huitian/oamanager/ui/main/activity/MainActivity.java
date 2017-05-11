@@ -137,6 +137,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private boolean isFirstInitData = true;
     private boolean isCurrentSalttime = false;
     private boolean isCurrentLogin;
+    private int num = 0; // 正在加载数据的任务个数
 
     @Override
     public int getLayoutId() {
@@ -209,6 +210,16 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private void getZQCount(String userName) {
         mRxManager.add(Api.getDefault().getZQCount(Api.getCacheControl(), Constans.m, Constans.n, Constans.t, Constans.k, userName)
                 .compose(RxSchedulers.<HuiTianResponse<ZQCountBean>>io_main()).subscribe(new RxSubscriber<HuiTianResponse<ZQCountBean>>(mContext, false) {
+
+                    @Override
+                    public void onStart() {
+                        super.onStart();
+                        if (num == 0) {
+                            startProgressDialog("正在加载数据");
+                        }
+                        num++;
+                    }
+
                     @Override
                     protected void _onNext(HuiTianResponse<ZQCountBean> response) {
                         if (response.getState() == 1) {
@@ -219,11 +230,18 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                                 tvZhanquanCount.setVisibility(View.GONE);
                             }
                         }
+                        num--;
+                        if (num == 0) {
+                            stopProgressDialog();
+                        }
                     }
 
                     @Override
                     protected void _onError(String message) {
-                        stopProgressDialog();
+                        num--;
+                        if (num == 0) {
+                            stopProgressDialog();
+                        }
                     }
                 }));
     }
@@ -234,6 +252,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     @Override
                     public void onStart() {
                         super.onStart();
+                        if (num == 0) {
+                            startProgressDialog("正在加载数据");
+                        }
+                        num++;
                     }
 
                     @Override
@@ -244,12 +266,19 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                             tvMonthReturnMoney.setText(String.valueOf(response.getData().getMonth()));
                             tvYearReturnMoney.setText(String.valueOf(response.getData().getYear()));
                         }
+                        num--;
+                        if (num == 0) {
+                            stopProgressDialog();
+                        }
                     }
 
                     @Override
                     protected void _onError(String message) {
                         isFirstInitData = true;
-                        stopProgressDialog();
+                        num--;
+                        if (num == 0) {
+                            stopProgressDialog();
+                        }
                     }
                 }));
     }
@@ -263,7 +292,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     @Override
                     public void onStart() {
                         super.onStart();
-//                        startProgressDialog("正在查询销售额");
+                        if (num == 0) {
+                            startProgressDialog("正在加载数据");
+                        }
+                        num++;
                     }
 
                     @Override
@@ -273,12 +305,18 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                             tvMonthSale.setText(String.valueOf(MD5Utils.formatTosepara(Long.valueOf(response.getData().getMonth()))));
                             tvYearSale.setText(String.valueOf(MD5Utils.formatTosepara(Long.valueOf(response.getData().getYear()))));
                         }
-                        stopProgressDialog();
+                        num--;
+                        if (num == 0) {
+                            stopProgressDialog();
+                        }
                     }
 
                     @Override
                     protected void _onError(String message) {
-                        stopProgressDialog();
+                        num--;
+                        if (num == 0) {
+                            stopProgressDialog();
+                        }
                     }
                 }));
     }
@@ -649,7 +687,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                                     isFirstInitData = false;
                                     initData();
                                 }
-                            }else { // 自动登录失败
+                            } else { // 自动登录失败
                                 startActivity(LoginActivity.class);
                                 finish();
                             }
