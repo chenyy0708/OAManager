@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.NavigationView;
@@ -55,7 +54,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.bingoogolapple.bgabanner.BGABanner;
 
@@ -229,6 +227,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                             } else {
                                 tvZhanquanCount.setVisibility(View.GONE);
                             }
+                        } else { // 请求数据失败，标记为没有获取到数据
+                            isFirstInitData = true;
                         }
                         num--;
                         if (num == 0) {
@@ -238,6 +238,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
                     @Override
                     protected void _onError(String message) {
+                        isFirstInitData = true;
                         num--;
                         if (num == 0) {
                             stopProgressDialog();
@@ -265,6 +266,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                             dayReturnMoney.setText(String.valueOf(response.getData().getDay()));
                             tvMonthReturnMoney.setText(String.valueOf(response.getData().getMonth()));
                             tvYearReturnMoney.setText(String.valueOf(response.getData().getYear()));
+                        } else { // 请求数据失败
+                            isFirstInitData = true;
                         }
                         num--;
                         if (num == 0) {
@@ -304,6 +307,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                             tvTodaySale.setText(MD5Utils.formatTosepara(Long.valueOf(response.getData().getDay())));
                             tvMonthSale.setText(String.valueOf(MD5Utils.formatTosepara(Long.valueOf(response.getData().getMonth()))));
                             tvYearSale.setText(String.valueOf(MD5Utils.formatTosepara(Long.valueOf(response.getData().getYear()))));
+                        } else {
+                            isFirstInitData = true;
                         }
                         num--;
                         if (num == 0) {
@@ -313,6 +318,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
                     @Override
                     protected void _onError(String message) {
+                        isFirstInitData = true;
                         num--;
                         if (num == 0) {
                             stopProgressDialog();
