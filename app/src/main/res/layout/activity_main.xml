@@ -150,7 +150,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="13dp"
-                            android:text="当前债权"
+                            android:text="当前债权(万)"
                             android:textColor="@color/text_color_2A2"
                             android:textSize="@dimen/text_12" />
 
@@ -182,7 +182,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="13dp"
-                            android:text="当天回款"
+                            android:text="当天回款(万)"
                             android:textColor="@color/text_color_2A2"
                             android:textSize="@dimen/text_12" />
 
@@ -213,7 +213,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="13dp"
-                            android:text="当月回款"
+                            android:text="当月回款(万)"
                             android:textColor="@color/text_color_2A2"
                             android:textSize="@dimen/text_12" />
 
@@ -244,7 +244,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="13dp"
-                            android:text="本年回款"
+                            android:text="本年回款(万)"
                             android:textColor="@color/text_color_2A2"
                             android:textSize="@dimen/text_12" />
 

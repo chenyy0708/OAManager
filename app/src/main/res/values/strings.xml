@@ -2,9 +2,9 @@
     <string name="app_name">回天商务系统</string>
     <string name="open">打开</string>
     <string name="close">关闭</string>
-    <string name="today_sales_volume">今日销售额(元)</string>
-    <string name="month_sales_volume">本月销售额(元)</string>
-    <string name="year_sales_volume">本年销售额(元)</string>
+    <string name="today_sales_volume">今日销售额(万)</string>
+    <string name="month_sales_volume">本月销售额(万)</string>
+    <string name="year_sales_volume">本年销售额(万)</string>
     <string name="business_process">业务处理</string>
     <string name="delivery_guarantee">发货担保</string>
     <string name="shengpi_danbao">担保审批</string>
