@@ -5,10 +5,12 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Environment;
 
+import com.huitian.oamanager.R;
 import com.jaydenxiao.common.BuildConfig;
 import com.jaydenxiao.common.baseapp.BaseApplication;
 import com.jaydenxiao.common.commonutils.LogUtils;
 import com.jaydenxiao.common.commonutils.SPUtils;
+import com.weavey.loading.lib.LoadingLayout;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -34,6 +36,24 @@ public class App extends BaseApplication {
         initSPData();
         // 全局捕获异常
 //        Thread.setDefaultUncaughtExceptionHandler(new MobileSafeHanlder());
+        // 初始化状态布局
+        initLodingLayout();
+    }
+
+    private void initLodingLayout() {
+        LoadingLayout.getConfig()
+                .setErrorText("出错啦~请稍后重试！")
+                .setEmptyText("抱歉，暂无数据")
+                .setNoNetworkText("无网络连接，请检查您的网络···")
+                .setErrorImage(R.mipmap.error)
+                .setEmptyImage(R.mipmap.empty)
+                .setNoNetworkImage(R.mipmap.no_network)
+                .setAllTipTextColor(R.color.black)
+                .setAllTipTextSize(14)
+                .setReloadButtonText("点我重试哦")
+                .setReloadButtonTextSize(14)
+                .setReloadButtonTextColor(R.color.black)
+                .setReloadButtonWidthAndHeight(150,40);
     }
 
     private void initSPData() {
@@ -45,7 +65,7 @@ public class App extends BaseApplication {
         // 时间戳保存到本地
         Constans.expire = SPUtils.getSharedLongData(App.getAppContext(), Constans.EXPIRE_TIME);
         // 当前版本号
-        Constans.ver = "v" + getAppVersionName(App.getAppContext());
+//        Constans.ver = "v" + getAppVersionName(App.getAppContext());
     }
 
     /**

@@ -1,8 +1,11 @@
 package com.huitian.oamanager.ui.webview;
 
 import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
+import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
@@ -15,12 +18,14 @@ import com.huitian.oamanager.api.ApiConstants;
 import com.huitian.oamanager.app.BaseWebViewActivity;
 import com.huitian.oamanager.app.Constans;
 import com.huitian.oamanager.bean.LoginMessageEvent;
+import com.weavey.loading.lib.LoadingLayout;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -40,7 +45,10 @@ public class WebViewActivity extends BaseWebViewActivity {
     Toolbar toolBar;
     @Bind(R.id.webview)
     WebView webview;
+    @Bind(R.id.loading_layout)
+    LoadingLayout loadingLayout;
     private int webviewType;
+    private boolean isError;
 
     @Override
     public int getWebViewLayoutId() {
@@ -88,6 +96,15 @@ public class WebViewActivity extends BaseWebViewActivity {
                 webview.loadUrl(ApiConstants.SERVICE_URL + "/oa/page/riskList.html");
                 break;
         }
+
+
+        loadingLayout.setOnReloadListener(new LoadingLayout.OnReloadListener() {
+            @Override
+            public void onReload(View v) {
+                isError = false;
+                webview.loadUrl(webview.getUrl());
+            }
+        });
 
     }
 
@@ -161,11 +178,23 @@ public class WebViewActivity extends BaseWebViewActivity {
         }
 
         @Override
+        public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+            super.onReceivedError(view, request, error);
+            if (loadingLayout != null) {
+                isError = true;
+                loadingLayout.setStatus(LoadingLayout.No_Network);
+            }
+        }
+
+        @Override
         public void onPageFinished(WebView view, String url) {
-            if(url.contains("risk.html")) {
+            if (url.contains("risk.html")) {
                 rightTv.setVisibility(View.GONE);
-            }else if(url.contains("riskList.html")) {
+            } else if (url.contains("riskList.html")) {
                 rightTv.setVisibility(View.VISIBLE);
+            }
+            if (!isError) { // 当出现错误的时候不走成功的代码
+                loadingLayout.setStatus(LoadingLayout.Success);
             }
             super.onPageFinished(view, url);
         }
