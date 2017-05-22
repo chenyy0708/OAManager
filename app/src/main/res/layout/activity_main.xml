@@ -421,7 +421,7 @@
                             android:id="@+id/zhaiquan_search_tv"
                             style="@style/business_process"
                             android:drawableTop="@mipmap/icon_user_state"
-                            android:text="债权查询" />
+                            android:text="超期债权" />
 
                         <TextView
                             android:id="@+id/data_search_tv"
