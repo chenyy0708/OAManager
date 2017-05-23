@@ -167,11 +167,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         } else { // 用户已经登录，获取销售额
             // 获取首页销售额
             getYMDSales();
-            getYMDSales();
-            getYMDSales();
             // 获取债权信息和回款信息
-            getPaymentAndZhaiQuan();
-            getPaymentAndZhaiQuan();
             getPaymentAndZhaiQuan();
             // 设置用户昵称
             TextView tvNickName = (TextView) navigationView.getHeaderView(0).findViewById(R.id.tv_nick_name);
@@ -232,7 +228,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     }
 
     private void getPaymentAndZhaiQuan() {
-        mRxManager.add(Api.getDefault().getPaymentAndZhaiQuan(Api.getCacheControl(), Constans.m, Constans.n, Constans.t, "fwef")
+        mRxManager.add(Api.getDefault().getPaymentAndZhaiQuan(Api.getCacheControl(), Constans.m, Constans.n, Constans.t, Constans.k)
                 .compose(RxSchedulers.<HuiTianResponse<PaymentZhaiQuanBean>>io_main()).subscribe(new RxSubscriber<HuiTianResponse<PaymentZhaiQuanBean>>(mContext, false) {
                     @Override
                     public void onStart() {
@@ -262,7 +258,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
      * 销售额数据
      */
     private void getYMDSales() {
-        mRxManager.add(Api.getDefault().getYMDSales(Api.getCacheControl(), Constans.m, Constans.n, Constans.t, "fwef")
+        mRxManager.add(Api.getDefault().getYMDSales(Api.getCacheControl(), Constans.m, Constans.n, Constans.t, Constans.k)
                 .compose(RxSchedulers.<HuiTianResponse<YMDSales>>io_main()).subscribe(new RxSubscriber<HuiTianResponse<YMDSales>>(mContext, false) {
                     @Override
                     public void onStart() {
