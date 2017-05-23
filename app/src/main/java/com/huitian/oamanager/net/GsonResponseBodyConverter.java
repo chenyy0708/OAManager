@@ -43,10 +43,10 @@ final class GsonResponseBodyConverter<T> implements Converter<ResponseBody,
             } else { // 服务器返回失败，抽取失败信息
                 HuiTianErrorResponse errResponse = gson.fromJson(response, HuiTianErrorResponse.class);
                 if (code == -1006) { // 用户登录失效,需要自动登录
-                    EventBus.getDefault().post(new LoginMessageEvent("login", Constans.LOGIN_MESSAGE));
+//                    EventBus.getDefault().post(new LoginMessageEvent("login", Constans.LOGIN_MESSAGE));
                     throw new ResultException(errResponse.getData(), code);
                 } if(code == -1005){ // 认证秘钥失效，重新认证
-                    EventBus.getDefault().post(new LoginMessageEvent("login", Constans.SALTTIME_MESSAGE));
+//                    EventBus.getDefault().post(new LoginMessageEvent("login", Constans.SALTTIME_MESSAGE));
                     throw new ResultException(errResponse.getData(), code);
                 } else {
                     throw new ResultException(errResponse.getData(), code);

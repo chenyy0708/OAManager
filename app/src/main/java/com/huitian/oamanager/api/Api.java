@@ -16,6 +16,7 @@ import com.huitian.oamanager.app.Constans;
 import com.huitian.oamanager.net.AddCookiesInterceptor;
 import com.huitian.oamanager.net.GsonDConverterFactory;
 import com.huitian.oamanager.net.SaveCookiesInterceptor;
+import com.huitian.oamanager.net.TokenInterceptor;
 import com.jaydenxiao.common.baseapp.BaseApplication;
 import com.jaydenxiao.common.commonutils.NetWorkUtils;
 
@@ -116,6 +117,7 @@ public class Api {
                 .addInterceptor(logInterceptor)
                 .addInterceptor(new AddCookiesInterceptor(App.getAppContext()))
                 .addInterceptor(new SaveCookiesInterceptor(App.getAppContext()))
+                .addInterceptor(new TokenInterceptor())
                 .cache(cache)
 //                .cookieJar(cookieJar)
                 .build();

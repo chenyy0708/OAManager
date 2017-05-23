@@ -1,7 +1,5 @@
 package com.huitian.oamanager.ui.user.activity;
 
-import android.os.Handler;
-import android.os.Message;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
@@ -67,12 +65,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
     private long taskTime;
     // 请求握手失败的次数
     private int requestSalttimeFailCount = 0;
-    private Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            getSalttime();
-        }
-    };
 
     @Override
     public int getLayoutId() {
@@ -108,11 +100,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
         long l = System.currentTimeMillis();
         taskTime = (Constans.expire - l) - (1000 * 60);
         // 判断保存的时间戳时间是否大于当前时间
-        if (taskTime > 0) { // 没有过期，在taskTime时间之后自动握手
-            // 在过期前提前一分钟进行握手
-            mHandler.removeCallbacksAndMessages(null);
-            mHandler.sendMessageDelayed(Message.obtain(), taskTime);
-        } else { // 在一分钟之内就会过期，立即重新进行握手
+        if (taskTime < 0) { // 没有过期，在taskTime时间之后自动握手
             // 一次握手
             getSalttime();
         }
@@ -234,7 +222,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
             }, 2000); // 如果2秒钟内没有按下返回键，则启动定时器取消掉刚才执行的任务
 
         } else {
-            AppManager.getAppManager().AppExit(mContext,false);
+            AppManager.getAppManager().AppExit(mContext, false);
         }
     }
 
@@ -273,10 +261,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
                             if (taskTime < 0) { // 如果taskTime为负数，设置一个默认值 1分钟
                                 taskTime = 1 * 6000;
                             }
-                            // 移除handler里面的消息
-                            mHandler.removeCallbacksAndMessages(null);
-                            // 开启定时任务
-                            mHandler.sendMessageDelayed(Message.obtain(), taskTime);
                             Constans.m = response.getData().getZ();
                             Constans.n = new String(Base64.decodeBase64(response.getData().getY().getBytes()));
                             Constans.t = new String(Base64.decodeBase64(response.getData().getX().getBytes()));
@@ -298,9 +282,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
                             requestSalttimeFailCount++;
                             if (requestSalttimeFailCount > 5) { // 如果请求握手失败次数大于10，一分钟后在去请求
                                 requestSalttimeFailCount = 0; // 重置失败次数
-                                // 移除handler里面的消息
-                                mHandler.removeCallbacksAndMessages(null);
-                                mHandler.sendMessageDelayed(Message.obtain(), 60 * 1000);
                             } else { // 失败次数小于5，握手
                                 getSalttime();
                             }
@@ -313,9 +294,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
                         requestSalttimeFailCount++;
                         if (requestSalttimeFailCount > 5) { // 如果请求握手失败次数大于10，一分钟后在去请求
                             requestSalttimeFailCount = 0; // 重置失败次数
-                            // 移除handler里面的消息
-                            mHandler.removeCallbacksAndMessages(null);
-                            mHandler.sendMessageDelayed(Message.obtain(), 60 * 1000);
                         } else { // 失败次数小于5，握手
                             getSalttime();
                         }
@@ -326,8 +304,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        // 移除所有的消息
-        mHandler.removeCallbacksAndMessages(null);
     }
 
 }

@@ -9,6 +9,7 @@ import com.huitian.oamanager.bean.SalttimeBean;
 import com.huitian.oamanager.bean.YMDSales;
 import com.huitian.oamanager.bean.ZQCountBean;
 
+import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.Header;
@@ -46,6 +47,32 @@ public interface ApiService {
             @Field("key_str") String key_str,
             @Field("registrationID") String registrationID);
 
+
+    /**
+     * 用户登陆
+     *
+     * @param cacheControl
+     * @param m
+     * @param n
+     * @param t
+     * @param username
+     * @param pass
+     * @param k
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("user/login")
+    Call<HuiTianResponse<LoginBean>> getLoginUserForCall(
+            @Header("Cache-Control") String cacheControl,
+            @Header("m") String m,
+            @Header("n") String n,
+            @Header("t") String t,
+            @Field("username") String username,
+            @Field("pass") String pass,
+            @Field("k") String k,
+            @Field("key_str") String key_str,
+            @Field("registrationID") String registrationID);
+
     /**
      * 进行一次握手认证
      *
@@ -57,6 +84,23 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("User/salttime")
     Observable<HuiTianResponse<SalttimeBean>> getSalttime(
+            @Header("Cache-Control") String cacheControl,
+            @Field("s") String s,
+            @Field("r") String r
+    );
+
+
+    /**
+     * 进行一次握手认证
+     *
+     * @param cacheControl
+     * @param s            一次认证计算的认证加密串结果
+     * @param r            加密认证密串时采用的随机字符串
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("User/salttime")
+    Call<HuiTianResponse<SalttimeBean>> getSalttimeForCall(
             @Header("Cache-Control") String cacheControl,
             @Field("s") String s,
             @Field("r") String r
