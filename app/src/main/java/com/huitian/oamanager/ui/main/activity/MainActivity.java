@@ -212,10 +212,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     @Override
                     public void onStart() {
                         super.onStart();
-                        if (num == 0) {
-                            startProgressDialog("正在加载数据");
-                        }
-                        num++;
+//                        if (num == 0) {
+//                            startProgressDialog("正在加载数据");
+//                        }
+//                        num++;
                     }
 
                     @Override
@@ -230,19 +230,19 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                         } else { // 请求数据失败，标记为没有获取到数据
                             isFirstInitData = true;
                         }
-                        num--;
-                        if (num == 0) {
-                            stopProgressDialog();
-                        }
+//                        num--;
+//                        if (num == 0) {
+//                            stopProgressDialog();
+//                        }
                     }
 
                     @Override
                     protected void _onError(String message) {
                         isFirstInitData = true;
-                        num--;
-                        if (num == 0) {
-                            stopProgressDialog();
-                        }
+//                        num--;
+//                        if (num == 0) {
+//                            stopProgressDialog();
+//                        }
                     }
                 }));
     }
@@ -253,10 +253,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     @Override
                     public void onStart() {
                         super.onStart();
-//                        if (num == 0) {
-//                            startProgressDialog("正在加载数据");
-//                        }
-//                        num++;
+                        if (num == 0) {
+                            startProgressDialog("正在加载数据");
+                        }
+                        num++;
                     }
 
                     @Override
@@ -269,19 +269,19 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                         } else { // 请求数据失败
                             isFirstInitData = true;
                         }
-//                        num--;
-//                        if (num == 0) {
-//                            stopProgressDialog();
-//                        }
+                        num--;
+                        if (num == 0) {
+                            stopProgressDialog();
+                        }
                     }
 
                     @Override
                     protected void _onError(String message) {
                         isFirstInitData = true;
-//                        num--;
-//                        if (num == 0) {
-//                            stopProgressDialog();
-//                        }
+                        num--;
+                        if (num == 0) {
+                            stopProgressDialog();
+                        }
                     }
                 }));
     }
