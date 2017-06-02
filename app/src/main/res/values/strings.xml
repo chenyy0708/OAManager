@@ -8,7 +8,7 @@
     <string name="business_process">业务处理</string>
     <string name="delivery_guarantee">发货担保</string>
     <string name="shengpi_danbao">担保审批</string>
-    <string name="zaiquan_tixing">债权提醒</string>
+    <string name="zaiquan_tixing">危债预警</string>
     <string name="xiadan">销售下单</string>
     <string name="service_query">业务查询</string>
     <string name="txt_getMsgCode_validate">重新发送</string>

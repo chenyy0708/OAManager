@@ -1,11 +1,14 @@
 package com.huitian.oamanager.ui.main.activity;
 
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.NavigationView;
@@ -13,9 +16,13 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -35,6 +42,7 @@ import com.huitian.oamanager.bean.ZQCountBean;
 import com.huitian.oamanager.ui.user.activity.LoginActivity;
 import com.huitian.oamanager.ui.user.activity.ModifyPasswordActivity;
 import com.huitian.oamanager.ui.webview.WebViewActivity;
+import com.huitian.oamanager.util.DateTheme;
 import com.huitian.oamanager.util.MD5Utils;
 import com.jaeger.library.StatusBarUtil;
 import com.jaydenxiao.common.base.BaseActivity;
@@ -47,14 +55,23 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.lang.reflect.Field;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import cn.aigestudio.datepicker.bizs.calendars.DPCManager;
+import cn.aigestudio.datepicker.bizs.themes.DPCNTheme;
+import cn.aigestudio.datepicker.bizs.themes.DPTManager;
+import cn.aigestudio.datepicker.cons.DPMode;
+import cn.aigestudio.datepicker.views.DatePicker;
 import cn.bingoogolapple.bgabanner.BGABanner;
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -118,6 +135,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     TextView textView;
     @Bind(R.id.tv_zhanquan_count)
     TextView tvZhanquanCount;
+    @Bind(R.id.date_rl)
+    RelativeLayout dateRl;
     private ActionBarDrawerToggle mDrawerToggle;
     private long taskTime;
     // 请求握手失败的次数
@@ -136,6 +155,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private boolean isCurrentSalttime = false;
     private boolean isCurrentLogin;
     private int num = 0; // 正在加载数据的任务个数
+    private int mMonth;
+    private int year;
+    private Dialog datePickerDialog;
 
     @Override
     public int getLayoutId() {
@@ -158,10 +180,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         // 设置toolbar的标题
         centerIv.setVisibility(View.VISIBLE);
         centerIv.setImageResource(R.mipmap.icon_logo);
-        // 初始化轮播图
-        initBanner();
         // 初始化日期
         initDate();
+        // 初始化轮播图
+        initBanner();
         long l = System.currentTimeMillis();
         taskTime = (Constans.expire - l) - (1000 * 60);
         // 判断保存的时间戳时间是否大于当前时间
@@ -431,7 +453,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
      */
     private void initDate() {
         final Calendar c = Calendar.getInstance();
-        int mMonth = c.get(Calendar.MONTH) + 1;//获取当前月份
+        //获取当前月份
+        mMonth = c.get(Calendar.MONTH) + 1;
+        year = c.get(Calendar.YEAR);
         int mDay = c.get(Calendar.DAY_OF_MONTH);//获取当前月份的日期号码
 //        String mWay = String.valueOf(c.get(Calendar.DAY_OF_WEEK)); // 星期几
         String Month = "";
@@ -474,7 +498,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 break;
         }
         currentDayTv.setText(String.valueOf(mDay));
-        currentWeekTv.setText(Month);
+        currentWeekTv.setText(year + "年" + Month);
     }
 
     /**
@@ -559,7 +583,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         }
     }
 
-    @OnClick({R.id.right_iv, R.id.delivery_tv, R.id.shengpi_tv, R.id.zaiquan_tv, R.id.xiadan_tv, R.id.fahuo_search_tv, R.id.kucun_search_tv, R.id.data_search_tv, R.id.wuliu_search_tv, R.id.zhaiquan_search_tv, R.id.working_search_tv})
+    @OnClick({R.id.right_iv, R.id.delivery_tv, R.id.shengpi_tv, R.id.zaiquan_tv, R.id.xiadan_tv, R.id.fahuo_search_tv, R.id.kucun_search_tv, R.id.data_search_tv, R.id.wuliu_search_tv, R.id.zhaiquan_search_tv, R.id.working_search_tv, R.id.date_rl})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.right_iv:
@@ -598,6 +622,13 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 break;
             case R.id.working_search_tv: // 汇总查询
                 startWebViewActivity(Constans.AGGREGATE_SEACH);
+                break;
+            case R.id.date_rl:
+                if (datePickerDialog == null) {
+                    addDateDialog();
+                } else {
+                    datePickerDialog.show();
+                }
                 break;
         }
     }
@@ -752,6 +783,44 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         // 移除所有的消息
         mHandler.removeCallbacksAndMessages(null);
         EventBus.getDefault().unregister(this);
+    }
+
+
+    private void addDateDialog() {
+        //布局文件转换为view对象
+        LayoutInflater inflaterDl = LayoutInflater.from(this);
+        View layout = inflaterDl.inflate(R.layout.dialog_date_picker, null);
+        datePickerDialog = new AlertDialog.Builder(this).create();
+        datePickerDialog.setCanceledOnTouchOutside(true);
+        datePickerDialog.show();
+        Window window = datePickerDialog.getWindow();
+        // 设置布局
+        window.setContentView(layout);
+        WindowManager.LayoutParams params = window.getAttributes();
+        params.width = WindowManager.LayoutParams.WRAP_CONTENT; // 宽度
+        params.height = WindowManager.LayoutParams.WRAP_CONTENT; // 高度
+        params.dimAmount = 0.5f;//设置对话框的透明程度背景(非布局的透明度)
+        window.setAttributes(params);
+        final DatePicker datePicker = (DatePicker) layout.findViewById(R.id.date_picker);
+        TextView coloseTv = (TextView) layout.findViewById(R.id.close_tv);
+        datePicker.setMode(DPMode.SINGLE);
+        datePicker.setDate(year,mMonth);
+        coloseTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               datePickerDialog.dismiss();
+//                datePicker.setDate1(year,mMonth);
+            }
+        });
+        datePicker.setOnDatePickedListener(new DatePicker.OnDatePickedListener() {
+            @Override
+            public void onDatePicked(String date) {
+//                String[] dateArray = date.split("-");
+//                currentWeekTv.setText(dateArray[0] + "年" + dateArray[1] + "月");
+//                currentDayTv.setText(dateArray[2]);
+//                datePickerDialog.dismiss();
+            }
+        });
     }
 
 }
