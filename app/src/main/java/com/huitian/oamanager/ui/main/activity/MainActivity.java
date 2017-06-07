@@ -326,9 +326,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     @Override
                     protected void _onNext(HuiTianResponse<YMDSales> response) {
                         if (response.getState() == 1) {
-                            tvTodaySale.setText(MD5Utils.formatTosepara(Long.valueOf(response.getData().getDay())));
-                            tvMonthSale.setText(String.valueOf(MD5Utils.formatTosepara(Long.valueOf(response.getData().getMonth()))));
-                            tvYearSale.setText(String.valueOf(MD5Utils.formatTosepara(Long.valueOf(response.getData().getYear()))));
+//                            tvTodaySale.setText(MD5Utils.formatTosepara(Long.valueOf(response.getData().getDay())));
+//                            tvMonthSale.setText(String.valueOf(MD5Utils.formatTosepara(Long.valueOf(response.getData().getMonth()))));
+//                            tvYearSale.setText(String.valueOf(MD5Utils.formatTosepara(Long.valueOf(response.getData().getYear()))));
+                            tvTodaySale.setText(String.valueOf(response.getData().getDay()));
+                            tvMonthSale.setText(String.valueOf(String.valueOf(response.getData().getMonth())));
+                            tvYearSale.setText(String.valueOf(String.valueOf(response.getData().getYear())));
                         } else {
                             isFirstInitData = true;
                         }
