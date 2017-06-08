@@ -7,20 +7,20 @@ package com.huitian.oamanager.bean;
 public class YMDSales {
 
     /**
-     * day : 0
-     * month : 0
-     * year : 6002681
+     * day : 1.41
+     * month : 10
+     * year : 215
      */
 
-    private int day;
+    private double day;
     private int month;
-    private String year;
+    private int year;
 
-    public int getDay() {
+    public double getDay() {
         return day;
     }
 
-    public void setDay(int day) {
+    public void setDay(double day) {
         this.day = day;
     }
 
@@ -32,11 +32,11 @@ public class YMDSales {
         this.month = month;
     }
 
-    public String getYear() {
+    public int getYear() {
         return year;
     }
 
-    public void setYear(String year) {
+    public void setYear(int year) {
         this.year = year;
     }
 }
