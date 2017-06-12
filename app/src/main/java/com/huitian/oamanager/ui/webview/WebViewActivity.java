@@ -81,7 +81,7 @@ public class WebViewActivity extends BaseWebViewActivity {
                 webview.loadUrl(ApiConstants.SERVICE_URL + "/oa/page/aggregate.html");
                 break;
             case Constans.CREDITOR_SEACH: // 债权查询
-                toolBarTitleTv.setText("危债预警");
+                toolBarTitleTv.setText("超期债权");
                 webview.loadUrl(ApiConstants.SERVICE_URL + "/oa/page/creditor.html");
                 break;
             case Constans.RISK_SEACH: // 债权提醒

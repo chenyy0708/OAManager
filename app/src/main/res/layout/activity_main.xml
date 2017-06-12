@@ -386,23 +386,26 @@
                         android:orientation="horizontal">
 
                         <TextView
+                            android:id="@+id/ziliao_tv"
                             style="@style/business_process"
                             android:drawableTop="@mipmap/icon_data_down"
                             android:text="产品资料下载" />
 
                         <TextView
+                            android:id="@+id/file_tv"
                             style="@style/business_process"
                             android:drawableTop="@mipmap/icon_file"
                             android:text="通知文件" />
 
                         <TextView
-                            android:id="@+id/textView2"
+                            android:id="@+id/shenqin_tv"
                             style="@style/business_process"
                             android:drawableTop="@mipmap/icon_down"
                             android:text="在线申请" />
 
 
                         <TextView
+                            android:id="@+id/huifu_tv"
                             style="@style/business_process"
                             android:drawableTop="@mipmap/icon_reply"
                             android:text="申请回复" />

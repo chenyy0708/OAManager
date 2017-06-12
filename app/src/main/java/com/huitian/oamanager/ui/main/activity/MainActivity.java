@@ -586,7 +586,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         }
     }
 
-    @OnClick({R.id.right_iv, R.id.delivery_tv, R.id.shengpi_tv, R.id.zaiquan_tv, R.id.xiadan_tv, R.id.fahuo_search_tv, R.id.kucun_search_tv, R.id.data_search_tv, R.id.wuliu_search_tv, R.id.zhaiquan_search_tv, R.id.working_search_tv, R.id.date_rl})
+    @OnClick({R.id.right_iv, R.id.delivery_tv, R.id.shengpi_tv, R.id.zaiquan_tv, R.id.xiadan_tv, R.id.fahuo_search_tv, R.id.kucun_search_tv, R.id.data_search_tv,
+            R.id.wuliu_search_tv, R.id.zhaiquan_search_tv, R.id.working_search_tv, R.id.date_rl,R.id.ziliao_tv,R.id.file_tv,R.id.shenqin_tv,R.id.huifu_tv})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.right_iv:
@@ -632,6 +633,18 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 } else {
                     datePickerDialog.show();
                 }
+                break;
+            case R.id.ziliao_tv:
+                showShortToast("敬请期待");
+                break;
+            case R.id.file_tv:
+                showShortToast("敬请期待");
+                break;
+            case R.id.shenqin_tv:
+                showShortToast("敬请期待");
+                break;
+            case R.id.huifu_tv:
+                showShortToast("敬请期待");
                 break;
         }
     }
