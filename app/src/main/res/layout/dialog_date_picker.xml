@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:textColor="@color/white"
         android:textSize="16sp"
-        android:text="关闭"
+        android:text="选择"
         android:padding="12dp"
         android:layout_alignParentRight="true"
         android:layout_height="wrap_content" />

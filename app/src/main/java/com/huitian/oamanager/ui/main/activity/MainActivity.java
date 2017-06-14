@@ -73,6 +73,8 @@ import cn.aigestudio.datepicker.bizs.themes.DPTManager;
 import cn.aigestudio.datepicker.cons.DPMode;
 import cn.aigestudio.datepicker.views.DatePicker;
 import cn.bingoogolapple.bgabanner.BGABanner;
+import rx.Observable;
+import rx.observers.Observers;
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -157,7 +159,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private int num = 0; // 正在加载数据的任务个数
     private int mMonth;
     private int year;
+    private int day;
     private Dialog datePickerDialog;
+    private String userName;
 
     @Override
     public int getLayoutId() {
@@ -208,18 +212,44 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             startActivity(LoginActivity.class);
         } else { // 用户已经登录，获取销售额
             // 获取首页销售额
-            getYMDSales();
+            // 判断月日的大小是否小于10，如果小于10  需要在前面补齐0
+            String today = getDate(year, mMonth, day);
+            getYMDSales(today);
             // 获取债权信息和回款信息
             getPaymentAndZhaiQuan();
             // 设置用户昵称
             TextView tvNickName = (TextView) navigationView.getHeaderView(0).findViewById(R.id.tv_nick_name);
-            String userName = SPUtils.getSharedStringData(mContext, Constans.USER_NICK_NAME);
+            userName = SPUtils.getSharedStringData(mContext, Constans.USER_NICK_NAME);
             if (!TextUtils.isEmpty(userName)) { // 如果昵称不为空，设置
                 tvNickName.setText(userName + "，你好!");
             }
             // 获取风险债权提醒个数
             getZQCount(userName);
         }
+    }
+
+    /**
+     * 返回2017-06-01格式的字符串,年月日
+     *
+     * @param year
+     * @param mMonth
+     * @param day
+     * @return
+     */
+    private String getDate(int year, int mMonth, int day) {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(year);
+        stringBuilder.append("-");
+        if (mMonth < 10) { // 月份小于10
+            stringBuilder.append("0");
+        }
+        stringBuilder.append(mMonth);
+        stringBuilder.append("-");
+        if (day < 10) { // 日小于10
+            stringBuilder.append("0");
+        }
+        stringBuilder.append(day);
+        return stringBuilder.toString();
     }
 
     /**
@@ -311,8 +341,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     /**
      * 销售额数据
      */
-    private void getYMDSales() {
-        mRxManager.add(Api.getDefault().getYMDSales(Api.getCacheControl(), Constans.m, Constans.n, Constans.t, Constans.k)
+    private void getYMDSales(String today) { // today的格式：2017-01-06
+        mRxManager.add(Api.getDefault().getYMDSales(Api.getCacheControl(), Constans.m, Constans.n, Constans.t, Constans.k, today)
                 .compose(RxSchedulers.<HuiTianResponse<YMDSales>>io_main()).subscribe(new RxSubscriber<HuiTianResponse<YMDSales>>(mContext, false) {
                     @Override
                     public void onStart() {
@@ -459,7 +489,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         //获取当前月份
         mMonth = c.get(Calendar.MONTH) + 1;
         year = c.get(Calendar.YEAR);
-        int mDay = c.get(Calendar.DAY_OF_MONTH);//获取当前月份的日期号码
+        day = c.get(Calendar.DAY_OF_MONTH);//获取当前月份的日期号码
 //        String mWay = String.valueOf(c.get(Calendar.DAY_OF_WEEK)); // 星期几
         String Month = "";
         switch (mMonth) {
@@ -500,7 +530,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 Month = "12月";
                 break;
         }
-        currentDayTv.setText(String.valueOf(mDay));
+        currentDayTv.setText(String.valueOf(day));
         currentWeekTv.setText(year + "年" + Month);
     }
 
@@ -587,7 +617,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     }
 
     @OnClick({R.id.right_iv, R.id.delivery_tv, R.id.shengpi_tv, R.id.zaiquan_tv, R.id.xiadan_tv, R.id.fahuo_search_tv, R.id.kucun_search_tv, R.id.data_search_tv,
-            R.id.wuliu_search_tv, R.id.zhaiquan_search_tv, R.id.working_search_tv, R.id.date_rl,R.id.ziliao_tv,R.id.file_tv,R.id.shenqin_tv,R.id.huifu_tv})
+            R.id.wuliu_search_tv, R.id.zhaiquan_search_tv, R.id.working_search_tv, R.id.date_rl, R.id.ziliao_tv, R.id.file_tv, R.id.shenqin_tv, R.id.huifu_tv})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.right_iv:
@@ -820,21 +850,27 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         final DatePicker datePicker = (DatePicker) layout.findViewById(R.id.date_picker);
         TextView coloseTv = (TextView) layout.findViewById(R.id.close_tv);
         datePicker.setMode(DPMode.SINGLE);
-        datePicker.setDate(year,mMonth);
+        datePicker.setDate(year, mMonth);
         coloseTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               datePickerDialog.dismiss();
+                datePickerDialog.dismiss();
+                currentWeekTv.setText(year + "年" + mMonth + "月");
+                currentDayTv.setText(String.valueOf(day));
+                // 调用获取今日销售额的接口
+                String today = getDate(year, mMonth, day);
+                getYMDSales(today);
 //                datePicker.setDate1(year,mMonth);
             }
         });
         datePicker.setOnDatePickedListener(new DatePicker.OnDatePickedListener() {
             @Override
             public void onDatePicked(String date) {
-//                String[] dateArray = date.split("-");
-//                currentWeekTv.setText(dateArray[0] + "年" + dateArray[1] + "月");
-//                currentDayTv.setText(dateArray[2]);
-//                datePickerDialog.dismiss();
+                String[] dateArray = date.split("-");
+                // 记录点击的年月日
+                year = Integer.valueOf(dateArray[0]);
+                mMonth = Integer.valueOf(dateArray[1]);
+                day = Integer.valueOf(dateArray[2]);
             }
         });
     }
