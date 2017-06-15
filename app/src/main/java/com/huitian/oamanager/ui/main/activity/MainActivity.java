@@ -54,6 +54,7 @@ import org.apache.commons.codec.binary.Base64;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.greenrobot.eventbus.util.ErrorDialogManager;
 
 import java.lang.reflect.Field;
 import java.security.NoSuchAlgorithmException;
@@ -211,21 +212,25 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             finish();
             startActivity(LoginActivity.class);
         } else { // 用户已经登录，获取销售额
-            // 获取首页销售额
-            // 判断月日的大小是否小于10，如果小于10  需要在前面补齐0
-            String today = getDate(year, mMonth, day);
-            getYMDSales(today);
-            // 获取债权信息和回款信息
-            getPaymentAndZhaiQuan();
             // 设置用户昵称
             TextView tvNickName = (TextView) navigationView.getHeaderView(0).findViewById(R.id.tv_nick_name);
             userName = SPUtils.getSharedStringData(mContext, Constans.USER_NICK_NAME);
             if (!TextUtils.isEmpty(userName)) { // 如果昵称不为空，设置
                 tvNickName.setText(userName + "，你好!");
             }
+            // 获取首页销售额
+            // 判断月日的大小是否小于10，如果小于10  需要在前面补齐0
+            String today = getDate(year, mMonth, day);
+            upDateHomeData(today);
             // 获取风险债权提醒个数
             getZQCount(userName);
         }
+    }
+
+    private void upDateHomeData(String today) {
+        getYMDSales(today);
+        // 获取债权信息和回款信息
+        getPaymentAndZhaiQuan(today);
     }
 
     /**
@@ -299,8 +304,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 }));
     }
 
-    private void getPaymentAndZhaiQuan() {
-        mRxManager.add(Api.getDefault().getPaymentAndZhaiQuan(Api.getCacheControl(), Constans.m, Constans.n, Constans.t, Constans.k)
+    private void getPaymentAndZhaiQuan(String today) {
+        mRxManager.add(Api.getDefault().getPaymentAndZhaiQuan(Api.getCacheControl(), Constans.m, Constans.n, Constans.t, Constans.k,today)
                 .compose(RxSchedulers.<HuiTianResponse<PaymentZhaiQuanBean>>io_main()).subscribe(new RxSubscriber<HuiTianResponse<PaymentZhaiQuanBean>>(mContext, false) {
                     @Override
                     public void onStart() {
@@ -613,6 +618,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     });
         } else {
             dialog.show();
+
         }
     }
 
@@ -859,7 +865,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 currentDayTv.setText(String.valueOf(day));
                 // 调用获取今日销售额的接口
                 String today = getDate(year, mMonth, day);
-                getYMDSales(today);
+                upDateHomeData(today);
 //                datePicker.setDate1(year,mMonth);
             }
         });
