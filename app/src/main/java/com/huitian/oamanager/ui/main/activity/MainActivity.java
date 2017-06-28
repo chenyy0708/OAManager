@@ -163,6 +163,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private int day;
     private Dialog datePickerDialog;
     private String userName;
+    private Calendar calendar;
 
     @Override
     public int getLayoutId() {
@@ -220,8 +221,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             }
             // 获取首页销售额
             // 判断月日的大小是否小于10，如果小于10  需要在前面补齐0
-            String today = getDate(year, mMonth, day);
-            upDateHomeData(today);
+//            String today = getDate(year, mMonth, day);
+//            upDateHomeData(today);
             // 获取风险债权提醒个数
             getZQCount(userName);
         }
@@ -490,11 +491,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
      * 获取当前日期
      */
     private void initDate() {
-        final Calendar c = Calendar.getInstance();
+        calendar = Calendar.getInstance();
         //获取当前月份
-        mMonth = c.get(Calendar.MONTH) + 1;
-        year = c.get(Calendar.YEAR);
-        day = c.get(Calendar.DAY_OF_MONTH);//获取当前月份的日期号码
+        mMonth = calendar.get(Calendar.MONTH) + 1;
+        year = calendar.get(Calendar.YEAR);
+        day = calendar.get(Calendar.DAY_OF_MONTH);//获取当前月份的日期号码
 //        String mWay = String.valueOf(c.get(Calendar.DAY_OF_WEEK)); // 星期几
         String Month = "";
         switch (mMonth) {
@@ -860,6 +861,20 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         coloseTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(year > calendar.get(Calendar.YEAR)) { // 未来时间
+                    showShortToast("无法查询未来时间");
+                    return;
+                }else if(year == calendar.get(Calendar.YEAR)){ // 今年
+                    if(mMonth > calendar.get(Calendar.MONTH) + 1) { // 未来月份
+                        showShortToast("无法查询未来时间");
+                        return;
+                    }else if(mMonth == calendar.get(Calendar.MONTH) + 1){ // 当前年份，当前月份
+                        if(day > calendar.get(Calendar.DAY_OF_MONTH)) { // 未来日期
+                            showShortToast("无法查询未来时间");
+                            return;
+                        }
+                    }
+                }
                 datePickerDialog.dismiss();
                 currentWeekTv.setText(year + "年" + mMonth + "月");
                 currentDayTv.setText(String.valueOf(day));
