@@ -221,8 +221,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             }
             // 获取首页销售额
             // 判断月日的大小是否小于10，如果小于10  需要在前面补齐0
-//            String today = getDate(year, mMonth, day);
-//            upDateHomeData(today);
+            String today = getDate(year, mMonth, day);
+            upDateHomeData(today);
             // 获取风险债权提醒个数
             getZQCount(userName);
         }
