@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
@@ -18,6 +19,7 @@ import com.jaeger.library.StatusBarUtil;
 import com.jaydenxiao.common.BuildConfig;
 import com.jaydenxiao.common.R;
 import com.jaydenxiao.common.baseapp.AppManager;
+import com.jaydenxiao.common.baseapp.BaseApplication;
 import com.jaydenxiao.common.baserx.RxManager;
 import com.jaydenxiao.common.commonutils.TUtil;
 import com.jaydenxiao.common.commonutils.ToastUitl;
@@ -156,10 +158,17 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
     }
 
     /**
-     * 着色状态栏（4.4以上系统有效）
+     * 着色状态栏
+     * 6.0以上状态栏修改为白色，状态栏字体为黑色
+     * 6.0以上状态栏为蓝色
      */
     protected void SetStatusBarColor() {
-        StatusBarCompat.setStatusBarColor(this, ContextCompat.getColor(this, R.color.white));
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            StatusBarUtil.setColor(this, BaseApplication.getAppResources().getColor(R.color.white),0);
+        }else {
+            StatusBarUtil.setColor(this, BaseApplication.getAppResources().getColor(R.color.color_D7D),0);
+        }
     }
 
     /**

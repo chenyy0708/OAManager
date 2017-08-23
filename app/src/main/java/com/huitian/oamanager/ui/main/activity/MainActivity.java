@@ -181,7 +181,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         // 初始化侧边栏
         initDrawLayout();
         // 沉浸式状态栏
-        StatusBarUtil.setColor(this, getResources().getColor(R.color.color_D7D), 1);
+        SetStatusBarColor();
+//        StatusBarUtil.setColor(this, getResources().getColor(R.color.color_D7D), 1);
 //        StatusBarUtil.setColorForDrawerLayout(this, drawerLayout,getResources().getColor(R.color.color_D7D), 1);
         // 设置toolbar的标题
         centerIv.setVisibility(View.VISIBLE);

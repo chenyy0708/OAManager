@@ -82,6 +82,7 @@
     <color name="alpha_85_black">#D9000000</color>
     <color name="alpha_90_black">#E6000000</color>
     <color name="alpha_95_black">#F2000000</color>
+    <color name="color_D7D">#208af2</color>
 
 
 </resources>
